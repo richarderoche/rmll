@@ -1,0 +1,35 @@
+{
+  "name": "inpr-next-sanity-starter",
+  "private": true,
+  "workspaces": [
+    "studio",
+    "frontend"
+  ],
+  "scripts": {
+    "dev": "turbo dev",
+    "dev:next": "npm run dev --workspace=frontend",
+    "dev:studio": "npm run dev --workspace=studio",
+    "format": "prettier --cache --write .",
+    "import-sample-data": "cd studio && sanity dataset import sample-data.tar.gz --dataset production --replace",
+    "lighthouse": "unlighthouse --site http://localhost:3000 --no-cache",
+    "lint": "npm run lint --workspace=frontend",
+    "type-check": "npm run type-check --workspaces"
+  },
+  "packageManager": "npm@11.6.2",
+  "prettier": "@sanity/prettier-config",
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@sanity/prettier-config": "^3.0.0",
+    "npm-run-all2": "^9.0.3",
+    "prettier": "^3.9.6",
+    "turbo": "^2.10.12"
+  },
+  "overrides": {
+    "@sanity/client": "8.4.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true,
+    "unrs-resolver@1.12.2": true
+  }
+}
