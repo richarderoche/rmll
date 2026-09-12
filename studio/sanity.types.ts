@@ -40,7 +40,7 @@ export type FileLink = {
 export type PbBlockMarqueeSettings = {
   speed: number
   direction?: 'left' | 'right'
-  color?: 'text-body' | 'text-accent'
+  color?: 'text-body' | 'text-sage-800'
   imageSize: number
 }
 
@@ -95,14 +95,15 @@ export type SocialLink = {
   _type: 'socialLink'
   icon?:
     | 'Facebook'
+    | 'Github'
     | 'Instagram'
+    | 'Linkedin'
     | 'Soundcloud'
     | 'Spotify'
-    | 'Twitter'
     | 'Threads'
-    | 'YouTube'
     | 'Tiktok'
-    | 'Github'
+    | 'Twitter'
+    | 'YouTube'
   url?: string
 }
 
@@ -335,7 +336,7 @@ export type PbBlockText = {
     | 'ts-p-xs'
     | 'ts-h5'
     | 'ts-h6'
-  color?: 'text-body' | 'text-accent'
+  color?: 'text-body' | 'text-sage-800'
   balanceLines?: boolean
   textContent?: string
 }
@@ -492,6 +493,7 @@ export type Button = {
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
+  style?: 'fill' | 'outline'
 }
 
 export type Redirect = {

@@ -10,9 +10,11 @@ export default defineType({
       title: 'Open Graph Image',
       type: 'image',
       description:
-        'Displayed on social cards and search engine results. Recommended size: 1200x627 (PNG or JPG)',
+        'Displayed on social cards and search engine results. Recommended size: 1200x630 (PNG or JPG)',
       options: {
-        hotspot: true,
+        hotspot: {
+          previews: [{ title: '1200x630', aspectRatio: 1230/630 }, { title: 'Square', aspectRatio: 1 }],
+        },
       },
     }),
     defineField({

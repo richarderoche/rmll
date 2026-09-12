@@ -61,10 +61,7 @@ const ImageElement = ({
   const weightedHeight = getWeightedHeight(imageRatio, imageSize)
   const weightedWidth = Math.round(parseFloat(weightedHeight) * imageRatio)
   return (
-    <div
-      className="relative corner-container "
-      style={{height: weightedHeight, width: weightedWidth}}
-    >
+    <div className="relative" style={{height: weightedHeight, width: weightedWidth}}>
       <ImageBasic
         image={image!}
         alt={image?.alt || ''}

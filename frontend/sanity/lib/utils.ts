@@ -1,6 +1,6 @@
-import {dataset, projectId} from '@/sanity/lib/api'
-import {createImageUrlBuilder} from '@sanity/image-url'
-import type {Image} from 'sanity'
+import { dataset, projectId } from '@/sanity/lib/api'
+import { createImageUrlBuilder } from '@sanity/image-url'
+import type { Image } from 'sanity'
 
 //
 // Image Helpers
@@ -14,7 +14,7 @@ export function urlForOpenGraphImage(image: Image | null | undefined) {
   if (!image?.asset?._ref) {
     return undefined
   }
-  return imageBuilder?.image(image)?.width(1200).height(627).fit('crop').auto('format').url()
+  return imageBuilder?.image(image)?.width(1200).height(630).fit('crop').auto('format').url()
 }
 
 //

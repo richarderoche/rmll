@@ -4,7 +4,7 @@ import { resolveHref } from '@/sanity/lib/utils'
 import { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseURL = 'https://website.com'
+  const baseURL = 'https://landlibrary.org'
   const home = await sanityFetch({
     query: sitemapByTypeQuery,
     params: { type: 'home' },

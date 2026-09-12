@@ -1,12 +1,12 @@
-import { cn, getAlignClasses, getGridClasses, getTrueSizes } from '@/lib/utils'
-import { PbColSettings, PbGridMulti } from '@/sanity.types'
+import {cn, getAlignClasses, getGridClasses, getTrueSizes} from '@/lib/utils'
+import {PbColSettings, PbGridMulti} from '@/sanity.types'
 
-import { PbBlocksQueryResult } from '@/types'
-import { AccordionSection } from '../shared/AccordionSection'
+import {PbBlocksQueryResult} from '@/types'
+import {AccordionSection} from '../shared/AccordionSection'
 import Card from '../shared/Card'
 import Revealer from '../shared/Revealer'
 import PbBlocks from './PbBlocks'
-import { useSanityDataAttribute } from './SanityVisualEditingContext'
+import {useSanityDataAttribute} from './SanityVisualEditingContext'
 
 export interface GridColProps {
   col: NonNullable<PbGridMulti['columns']>[number]
@@ -20,32 +20,18 @@ export interface GridColProps {
   }
 }
 
-export default function GridCol({
-  col,
-  outerSettings,
-  cardMode = false,
-  blockWidths,
-}: GridColProps) {
-  const {
-    _key,
-    columnSettings,
-    pbBlocks,
-    yAlignment,
-    revealEffect,
-    spaceBetweenBlocks,
-  } = col
-  const { getDataAttribute } = useSanityDataAttribute()
+export default function GridCol({col, outerSettings, cardMode = false, blockWidths}: GridColProps) {
+  const {_key, columnSettings, pbBlocks, yAlignment, revealEffect, spaceBetweenBlocks} = col
+  const {getDataAttribute} = useSanityDataAttribute()
 
   if (!pbBlocks || pbBlocks.length === 0) {
     return null
   }
 
-  const { accordionMode = false, accordionTitle = 'More' } =
-    columnSettings || {}
+  const {accordionMode = false, accordionTitle = 'More'} = columnSettings || {}
   const colClasses = cn(
     columnSettings ? getGridClasses(columnSettings) : '',
     yAlignment ? getAlignClasses(yAlignment, 'y') : '',
-    'corner-container'
   )
   const trueSizes = columnSettings?.size
     ? getTrueSizes(outerSettings.size!, columnSettings.size)
@@ -81,11 +67,7 @@ export default function GridCol({
   }
 
   return (
-    <Revealer
-      className={colClasses}
-      data-sanity={getDataAttribute()}
-      direction={revealEffect}
-    >
+    <Revealer className={colClasses} data-sanity={getDataAttribute()} direction={revealEffect}>
       {content}
     </Revealer>
   )

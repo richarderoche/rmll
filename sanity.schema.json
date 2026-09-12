@@ -467,7 +467,7 @@
               },
               {
                 "type": "string",
-                "value": "text-accent"
+                "value": "text-sage-800"
               }
             ]
           },
@@ -850,7 +850,15 @@
               },
               {
                 "type": "string",
+                "value": "Github"
+              },
+              {
+                "type": "string",
                 "value": "Instagram"
+              },
+              {
+                "type": "string",
+                "value": "Linkedin"
               },
               {
                 "type": "string",
@@ -862,15 +870,7 @@
               },
               {
                 "type": "string",
-                "value": "Twitter"
-              },
-              {
-                "type": "string",
                 "value": "Threads"
-              },
-              {
-                "type": "string",
-                "value": "YouTube"
               },
               {
                 "type": "string",
@@ -878,7 +878,11 @@
               },
               {
                 "type": "string",
-                "value": "Github"
+                "value": "Twitter"
+              },
+              {
+                "type": "string",
+                "value": "YouTube"
               }
             ]
           },
@@ -2602,7 +2606,7 @@
               },
               {
                 "type": "string",
-                "value": "text-accent"
+                "value": "text-sage-800"
               }
             ]
           },
@@ -3563,6 +3567,23 @@
           "value": {
             "type": "inline",
             "name": "fileLink"
+          },
+          "optional": true
+        },
+        "style": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "fill"
+              },
+              {
+                "type": "string",
+                "value": "outline"
+              }
+            ]
           },
           "optional": true
         }

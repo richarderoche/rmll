@@ -4,8 +4,8 @@
   --tw-prose-lead: currentColor;
   --tw-prose-links: currentColor;
   --tw-prose-bold: currentColor;
-  --tw-prose-counters: var(--color-accent);
-  --tw-prose-bullets: var(--color-accent);
+  --tw-prose-counters: var(--color-olive);
+  --tw-prose-bullets: var(--color-olive);
   --tw-prose-hr: currentColor;
   --tw-prose-quotes: currentColor;
   --tw-prose-quote-borders: currentColor;
@@ -39,7 +39,7 @@
   }
 
   li::marker {
-    @apply text-accent;
+    @apply text-olive;
   }
 
   &.text-balance {

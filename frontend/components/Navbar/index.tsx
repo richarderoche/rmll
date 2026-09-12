@@ -19,7 +19,7 @@ export default async function Navbar() {
     <header className="h-header fixed top-0 left-0 w-full z-10">
       <SkipLink />
       <SiteWidth className="h-full flex items-center justify-between gap-x-gut ts-p-md">
-        <Link className="text-accent ts-h5" href="/">
+        <Link className="ts-h5" href="/">
           {siteTitle}
         </Link>
 
@@ -28,9 +28,9 @@ export default async function Navbar() {
             {/* Desktop Header Menu */}
             <NavLinks
               navItems={headerNav}
-              ulClasses="hidden lg:flex flex-wrap items-center gap-x-1 bg-accent h-full rounded-full px-em"
+              ulClasses="hidden lg:flex flex-wrap items-center gap-x-1 bg-bg-subtle h-full rounded-full px-em"
               liClasses="px-em"
-              liActiveClasses="text-bg"
+              liActiveClasses="text-sage-700"
             />
             {/* Mobile Header Menu */}
             <MobileNav headerNav={headerNav} />

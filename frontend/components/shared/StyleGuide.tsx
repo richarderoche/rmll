@@ -123,11 +123,13 @@ const pStyles = [
 ]
 
 const HexColors = [
-  {name: 'Black', hex: '#000000'},
-  {name: 'Gray 900', hex: '#222222'},
-  {name: 'Gray 200', hex: '#dedede'},
-  {name: 'White', hex: '#FFFFFF'},
-  {name: 'Accent', hex: '#4d76ff'},
+  {name: 'Green 900', hex: '#0F261F'},
+  {name: 'Green 800', hex: '#00592E'},
+  {name: 'Green 700 (photo tint)', hex: '#027357'},
+  {name: 'Green 200', hex: '#BBDFCC'},
+  {name: 'Green 100', hex: '#E4F7E6'},
+  {name: 'Offwhite', hex: '#F2F8F2'},
+  {name: 'Olive', hex: '#BAC700'},
 ]
 
 function toColorVarName(name: string) {

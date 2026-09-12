@@ -49,33 +49,20 @@
   --spacing-max-ch: 55ch;
   --spacing-header: calc(var(--gut) * 2);
 
-  /* Use .corner-container > .corner or .corner-sm
-  for container-relative rounded corners */
-  --radius-xs: 0.4rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 1rem;
-  --radius-lg: 2rem;
+  --radius-xs: 2px;
+  --radius-sm: 3px;
 }
 
 body {
-  @apply antialiased min-w-360 selection:bg-accent/50;
+  @apply antialiased min-w-360 selection:bg-sage-700/50;
 }
 
 button {
   @apply cursor-pointer;
 }
 
-/*
-Use .corner-container > .corner
-for container-relative rounded corners
-*/
-
-.corner-container {
-  @apply @container/corner;
-}
-
 .corner {
-  @apply overflow-hidden rounded-xs @sm/corner:rounded-sm @md/corner:rounded-md @lg/corner:rounded-lg @xl/corner:rounded-lg;
+  @apply overflow-hidden rounded-xs 2xl:rounded-sm;
 }
 
 .paused-by-button [data-marqy] > [data-marqy-inner] > [data-marqy-content] {

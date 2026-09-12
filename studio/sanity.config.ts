@@ -5,6 +5,7 @@ import { defineConfig } from 'sanity'
 import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel'
 import { presentationTool } from 'sanity/presentation'
 import { structureTool } from 'sanity/structure'
+import { IconStudio } from './lib/customIcons'
 import { noteField } from './plugins/note-field'
 import { schemaTypes, singletonSchemaTypes } from './schemaTypes'
 import { pageStructure } from './structure'
@@ -29,7 +30,8 @@ export const muxConfig = {
 */
 export default defineConfig({
   name: 'default',
-  title: 'Sanity / Website',
+  title: 'Sanity / RMLL',
+  icon: IconStudio,
 
   projectId: projectId,
   dataset: dataset,

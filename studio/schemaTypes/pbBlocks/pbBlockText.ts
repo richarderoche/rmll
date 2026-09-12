@@ -17,8 +17,8 @@ export const textStyleOptions = [
 
 // If adding options, add classes to frontend/safelist-classes.txt
 export const textColorOptions = [
-  { title: 'Body Normal', value: 'text-body' },
-  { title: 'Accent', value: 'text-accent' },
+  { title: 'Default (Dusk)', value: 'text-body' },
+  { title: 'Green', value: 'text-sage-800' },
 ]
 
 export default defineType({

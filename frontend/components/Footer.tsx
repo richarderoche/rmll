@@ -14,7 +14,7 @@ export default async function Footer() {
   const socialIcons = data?.socialIcons || []
 
   return (
-    <footer className="bottom-0 bg-accent py-gut mt-gut">
+    <footer className="bottom-0 bg-bg-subtle py-gut mt-gut">
       <SiteWidth className="flex flex-col lg:flex-row lg:justify-between items-center gap-gut">
         {footerNav && footerNav?.length > 0 && (
           <nav role="navigation">

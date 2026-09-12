@@ -37,7 +37,6 @@ const blockRegistry: Record<string, BlockRegistryEntry> = {
   pbBlockText: {Component: asType(BlockText)},
   pbBlockImage: {
     Component: asType(BlockImage),
-    wrapClassName: 'corner-container',
   },
   pbBlockVideoEmbed: {
     Component: asType(BlockVideoEmbed),

@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import {cn} from '@/lib/utils'
 
 export default function Card({
   children,
@@ -7,9 +7,5 @@ export default function Card({
   children: React.ReactNode
   bgColorClass?: string
 }) {
-  return (
-    <div className="corner-container">
-      <div className={cn('corner p-gut', bgColorClass)}>{children}</div>
-    </div>
-  )
+  return <div className={cn('corner p-gut', bgColorClass)}>{children}</div>
 }

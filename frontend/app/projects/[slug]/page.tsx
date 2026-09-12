@@ -77,7 +77,7 @@ export default async function ProjectSlugRoute(props: PageProps<'/projects/[slug
 
   return (
     <PageWrapper>
-      <SiteWidth className="mt-gut corner-container">
+      <SiteWidth className="mt-gut">
         <h1 className="ts-h1">{title}</h1>
         <ImageBasic
           data-sanity={dataAttribute?.('coverImage')}

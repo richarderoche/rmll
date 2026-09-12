@@ -1,6 +1,6 @@
 import ImageBasic from '@/components/shared/ImageBasic'
-import { getTrueSizes } from '@/lib/utils'
-import type { Image } from 'sanity'
+import {getTrueSizes} from '@/lib/utils'
+import type {Image} from 'sanity'
 
 interface ProjectProps {
   project: {
@@ -13,14 +13,14 @@ interface ProjectProps {
 }
 
 export function ProjectListItem(props: ProjectProps) {
-  const { project } = props
+  const {project} = props
 
   return (
-    <div className="corner-container">
+    <div className="">
       <ImageBasic
         image={project.coverImage as Image}
         alt={`Cover image from ${project.title}`}
-        sizes={getTrueSizes({ mobile: 12, tablet: 6, desktop: 4 })}
+        sizes={getTrueSizes({mobile: 12, tablet: 6, desktop: 4})}
         className="corner"
         ratio={1}
       />

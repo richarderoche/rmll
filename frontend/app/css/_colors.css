@@ -1,32 +1,21 @@
 :root {
-  --black-oklch: 0 0 0;
-  --gray-900-oklch: 0.25 0 0;
-  --gray-200-oklch: 0.9 0 0;
-  --white-oklch: 1 0 0;
-  --accent-oklch: 0.6132 0.2078 267.2;
-}
-
-.dark-theme {
-  --theme-bg: oklch(var(--black-oklch));
-  --theme-bg-subtle: oklch(var(--gray-900-oklch));
-
-  --theme-body: oklch(var(--white-oklch));
-
-  --theme-divider: oklch(var(--accent-oklch));
-
-  --theme-current-bg: var(--theme-bg);
-  .bg-bg-subtle {
-    --theme-current-bg: var(--theme-bg-subtle);
-  }
+  --sage-900-oklch: 0.2472 0.0323 171.5;
+  --sage-800-oklch: 0.4071 0.1031 153.8;
+  --sage-700-oklch: 0.4938 0.099 168.4;
+  --sage-200-oklch: 0.8724 0.046 162.3;
+  --sage-100-oklch: 0.9575 0.0301 148.3;
+  --offwhite-oklch: 0.9729 0.0101 145.3;
+  --olive-oklch: 0.7925 0.1787 114.4;
 }
 
 .light-theme {
-  --theme-bg: oklch(var(--white-oklch));
-  --theme-bg-subtle: oklch(var(--gray-200-oklch));
+  --theme-bg: oklch(var(--sage-100-oklch));
+  --theme-bg-subtle: oklch(var(--sage-200-oklch));
 
-  --theme-body: oklch(var(--black-oklch));
-
-  /* --theme-divider: oklch(var(--accent-oklch)); */
+  --theme-body: oklch(var(--sage-900-oklch));
+  
+  --theme-photo-tint: oklch(var(--sage-700-oklch) / 0.6);
+  --theme-divider: oklch(var(--sage-900-oklch));
 
   --theme-current-bg: var(--theme-bg);
   .bg-bg-subtle {
@@ -35,23 +24,25 @@
 }
 
 @theme {
-  --color-black: oklch(var(--black-oklch));
-  --color-gray-900: oklch(var(--gray-900-oklch));
-  --color-gray-200: oklch(var(--gray-200-oklch));
-  --color-white: oklch(var(--white-oklch));
-  --color-accent: oklch(var(--accent-oklch));
+  --color-sage-900: oklch(var(--sage-900-oklch));
+  --color-sage-800: oklch(var(--sage-800-oklch));
+  --color-sage-700: oklch(var(--sage-700-oklch));
+  --color-sage-200: oklch(var(--sage-200-oklch));
+  --color-sage-100: oklch(var(--sage-100-oklch));
+  --color-offwhite: oklch(var(--offwhite-oklch));
+  --color-olive: oklch(var(--olive-oklch));
 }
 
 @theme inline {
   --color-bg: var(--theme-bg);
   --color-bg-subtle: var(--theme-bg-subtle);
   --color-body: var(--theme-body);
+  --color-photo-tint: var(--theme-photo-tint);
   --color-divider: var(--theme-divider);
   --color-current-bg: var(--theme-current-bg);
 }
 
 body,
-.dark-theme:not(.theme-vars-only),
 .light-theme:not(.theme-vars-only) {
   @apply bg-bg text-body;
 }
