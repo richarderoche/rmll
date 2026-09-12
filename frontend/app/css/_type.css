@@ -1,5 +1,8 @@
 @theme inline {
-  --font-sans: var(--mori), 'Helvetica Neue', helvetica, sans-serif;
+  --font-sans: var(--gt-standard), 'Helvetica Neue', helvetica, sans-serif;
+  --font-serif: var(--gt-canon), serif;
+  --font-mono: var(--gt-canon-mono), monospace;
+  --font-display: var(--american-grotesk), sans-serif;
 }
 
 /*
@@ -9,50 +12,50 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
 
 /* Headings */
 .ts-h1 {
-  @apply leading-110 -tracking-2 font-bold ts-size-40/18 lg:ts-size-70/36;
+  @apply font-display uppercase leading-90 ts-size-42/24 lg:ts-size-104/36;
 }
 
 .ts-h2 {
-  @apply leading-110 -tracking-2 font-bold ts-size-32/18 lg:ts-size-56/36;
+  @apply font-display uppercase leading-none ts-size-28/24 lg:ts-size-56/36;
+}
+
+.ts-h2-serif {
+  @apply font-serif leading-120 -tracking-2 ts-size-28/24 lg:ts-size-56/36;
 }
 
 .ts-h3 {
-  @apply leading-110 -tracking-2 font-bold ts-size-26/18 lg:ts-size-43/36;
+  @apply font-serif leading-120 -tracking-1 ts-size-24/24 lg:ts-size-43/36;
 }
 
 .ts-h4 {
-  @apply leading-110 -tracking-2 font-bold ts-size-20/18 lg:ts-size-32/36;
+  @apply font-serif leading-120 ts-size-22/24 lg:ts-size-32/36;
 }
 
 /* Labels */
 .ts-h5 {
-  @apply uppercase leading-none tracking-5 font-bold ts-size-16/18 lg:ts-size-20/36;
+  @apply font-mono leading-none ts-size-13/24 lg:ts-size-16/36;
 }
 
 .ts-h6 {
-  @apply uppercase leading-none tracking-5 font-bold ts-size-10/18 lg:ts-size-12/36;
+  @apply uppercase leading-none tracking-5 font-bold ts-size-9/24 lg:ts-size-12/36;
 }
 
 /* Paragraphs */
 
-.ts-p-xl {
-  @apply leading-130 ts-size-19/18 lg:ts-size-26/36;
-}
-
 .ts-p-lg {
-  @apply leading-130 ts-size-17/18 lg:ts-size-22/36;
+  @apply font-serif leading-145 ts-size-18/24 lg:ts-size-22/36;
 }
 
 .ts-p-md {
-  @apply leading-130 ts-size-15/18 lg:ts-size-18/36;
+  @apply leading-145 -tracking-2 ts-size-14/24 lg:ts-size-18/36;
 }
 
 .ts-p-sm {
-  @apply leading-130 ts-size-13/18 lg:ts-size-15/36;
+  @apply leading-145 -tracking-1 ts-size-12/24 lg:ts-size-15/36;
 }
 
 .ts-p-xs {
-  @apply leading-130 ts-size-11/18 lg:ts-size-13/36;
+  @apply leading-145 ts-size-11/24 lg:ts-size-12/36;
 }
 
 /* Misc */

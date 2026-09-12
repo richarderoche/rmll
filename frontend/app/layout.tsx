@@ -9,11 +9,11 @@ import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {urlForOpenGraphImage} from '@/sanity/lib/utils'
 import {Metadata, Viewport} from 'next'
-import localFont from 'next/font/local'
 import {draftMode} from 'next/headers'
 import type {Image} from 'sanity'
 import {Toaster} from 'sonner'
 import {handleError} from './client-utils'
+import {allFontVars} from './fonts'
 
 export async function generateMetadata(): Promise<Metadata> {
   const {data: settings} = await sanityFetch({
@@ -65,33 +65,11 @@ export const viewport: Viewport = {
   themeColor: '#000',
 }
 
-const sansFont = localFont({
-  src: [
-    {
-      path: '../public/fonts/PPMori-Regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../public/fonts/PPMori-RegularItalic.woff2',
-      weight: '400',
-      style: 'italic',
-    },
-    {
-      path: '../public/fonts/PPMori-Bold.woff2',
-      weight: '600',
-      style: 'normal',
-    },
-  ],
-  preload: true,
-  variable: '--mori',
-})
-
 export default async function RootLayout({children}: LayoutProps<'/'>) {
   const {isEnabled: isDraftMode} = await draftMode()
 
   return (
-    <html lang="en" className={`${sansFont.variable} light-theme`} data-scroll-behavior="smooth">
+    <html lang="en" className={`${allFontVars} light-theme`} data-scroll-behavior="smooth">
       <body>
         <Lenis />
         <GSAP />

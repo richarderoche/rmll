@@ -82,6 +82,10 @@ const hStyles = [
     style: 'ts-h2',
   },
   {
+    name: 'H2 Serif',
+    style: 'ts-h2-serif',
+  },
+  {
     name: 'H3 Heading',
     style: 'ts-h3',
   },
@@ -100,10 +104,6 @@ const hStyles = [
 ]
 
 const pStyles = [
-  {
-    name: 'P XL',
-    style: 'ts-p-xl',
-  },
   {
     name: 'P LG',
     style: 'ts-p-lg',

@@ -1,24 +1,24 @@
-import { CaseSensitive } from 'lucide-react'
-import { defineField, defineType } from 'sanity'
+import {CaseSensitive} from 'lucide-react'
+import {defineField, defineType} from 'sanity'
 
 export const textStyleOptions = [
-  { title: 'H1', value: 'ts-h1' },
-  { title: 'H2', value: 'ts-h2' },
-  { title: 'H3', value: 'ts-h3' },
-  { title: 'H4', value: 'ts-h4' },
-  { title: 'Body XL', value: 'ts-p-xl' },
-  { title: 'Body Large', value: 'ts-p-lg' },
-  { title: 'Body Medium', value: 'ts-p-md' },
-  { title: 'Body Small', value: 'ts-p-sm' },
-  { title: 'Body XS', value: 'ts-p-xs' },
-  { title: 'Label', value: 'ts-h5' },
-  { title: 'Label Small', value: 'ts-h6' },
+  {title: 'H1 (Sans Caps)', value: 'ts-h1'},
+  {title: 'H2 (Sans Caps)', value: 'ts-h2'},
+  {title: 'H2 (Serif)', value: 'ts-h2-serif'},
+  {title: 'H3 (Serif)', value: 'ts-h3'},
+  {title: 'H4 (Serif)', value: 'ts-h4'},
+  {title: 'Body Large (Serif)', value: 'ts-p-lg'},
+  {title: 'Body Medium (Sans)', value: 'ts-p-md'},
+  {title: 'Body Small (Sans)', value: 'ts-p-sm'},
+  {title: 'Body XS (Sans)', value: 'ts-p-xs'},
+  {title: 'Label (Mono)', value: 'ts-h5'},
+  {title: 'Label Small (Sans)', value: 'ts-h6'},
 ]
 
 // If adding options, add classes to frontend/safelist-classes.txt
 export const textColorOptions = [
-  { title: 'Default (Dusk)', value: 'text-body' },
-  { title: 'Green', value: 'text-sage-800' },
+  {title: 'Default (Dusk)', value: 'text-body'},
+  {title: 'Green', value: 'text-sage-800'},
 ]
 
 export default defineType({
@@ -63,7 +63,7 @@ export default defineType({
       textContent: 'textContent',
       textStyle: 'textStyle',
     },
-    prepare({ textContent, textStyle }) {
+    prepare({textContent, textStyle}) {
       const bodyTextSizeText =
         textStyleOptions.find((o) => o.value === textStyle)?.title ?? 'Default'
       return {
