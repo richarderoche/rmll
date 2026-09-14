@@ -5,6 +5,7 @@ import Navbar from '@/components/Navbar'
 import GlobalScripts from '@/components/shared/GlobalScripts'
 import {GSAP} from '@/components/shared/GSAP'
 import {Lenis} from '@/components/shared/Lenis'
+import {SettingsQueryResult} from '@/sanity.types'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
 import {urlForOpenGraphImage} from '@/sanity/lib/utils'
@@ -67,6 +68,10 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({children}: LayoutProps<'/'>) {
   const {isEnabled: isDraftMode} = await draftMode()
+  const {data: settings} = await sanityFetch({
+    query: settingsQuery,
+    stega: false,
+  })
 
   return (
     <html lang="en" className={`${allFontVars} light-theme`} data-scroll-behavior="smooth">
@@ -78,7 +83,7 @@ export default async function RootLayout({children}: LayoutProps<'/'>) {
           <main className="grow" id="main-content">
             {children}
           </main>
-          <Footer />
+          <Footer settings={settings as SettingsQueryResult} />
         </div>
 
         <Toaster />

@@ -33,7 +33,7 @@ export type VideoAspectRatio = {
 }
 
 export type FileLink = {
-  file?: ButtonFileLinkFile
+  file?: FileLinkFile
   buttonText?: string
 }
 
@@ -50,12 +50,6 @@ export type BlockWidths = {
   desktop?: 'lg:grid-cols-1' | 'lg:grid-cols-2' | 'lg:grid-cols-3' | 'lg:grid-cols-4'
 }
 
-export type YAlignment = {
-  mobile: 'self-start' | 'self-center' | 'self-end'
-  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-}
-
 export type SanityFileAssetReference = {
   _ref: string
   _type: 'reference'
@@ -65,13 +59,19 @@ export type SanityFileAssetReference = {
 
 export type FileLinkFile = {
   asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  media?: unknown // Unable to locate the referenced type "media" in schema
   _type: 'file'
 }
 
-export type ButtonFileLinkFile = {
+export type YAlignment = {
+  mobile: 'self-start' | 'self-center' | 'self-end'
+  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+}
+
+export type MarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "fileLink.file.media" in schema
+  media?: unknown // Unable to locate the referenced type "file.media" in schema
   _type: 'file'
 }
 
@@ -216,7 +216,7 @@ export type PtBasic = Array<{
         _key: string
       }
     | {
-        file?: FileLinkFile
+        file?: MarkDefsFileLinkFile
         _type: 'fileLink'
         _key: string
       }
@@ -327,9 +327,9 @@ export type PbBlockText = {
   textStyle?:
     | 'ts-h1'
     | 'ts-h2'
+    | 'ts-h2-serif'
     | 'ts-h3'
     | 'ts-h4'
-    | 'ts-p-xl'
     | 'ts-p-lg'
     | 'ts-p-md'
     | 'ts-p-sm'
@@ -355,9 +355,9 @@ export type PbBlockMarquee = {
         style?:
           | 'ts-h1'
           | 'ts-h2'
+          | 'ts-h2-serif'
           | 'ts-h3'
           | 'ts-h4'
-          | 'ts-p-xl'
           | 'ts-p-lg'
           | 'ts-p-md'
           | 'ts-p-sm'
@@ -493,7 +493,7 @@ export type Button = {
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
-  style?: 'fill' | 'outline'
+  style?: 'fill' | 'outline' | 'underline'
 }
 
 export type Redirect = {
@@ -557,12 +557,29 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   headerNav?: NavLinks
-  footerNav?: NavLinks
+  footerCTAs?: Array<{
+    heading?: string
+    link?: Button
+    _key: string
+  }>
+  footerPopup?: {
+    title?: string
+    content?: PtSlim
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
+  }
   socialIcons?: Array<
     {
       _key: string
     } & SocialLink
   >
+  footerNav?: NavLinks
   title?: string
   seo?: Seo
   googletagmanagerID?: string
@@ -706,10 +723,10 @@ export type AllSanitySchemaTypes =
   | FileLink
   | PbBlockMarqueeSettings
   | BlockWidths
-  | YAlignment
   | SanityFileAssetReference
   | FileLinkFile
-  | ButtonFileLinkFile
+  | YAlignment
+  | MarkDefsFileLinkFile
   | SanityImageAssetReference
   | ImageElementImage
   | SocialLink

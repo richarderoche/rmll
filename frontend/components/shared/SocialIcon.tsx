@@ -1,3 +1,4 @@
+import {cn} from '@/lib/utils'
 import {
   FaFacebookF,
   FaGithub,
@@ -25,30 +26,32 @@ export type SocialIconName =
 
 export type SocialIconProps = {
   name?: SocialIconName
+  className?: string
 }
 
-const SocialIcon = ({name}: SocialIconProps) => {
+const SocialIcon = ({name, className}: SocialIconProps) => {
+  const classes = cn('block', className)
   switch (name) {
     case 'Facebook':
-      return <FaFacebookF className="block" />
+      return <FaFacebookF className={classes} />
     case 'Instagram':
-      return <FaInstagram className="block" />
+      return <FaInstagram className={classes} />
     case 'Soundcloud':
-      return <FaSoundcloud className="block" />
+      return <FaSoundcloud className={classes} />
     case 'Spotify':
-      return <FaSpotify className="block" />
+      return <FaSpotify className={classes} />
     case 'Tiktok':
-      return <FaTiktok className="block" />
+      return <FaTiktok className={classes} />
     case 'Twitter':
-      return <FaXTwitter className="block" />
+      return <FaXTwitter className={classes} />
     case 'Threads':
-      return <FaThreads className="block" />
+      return <FaThreads className={classes} />
     case 'YouTube':
-      return <FaYoutube className="block" />
+      return <FaYoutube className={classes} />
     case 'Github':
-      return <FaGithub className="block" />
+      return <FaGithub className={classes} />
     case 'Linkedin':
-      return <FaLinkedinIn className="block" />
+      return <FaLinkedinIn className={classes} />
     default:
       return null
   }

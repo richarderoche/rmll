@@ -1,4 +1,4 @@
-import { defineArrayMember, defineType } from 'sanity'
+import {defineArrayMember, defineType} from 'sanity'
 
 export default defineType({
   name: 'ptBody',
@@ -8,10 +8,7 @@ export default defineType({
     defineArrayMember({
       type: 'block',
       marks: {
-        decorators: [
-          { title: 'Strong', value: 'strong' },
-          { title: 'Emphasis', value: 'em' },
-        ],
+        decorators: [{title: 'Strong', value: 'strong'}],
         annotations: [],
       },
       styles: [],

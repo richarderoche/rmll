@@ -1,7 +1,7 @@
 import {SquareArrowRight} from 'lucide-react'
 import {defineField, defineType} from 'sanity'
 
-const BUTTON_TYPE_OPTIONS: {title: string; value: string}[] = [
+export const BUTTON_TYPE_OPTIONS: {title: string; value: string}[] = [
   {title: 'Internal', value: 'sitePage'},
   {title: 'External', value: 'externalLink'},
   {title: 'File', value: 'file'},
@@ -27,18 +27,27 @@ export default defineType({
       title: 'Site Page',
       name: 'sitePage',
       type: 'navPage',
+      options: {
+        collapsible: false,
+      },
       hidden: ({parent}) => parent?.linkType !== 'sitePage',
     }),
     defineField({
       title: 'External Link',
       name: 'externalLink',
       type: 'navExternal',
+      options: {
+        collapsible: false,
+      },
       hidden: ({parent}) => parent?.linkType !== 'externalLink',
     }),
     defineField({
       title: 'File',
       name: 'fileLink',
       type: 'object',
+      options: {
+        collapsible: false,
+      },
       hidden: ({parent}) => parent?.linkType !== 'file',
       fields: [
         defineField({
@@ -62,7 +71,7 @@ export default defineType({
       name: 'style',
       type: 'string',
       options: {
-        list: ['fill', 'outline'],
+        list: ['fill', 'outline', 'underline'],
       },
     }),
   ],

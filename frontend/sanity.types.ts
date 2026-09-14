@@ -33,7 +33,7 @@ export type VideoAspectRatio = {
 }
 
 export type FileLink = {
-  file?: ButtonFileLinkFile
+  file?: FileLinkFile
   buttonText?: string
 }
 
@@ -50,12 +50,6 @@ export type BlockWidths = {
   desktop?: 'lg:grid-cols-1' | 'lg:grid-cols-2' | 'lg:grid-cols-3' | 'lg:grid-cols-4'
 }
 
-export type YAlignment = {
-  mobile: 'self-start' | 'self-center' | 'self-end'
-  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-}
-
 export type SanityFileAssetReference = {
   _ref: string
   _type: 'reference'
@@ -65,13 +59,19 @@ export type SanityFileAssetReference = {
 
 export type FileLinkFile = {
   asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  media?: unknown // Unable to locate the referenced type "media" in schema
   _type: 'file'
 }
 
-export type ButtonFileLinkFile = {
+export type YAlignment = {
+  mobile: 'self-start' | 'self-center' | 'self-end'
+  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+}
+
+export type MarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "fileLink.file.media" in schema
+  media?: unknown // Unable to locate the referenced type "file.media" in schema
   _type: 'file'
 }
 
@@ -216,7 +216,7 @@ export type PtBasic = Array<{
         _key: string
       }
     | {
-        file?: FileLinkFile
+        file?: MarkDefsFileLinkFile
         _type: 'fileLink'
         _key: string
       }
@@ -327,9 +327,9 @@ export type PbBlockText = {
   textStyle?:
     | 'ts-h1'
     | 'ts-h2'
+    | 'ts-h2-serif'
     | 'ts-h3'
     | 'ts-h4'
-    | 'ts-p-xl'
     | 'ts-p-lg'
     | 'ts-p-md'
     | 'ts-p-sm'
@@ -355,9 +355,9 @@ export type PbBlockMarquee = {
         style?:
           | 'ts-h1'
           | 'ts-h2'
+          | 'ts-h2-serif'
           | 'ts-h3'
           | 'ts-h4'
-          | 'ts-p-xl'
           | 'ts-p-lg'
           | 'ts-p-md'
           | 'ts-p-sm'
@@ -493,7 +493,7 @@ export type Button = {
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
-  style?: 'fill' | 'outline'
+  style?: 'fill' | 'outline' | 'underline'
 }
 
 export type Redirect = {
@@ -557,12 +557,29 @@ export type Settings = {
   _updatedAt: string
   _rev: string
   headerNav?: NavLinks
-  footerNav?: NavLinks
+  footerCTAs?: Array<{
+    heading?: string
+    link?: Button
+    _key: string
+  }>
+  footerPopup?: {
+    title?: string
+    content?: PtSlim
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
+  }
   socialIcons?: Array<
     {
       _key: string
     } & SocialLink
   >
+  footerNav?: NavLinks
   title?: string
   seo?: Seo
   googletagmanagerID?: string
@@ -706,10 +723,10 @@ export type AllSanitySchemaTypes =
   | FileLink
   | PbBlockMarqueeSettings
   | BlockWidths
-  | YAlignment
   | SanityFileAssetReference
   | FileLinkFile
-  | ButtonFileLinkFile
+  | YAlignment
+  | MarkDefsFileLinkFile
   | SanityImageAssetReference
   | ImageElementImage
   | SocialLink
@@ -835,11 +852,11 @@ export type HomePageQueryResult = {
                     page: null
                   } | null
                   fileLink: {
-                    file?: ButtonFileLinkFile
+                    file?: FileLinkFile
                     buttonText?: string
                     url: string | null
                   } | null
-                  style?: 'fill' | 'outline'
+                  style?: 'fill' | 'outline' | 'underline'
                 }>
               }
             | {
@@ -886,6 +903,7 @@ export type HomePageQueryResult = {
                       text?: string
                       style?:
                         | 'ts-h1'
+                        | 'ts-h2-serif'
                         | 'ts-h2'
                         | 'ts-h3'
                         | 'ts-h4'
@@ -894,7 +912,6 @@ export type HomePageQueryResult = {
                         | 'ts-p-lg'
                         | 'ts-p-md'
                         | 'ts-p-sm'
-                        | 'ts-p-xl'
                         | 'ts-p-xs'
                       _type: 'textElement'
                       _key: string
@@ -915,7 +932,7 @@ export type HomePageQueryResult = {
                   listItem?: 'bullet' | 'number'
                   markDefs: Array<
                     | {
-                        file?: FileLinkFile
+                        file?: MarkDefsFileLinkFile
                         _type: 'fileLink'
                         _key: string
                       }
@@ -942,6 +959,7 @@ export type HomePageQueryResult = {
                 _type: 'pbBlockText'
                 textStyle?:
                   | 'ts-h1'
+                  | 'ts-h2-serif'
                   | 'ts-h2'
                   | 'ts-h3'
                   | 'ts-h4'
@@ -950,7 +968,6 @@ export type HomePageQueryResult = {
                   | 'ts-p-lg'
                   | 'ts-p-md'
                   | 'ts-p-sm'
-                  | 'ts-p-xl'
                   | 'ts-p-xs'
                 color?: 'text-body' | 'text-sage-800'
                 balanceLines?: boolean
@@ -1008,11 +1025,11 @@ export type HomePageQueryResult = {
                     page: null
                   } | null
                   fileLink: {
-                    file?: ButtonFileLinkFile
+                    file?: FileLinkFile
                     buttonText?: string
                     url: string | null
                   } | null
-                  style?: 'fill' | 'outline'
+                  style?: 'fill' | 'outline' | 'underline'
                 }>
               }
             | {
@@ -1059,6 +1076,7 @@ export type HomePageQueryResult = {
                       text?: string
                       style?:
                         | 'ts-h1'
+                        | 'ts-h2-serif'
                         | 'ts-h2'
                         | 'ts-h3'
                         | 'ts-h4'
@@ -1067,7 +1085,6 @@ export type HomePageQueryResult = {
                         | 'ts-p-lg'
                         | 'ts-p-md'
                         | 'ts-p-sm'
-                        | 'ts-p-xl'
                         | 'ts-p-xs'
                       _type: 'textElement'
                       _key: string
@@ -1088,7 +1105,7 @@ export type HomePageQueryResult = {
                   listItem?: 'bullet' | 'number'
                   markDefs: Array<
                     | {
-                        file?: FileLinkFile
+                        file?: MarkDefsFileLinkFile
                         _type: 'fileLink'
                         _key: string
                       }
@@ -1115,6 +1132,7 @@ export type HomePageQueryResult = {
                 _type: 'pbBlockText'
                 textStyle?:
                   | 'ts-h1'
+                  | 'ts-h2-serif'
                   | 'ts-h2'
                   | 'ts-h3'
                   | 'ts-h4'
@@ -1123,7 +1141,6 @@ export type HomePageQueryResult = {
                   | 'ts-p-lg'
                   | 'ts-p-md'
                   | 'ts-p-sm'
-                  | 'ts-p-xl'
                   | 'ts-p-xs'
                 color?: 'text-body' | 'text-sage-800'
                 balanceLines?: boolean
@@ -1189,11 +1206,11 @@ export type HomePageQueryResult = {
                     page: null
                   } | null
                   fileLink: {
-                    file?: ButtonFileLinkFile
+                    file?: FileLinkFile
                     buttonText?: string
                     url: string | null
                   } | null
-                  style?: 'fill' | 'outline'
+                  style?: 'fill' | 'outline' | 'underline'
                 }>
               }
             | {
@@ -1240,6 +1257,7 @@ export type HomePageQueryResult = {
                       text?: string
                       style?:
                         | 'ts-h1'
+                        | 'ts-h2-serif'
                         | 'ts-h2'
                         | 'ts-h3'
                         | 'ts-h4'
@@ -1248,7 +1266,6 @@ export type HomePageQueryResult = {
                         | 'ts-p-lg'
                         | 'ts-p-md'
                         | 'ts-p-sm'
-                        | 'ts-p-xl'
                         | 'ts-p-xs'
                       _type: 'textElement'
                       _key: string
@@ -1269,7 +1286,7 @@ export type HomePageQueryResult = {
                   listItem?: 'bullet' | 'number'
                   markDefs: Array<
                     | {
-                        file?: FileLinkFile
+                        file?: MarkDefsFileLinkFile
                         _type: 'fileLink'
                         _key: string
                       }
@@ -1296,6 +1313,7 @@ export type HomePageQueryResult = {
                 _type: 'pbBlockText'
                 textStyle?:
                   | 'ts-h1'
+                  | 'ts-h2-serif'
                   | 'ts-h2'
                   | 'ts-h3'
                   | 'ts-h4'
@@ -1304,7 +1322,6 @@ export type HomePageQueryResult = {
                   | 'ts-p-lg'
                   | 'ts-p-md'
                   | 'ts-p-sm'
-                  | 'ts-p-xl'
                   | 'ts-p-xs'
                 color?: 'text-body' | 'text-sage-800'
                 balanceLines?: boolean
@@ -1368,11 +1385,11 @@ export type HomePageQueryResult = {
                   page: null
                 } | null
                 fileLink: {
-                  file?: ButtonFileLinkFile
+                  file?: FileLinkFile
                   buttonText?: string
                   url: string | null
                 } | null
-                style?: 'fill' | 'outline'
+                style?: 'fill' | 'outline' | 'underline'
               }>
             }
           | {
@@ -1419,6 +1436,7 @@ export type HomePageQueryResult = {
                     text?: string
                     style?:
                       | 'ts-h1'
+                      | 'ts-h2-serif'
                       | 'ts-h2'
                       | 'ts-h3'
                       | 'ts-h4'
@@ -1427,7 +1445,6 @@ export type HomePageQueryResult = {
                       | 'ts-p-lg'
                       | 'ts-p-md'
                       | 'ts-p-sm'
-                      | 'ts-p-xl'
                       | 'ts-p-xs'
                     _type: 'textElement'
                     _key: string
@@ -1448,7 +1465,7 @@ export type HomePageQueryResult = {
                 listItem?: 'bullet' | 'number'
                 markDefs: Array<
                   | {
-                      file?: FileLinkFile
+                      file?: MarkDefsFileLinkFile
                       _type: 'fileLink'
                       _key: string
                     }
@@ -1475,6 +1492,7 @@ export type HomePageQueryResult = {
               _type: 'pbBlockText'
               textStyle?:
                 | 'ts-h1'
+                | 'ts-h2-serif'
                 | 'ts-h2'
                 | 'ts-h3'
                 | 'ts-h4'
@@ -1483,7 +1501,6 @@ export type HomePageQueryResult = {
                 | 'ts-p-lg'
                 | 'ts-p-md'
                 | 'ts-p-sm'
-                | 'ts-p-xl'
                 | 'ts-p-xs'
               color?: 'text-body' | 'text-sage-800'
               balanceLines?: boolean
@@ -1581,11 +1598,11 @@ export type PagesBySlugQueryResult = {
                     page: null
                   } | null
                   fileLink: {
-                    file?: ButtonFileLinkFile
+                    file?: FileLinkFile
                     buttonText?: string
                     url: string | null
                   } | null
-                  style?: 'fill' | 'outline'
+                  style?: 'fill' | 'outline' | 'underline'
                 }>
               }
             | {
@@ -1632,6 +1649,7 @@ export type PagesBySlugQueryResult = {
                       text?: string
                       style?:
                         | 'ts-h1'
+                        | 'ts-h2-serif'
                         | 'ts-h2'
                         | 'ts-h3'
                         | 'ts-h4'
@@ -1640,7 +1658,6 @@ export type PagesBySlugQueryResult = {
                         | 'ts-p-lg'
                         | 'ts-p-md'
                         | 'ts-p-sm'
-                        | 'ts-p-xl'
                         | 'ts-p-xs'
                       _type: 'textElement'
                       _key: string
@@ -1661,7 +1678,7 @@ export type PagesBySlugQueryResult = {
                   listItem?: 'bullet' | 'number'
                   markDefs: Array<
                     | {
-                        file?: FileLinkFile
+                        file?: MarkDefsFileLinkFile
                         _type: 'fileLink'
                         _key: string
                       }
@@ -1688,6 +1705,7 @@ export type PagesBySlugQueryResult = {
                 _type: 'pbBlockText'
                 textStyle?:
                   | 'ts-h1'
+                  | 'ts-h2-serif'
                   | 'ts-h2'
                   | 'ts-h3'
                   | 'ts-h4'
@@ -1696,7 +1714,6 @@ export type PagesBySlugQueryResult = {
                   | 'ts-p-lg'
                   | 'ts-p-md'
                   | 'ts-p-sm'
-                  | 'ts-p-xl'
                   | 'ts-p-xs'
                 color?: 'text-body' | 'text-sage-800'
                 balanceLines?: boolean
@@ -1754,11 +1771,11 @@ export type PagesBySlugQueryResult = {
                     page: null
                   } | null
                   fileLink: {
-                    file?: ButtonFileLinkFile
+                    file?: FileLinkFile
                     buttonText?: string
                     url: string | null
                   } | null
-                  style?: 'fill' | 'outline'
+                  style?: 'fill' | 'outline' | 'underline'
                 }>
               }
             | {
@@ -1805,6 +1822,7 @@ export type PagesBySlugQueryResult = {
                       text?: string
                       style?:
                         | 'ts-h1'
+                        | 'ts-h2-serif'
                         | 'ts-h2'
                         | 'ts-h3'
                         | 'ts-h4'
@@ -1813,7 +1831,6 @@ export type PagesBySlugQueryResult = {
                         | 'ts-p-lg'
                         | 'ts-p-md'
                         | 'ts-p-sm'
-                        | 'ts-p-xl'
                         | 'ts-p-xs'
                       _type: 'textElement'
                       _key: string
@@ -1834,7 +1851,7 @@ export type PagesBySlugQueryResult = {
                   listItem?: 'bullet' | 'number'
                   markDefs: Array<
                     | {
-                        file?: FileLinkFile
+                        file?: MarkDefsFileLinkFile
                         _type: 'fileLink'
                         _key: string
                       }
@@ -1861,6 +1878,7 @@ export type PagesBySlugQueryResult = {
                 _type: 'pbBlockText'
                 textStyle?:
                   | 'ts-h1'
+                  | 'ts-h2-serif'
                   | 'ts-h2'
                   | 'ts-h3'
                   | 'ts-h4'
@@ -1869,7 +1887,6 @@ export type PagesBySlugQueryResult = {
                   | 'ts-p-lg'
                   | 'ts-p-md'
                   | 'ts-p-sm'
-                  | 'ts-p-xl'
                   | 'ts-p-xs'
                 color?: 'text-body' | 'text-sage-800'
                 balanceLines?: boolean
@@ -1935,11 +1952,11 @@ export type PagesBySlugQueryResult = {
                     page: null
                   } | null
                   fileLink: {
-                    file?: ButtonFileLinkFile
+                    file?: FileLinkFile
                     buttonText?: string
                     url: string | null
                   } | null
-                  style?: 'fill' | 'outline'
+                  style?: 'fill' | 'outline' | 'underline'
                 }>
               }
             | {
@@ -1986,6 +2003,7 @@ export type PagesBySlugQueryResult = {
                       text?: string
                       style?:
                         | 'ts-h1'
+                        | 'ts-h2-serif'
                         | 'ts-h2'
                         | 'ts-h3'
                         | 'ts-h4'
@@ -1994,7 +2012,6 @@ export type PagesBySlugQueryResult = {
                         | 'ts-p-lg'
                         | 'ts-p-md'
                         | 'ts-p-sm'
-                        | 'ts-p-xl'
                         | 'ts-p-xs'
                       _type: 'textElement'
                       _key: string
@@ -2015,7 +2032,7 @@ export type PagesBySlugQueryResult = {
                   listItem?: 'bullet' | 'number'
                   markDefs: Array<
                     | {
-                        file?: FileLinkFile
+                        file?: MarkDefsFileLinkFile
                         _type: 'fileLink'
                         _key: string
                       }
@@ -2042,6 +2059,7 @@ export type PagesBySlugQueryResult = {
                 _type: 'pbBlockText'
                 textStyle?:
                   | 'ts-h1'
+                  | 'ts-h2-serif'
                   | 'ts-h2'
                   | 'ts-h3'
                   | 'ts-h4'
@@ -2050,7 +2068,6 @@ export type PagesBySlugQueryResult = {
                   | 'ts-p-lg'
                   | 'ts-p-md'
                   | 'ts-p-sm'
-                  | 'ts-p-xl'
                   | 'ts-p-xs'
                 color?: 'text-body' | 'text-sage-800'
                 balanceLines?: boolean
@@ -2114,11 +2131,11 @@ export type PagesBySlugQueryResult = {
                   page: null
                 } | null
                 fileLink: {
-                  file?: ButtonFileLinkFile
+                  file?: FileLinkFile
                   buttonText?: string
                   url: string | null
                 } | null
-                style?: 'fill' | 'outline'
+                style?: 'fill' | 'outline' | 'underline'
               }>
             }
           | {
@@ -2165,6 +2182,7 @@ export type PagesBySlugQueryResult = {
                     text?: string
                     style?:
                       | 'ts-h1'
+                      | 'ts-h2-serif'
                       | 'ts-h2'
                       | 'ts-h3'
                       | 'ts-h4'
@@ -2173,7 +2191,6 @@ export type PagesBySlugQueryResult = {
                       | 'ts-p-lg'
                       | 'ts-p-md'
                       | 'ts-p-sm'
-                      | 'ts-p-xl'
                       | 'ts-p-xs'
                     _type: 'textElement'
                     _key: string
@@ -2194,7 +2211,7 @@ export type PagesBySlugQueryResult = {
                 listItem?: 'bullet' | 'number'
                 markDefs: Array<
                   | {
-                      file?: FileLinkFile
+                      file?: MarkDefsFileLinkFile
                       _type: 'fileLink'
                       _key: string
                     }
@@ -2221,6 +2238,7 @@ export type PagesBySlugQueryResult = {
               _type: 'pbBlockText'
               textStyle?:
                 | 'ts-h1'
+                | 'ts-h2-serif'
                 | 'ts-h2'
                 | 'ts-h3'
                 | 'ts-h4'
@@ -2229,7 +2247,6 @@ export type PagesBySlugQueryResult = {
                 | 'ts-p-lg'
                 | 'ts-p-md'
                 | 'ts-p-sm'
-                | 'ts-p-xl'
                 | 'ts-p-xs'
               color?: 'text-body' | 'text-sage-800'
               balanceLines?: boolean
@@ -2331,7 +2348,7 @@ export type SitemapByTypeQueryResult = Array<
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'settings'
@@ -2370,6 +2387,65 @@ export type SettingsQueryResult = {
         anchorLink?: string
       }
   > | null
+  footerCTAs: Array<{
+    heading?: string
+    link: {
+      _type: 'button'
+      linkType?: 'externalLink' | 'file' | 'sitePage'
+      sitePage: {
+        _type: 'navPage'
+        title?: string
+        page:
+          | {
+              type: 'home'
+              slug: null
+              title: string
+            }
+          | {
+              type: 'page'
+              slug: string
+              title: string
+            }
+          | {
+              type: 'project'
+              slug: string
+              title: string
+            }
+          | null
+        anchorLink?: string
+      } | null
+      externalLink: {
+        _type: 'navExternal'
+        title?: string
+        url?: string
+        page: null
+      } | null
+      fileLink: {
+        file?: FileLinkFile
+        buttonText?: string
+        url: string | null
+      } | null
+      style?: 'fill' | 'outline' | 'underline'
+    } | null
+    _key: string
+  }> | null
+  footerPopup?: {
+    title?: string
+    content?: PtSlim
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      alt?: string
+      _type: 'image'
+    }
+  }
+  socialIcons?: Array<
+    {
+      _key: string
+    } & SocialLink
+  >
   footerNav: Array<
     | {
         _key: string
@@ -2402,11 +2478,6 @@ export type SettingsQueryResult = {
         anchorLink?: string
       }
   > | null
-  socialIcons?: Array<
-    {
-      _key: string
-    } & SocialLink
-  >
   title?: string
   seo?: Seo
   googletagmanagerID?: string
@@ -2452,7 +2523,7 @@ declare module '@sanity/client' {
     '\n  *[_type == "project" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': ProjectBySlugQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == $type]{"slug": slug.current, "updatedAt": _updatedAt}\n': SitemapByTypeQueryResult
-    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
     '\n  *[_type == "settings"][0]{\n    "gtmId": googletagmanagerID,\n    customScripts,\n  }\n': ScriptsQueryResult
   }
 }

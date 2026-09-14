@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'seo',
@@ -13,7 +13,10 @@ export default defineType({
         'Displayed on social cards and search engine results. Recommended size: 1200x630 (PNG or JPG)',
       options: {
         hotspot: {
-          previews: [{ title: '1200x630', aspectRatio: 1230/630 }, { title: 'Square', aspectRatio: 1 }],
+          previews: [
+            {title: '1200x630', aspectRatio: 1230 / 630},
+            {title: 'Square', aspectRatio: 1},
+          ],
         },
       },
     }),
@@ -21,8 +24,7 @@ export default defineType({
       name: 'seoTitle',
       title: 'SEO Title',
       type: 'string',
-      description:
-        'Used as the <title> tag for SEO. Leave blank to use the page title.',
+      description: 'Used as the <title> tag for SEO. Leave blank to use the page title.',
     }),
     defineField({
       name: 'description',
@@ -30,17 +32,14 @@ export default defineType({
       type: 'text',
       rows: 3,
       validation: (Rule) =>
-        Rule.max(150).warning(
-          'Longer descriptions may be truncated by search engines'
-        ),
+        Rule.max(150).warning('Longer descriptions may be truncated by search engines'),
     }),
     defineField({
       name: 'hideFromSearchEngines',
       title: 'Hide from search engines',
       type: 'boolean',
       initialValue: false,
-      description:
-        'If true, the page will be public but not indexed by search engines.',
+      description: 'If true, the page will be public but not indexed by search engines.',
     }),
   ],
 })

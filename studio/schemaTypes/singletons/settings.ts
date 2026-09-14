@@ -1,5 +1,9 @@
 import CogIcon from '@sanity/icons/Cog'
-import { defineField, defineType } from 'sanity'
+import {LinkIcon} from 'lucide-react'
+import {defineField, defineType} from 'sanity'
+import {capitalize, ptToText} from '../../lib/utils'
+import {imgAltField} from '../fields'
+import {BUTTON_TYPE_OPTIONS} from '../objects/button'
 
 export default defineType({
   name: 'settings',
@@ -32,10 +36,94 @@ export default defineType({
       group: 'header',
     }),
     defineField({
-      title: 'Footer Nav',
-      name: 'footerNav',
-      type: 'navLinks',
+      name: 'footerCTAs',
+      title: 'Footer CTAs',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'heading',
+              title: 'Heading',
+              type: 'string',
+            },
+            {
+              name: 'link',
+              title: 'Link',
+              type: 'button',
+              initialValue: {
+                style: 'underline',
+              },
+            },
+          ],
+          preview: {
+            select: {
+              heading: 'heading',
+              linkType: 'link.linkType',
+              linkStyle: 'link.style',
+            },
+            prepare({heading = 'No Heading', linkType, linkStyle}) {
+              let subtitle = 'No Link'
+              if (linkType && linkType.length > 0) {
+                subtitle = BUTTON_TYPE_OPTIONS.find((o) => o.value === linkType)?.title || 'No Link'
+              }
+              if (linkStyle && linkStyle.length > 0) {
+                subtitle += ` / ${capitalize(linkStyle)}`
+              }
+              return {
+                title: heading,
+                subtitle: subtitle,
+                media: LinkIcon,
+              }
+            },
+          },
+        },
+      ],
       group: 'footer',
+    }),
+    defineField({
+      name: 'footerPopup',
+      title: 'Footer Popup',
+      type: 'object',
+      fields: [
+        {
+          name: 'title',
+          title: 'Title',
+          type: 'string',
+        },
+        {
+          name: 'content',
+          title: 'Content',
+          type: 'ptSlim',
+        },
+        {
+          name: 'image',
+          title: 'Image',
+          type: 'image',
+          options: {
+            hotspot: {
+              previews: [{title: '4:1', aspectRatio: 4 / 1}],
+            },
+          },
+          fields: [defineField(imgAltField)],
+        },
+      ],
+      group: 'footer',
+      preview: {
+        select: {
+          title: 'title',
+          image: 'image.asset',
+          content: 'content',
+        },
+        prepare({title, image, content}) {
+          return {
+            title: title,
+            subtitle: content ? ptToText(content) : 'No Content',
+            media: image,
+          }
+        },
+      },
     }),
     defineField({
       name: 'socialIcons',
@@ -47,6 +135,12 @@ export default defineType({
           type: 'socialLink',
         },
       ],
+    }),
+    defineField({
+      title: 'Footer Nav (Terms, Privacy, etc.)',
+      name: 'footerNav',
+      type: 'navLinks',
+      group: 'footer',
     }),
     defineField({
       name: 'title',
@@ -108,7 +202,7 @@ export default defineType({
               name: 'name',
               category: 'category',
             },
-            prepare({ name = 'Custom Script', category }) {
+            prepare({name = 'Custom Script', category}) {
               return {
                 title: name,
                 subtitle: category,

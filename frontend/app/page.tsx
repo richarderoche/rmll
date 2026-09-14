@@ -22,7 +22,7 @@ export default async function IndexRoute() {
 
   const {firstIsHero, firstPbSectionKey} = getFirstSectionInfo(data)
   const {showcaseProjects} = data ?? {}
-  const showStyleGuide = true
+  const showStyleGuide = false
 
   const dataAttribute =
     data?._id && data?._type

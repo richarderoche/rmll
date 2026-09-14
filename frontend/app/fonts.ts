@@ -12,6 +12,23 @@ const displayFont = localFont({
   variable: '--american-grotesk',
 })
 
+const sansFont = localFont({
+  src: [
+    {
+      path: '../public/fonts/GT-Standard-S-Standard-Regular.woff2',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../public/fonts/GT-Standard-S-Standard-Bold.woff2',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  preload: true,
+  variable: '--gt-standard',
+})
+
 const serifFont = localFont({
   src: [
     {
@@ -32,25 +49,8 @@ const monoFont = localFont({
       style: 'normal',
     },
   ],
-  preload: true,
+  preload: false,
   variable: '--gt-canon-mono',
-})
-
-const sansFont = localFont({
-  src: [
-    {
-      path: '../public/fonts/GT-Standard-S-Standard-Regular.woff2',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: '../public/fonts/GT-Standard-S-Standard-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  preload: true,
-  variable: '--gt-standard',
 })
 
 const fonts = [displayFont, serifFont, monoFont, sansFont]

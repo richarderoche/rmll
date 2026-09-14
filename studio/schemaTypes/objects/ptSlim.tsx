@@ -1,5 +1,5 @@
 import DocumentSheetIcon from '@sanity/icons/DocumentSheet'
-import { defineField, defineType } from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'ptSlim',
@@ -9,10 +9,7 @@ export default defineType({
     {
       type: 'block',
       marks: {
-        decorators: [
-          { title: 'Strong', value: 'strong' },
-          { title: 'Emphasis', value: 'em' },
-        ],
+        decorators: [{title: 'Strong', value: 'strong'}],
         annotations: [
           {
             name: 'link',
@@ -40,7 +37,7 @@ export default defineType({
                 name: 'reference',
                 type: 'reference',
                 title: 'Reference',
-                to: [{ type: 'page' }],
+                to: [{type: 'page'}],
               }),
             ],
           },

@@ -8,7 +8,8 @@ interface ButtonProps {
   text?: string
   path?: string
   navItem?: NavItem
-  style?: 'fill' | 'outline'
+  style?: 'fill' | 'outline' | 'underline'
+  width?: 'fit' | 'full'
   className?: string
   download?: boolean
   onClick?: () => void
@@ -16,7 +17,17 @@ interface ButtonProps {
 }
 
 export default function Button(props: ButtonProps) {
-  const {text, path, navItem, style = 'fill', className, download, onClick, disabled} = props
+  const {
+    text,
+    path,
+    navItem,
+    style = 'fill',
+    width = 'fit',
+    className,
+    download,
+    onClick,
+    disabled,
+  } = props
   let href: string | undefined = ''
   let buttonText: string | undefined = ''
 
@@ -32,9 +43,11 @@ export default function Button(props: ButtonProps) {
   const isExternal = href?.startsWith('http')
 
   const buttonClasses = cn(
-    'border flex w-fit items-center transition-all hover:scale-105',
+    style !== 'underline' && 'border flex items-center',
     style === 'fill' && 'bg-body border-body text-bg',
     style === 'outline' && 'bg-bg',
+    style === 'underline' && 'ts-h5 inline-link',
+    width === 'full' ? 'w-full' : 'w-fit',
     className,
   )
 
@@ -47,7 +60,7 @@ export default function Button(props: ButtonProps) {
         className={buttonClasses}
         download={download}
       >
-        <ButtonInner text={buttonText} />
+        {style !== 'underline' ? <ButtonInner text={buttonText} /> : buttonText}
       </Link>
     )
   }

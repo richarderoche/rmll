@@ -9,10 +9,10 @@ export interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function Divider({
-  showOnMobile,
-  showOnTablet,
-  showOnDesktop,
-  showDividerLine,
+  showOnMobile = true,
+  showOnTablet = true,
+  showOnDesktop = true,
+  showDividerLine = true,
   size = 1,
   className,
   ...props
@@ -20,12 +20,12 @@ export default function Divider({
   return (
     <div
       className={cn(
-        'h-1 w-full hidden',
+        'h-2 w-full hidden',
         !showDividerLine && 'opacity-0',
         showOnMobile ? 'max-md:block' : '',
         showOnTablet ? 'md:max-lg:block' : '',
         showOnDesktop ? 'lg:block' : '',
-        className ? className : 'bg-divider',
+        className ? className : 'border-b-2 border-divider border-dotted',
         size === 2
           ? 'my-gut-50'
           : size === 3
