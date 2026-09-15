@@ -43,6 +43,11 @@ export type FileLink = {
   buttonText?: string
 }
 
+export type QuoteCredit = {
+  name?: string
+  subtitle?: string
+}
+
 export type PbBlockMarqueeSettings = {
   speed: number
   direction?: 'left' | 'right'
@@ -352,6 +357,14 @@ export type PbBlockRichText = {
   textContent?: PtBasic
 }
 
+export type PbBlockQuote = {
+  _type: 'pbBlockQuote'
+  quoteText?: string
+  quoteCredit?: QuoteCredit
+  textStyle?: 'ts-quote' | 'ts-h2-serif' | 'ts-h3' | 'ts-h4'
+  showQuoteMarks?: boolean
+}
+
 export type PbBlockMarquee = {
   _type: 'pbBlockMarquee'
   settings?: PbBlockMarqueeSettings
@@ -375,7 +388,7 @@ export type PbBlockMarquee = {
       }
     | {
         image?: ImageElementImage
-        imageCrop?: 0 | 1 | 0.6666666667 | 1.5 | 1.7777777778 | 2.5
+        imageCrop?: 0 | 1 | 0.6666666667 | 0.8 | 1.5 | 1.7777777778 | 2.5
         roundedCorners?: boolean
         invertColor?: boolean
         blendModeLighten?: boolean
@@ -418,6 +431,9 @@ export type PbBlocks = Array<
     } & PbBlockDivider)
   | ({
       _key: string
+    } & PbBlockQuote)
+  | ({
+      _key: string
     } & PbBlockMarquee)
   | ({
       _key: string
@@ -446,7 +462,7 @@ export type PbBlockImage = {
     alt?: string
     _type: 'image'
   }
-  imageCrop?: 0 | 1 | 0.6666666667 | 1.5 | 1.7777777778 | 2.5
+  imageCrop?: 0 | 1 | 0.6666666667 | 0.8 | 1.5 | 1.7777777778 | 2.5
   imageWidth?: number
   caption?: string
   colorTone?: 'original' | 'green' | 'grayscale'
@@ -738,6 +754,7 @@ export type AllSanitySchemaTypes =
   | ScreenVisibility
   | VideoAspectRatio
   | FileLink
+  | QuoteCredit
   | PbBlockMarqueeSettings
   | BlockWidths
   | SanityFileAssetReference
@@ -763,6 +780,7 @@ export type AllSanitySchemaTypes =
   | PbBlockVideoEmbed
   | PbBlockText
   | PbBlockRichText
+  | PbBlockQuote
   | PbBlockMarquee
   | PbBlockDivider
   | PbBlockCopyToClipboard
@@ -903,7 +921,7 @@ export type HomePageQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -917,7 +935,7 @@ export type HomePageQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -942,6 +960,14 @@ export type HomePageQueryResult = {
                       _key: string
                     }
                 >
+              }
+            | {
+                _key: string
+                _type: 'pbBlockQuote'
+                quoteText?: string
+                quoteCredit?: QuoteCredit
+                textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+                showQuoteMarks?: boolean
               }
             | {
                 _key: string
@@ -1083,7 +1109,7 @@ export type HomePageQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1097,7 +1123,7 @@ export type HomePageQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1122,6 +1148,14 @@ export type HomePageQueryResult = {
                       _key: string
                     }
                 >
+              }
+            | {
+                _key: string
+                _type: 'pbBlockQuote'
+                quoteText?: string
+                quoteCredit?: QuoteCredit
+                textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+                showQuoteMarks?: boolean
               }
             | {
                 _key: string
@@ -1271,7 +1305,7 @@ export type HomePageQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1285,7 +1319,7 @@ export type HomePageQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1310,6 +1344,14 @@ export type HomePageQueryResult = {
                       _key: string
                     }
                 >
+              }
+            | {
+                _key: string
+                _type: 'pbBlockQuote'
+                quoteText?: string
+                quoteCredit?: QuoteCredit
+                textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+                showQuoteMarks?: boolean
               }
             | {
                 _key: string
@@ -1457,7 +1499,7 @@ export type HomePageQueryResult = {
                 alt?: string
                 _type: 'image'
               }
-              imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+              imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
               imageWidth?: number
               caption?: string
               colorTone?: 'grayscale' | 'green' | 'original'
@@ -1471,7 +1513,7 @@ export type HomePageQueryResult = {
               elements?: Array<
                 | {
                     image?: ImageElementImage
-                    imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                    imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                     roundedCorners?: boolean
                     invertColor?: boolean
                     blendModeLighten?: boolean
@@ -1496,6 +1538,14 @@ export type HomePageQueryResult = {
                     _key: string
                   }
               >
+            }
+          | {
+              _key: string
+              _type: 'pbBlockQuote'
+              quoteText?: string
+              quoteCredit?: QuoteCredit
+              textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+              showQuoteMarks?: boolean
             }
           | {
               _key: string
@@ -1677,7 +1727,7 @@ export type PagesBySlugQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1691,7 +1741,7 @@ export type PagesBySlugQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1716,6 +1766,14 @@ export type PagesBySlugQueryResult = {
                       _key: string
                     }
                 >
+              }
+            | {
+                _key: string
+                _type: 'pbBlockQuote'
+                quoteText?: string
+                quoteCredit?: QuoteCredit
+                textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+                showQuoteMarks?: boolean
               }
             | {
                 _key: string
@@ -1857,7 +1915,7 @@ export type PagesBySlugQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1871,7 +1929,7 @@ export type PagesBySlugQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1896,6 +1954,14 @@ export type PagesBySlugQueryResult = {
                       _key: string
                     }
                 >
+              }
+            | {
+                _key: string
+                _type: 'pbBlockQuote'
+                quoteText?: string
+                quoteCredit?: QuoteCredit
+                textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+                showQuoteMarks?: boolean
               }
             | {
                 _key: string
@@ -2045,7 +2111,7 @@ export type PagesBySlugQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -2059,7 +2125,7 @@ export type PagesBySlugQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -2084,6 +2150,14 @@ export type PagesBySlugQueryResult = {
                       _key: string
                     }
                 >
+              }
+            | {
+                _key: string
+                _type: 'pbBlockQuote'
+                quoteText?: string
+                quoteCredit?: QuoteCredit
+                textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+                showQuoteMarks?: boolean
               }
             | {
                 _key: string
@@ -2231,7 +2305,7 @@ export type PagesBySlugQueryResult = {
                 alt?: string
                 _type: 'image'
               }
-              imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+              imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
               imageWidth?: number
               caption?: string
               colorTone?: 'grayscale' | 'green' | 'original'
@@ -2245,7 +2319,7 @@ export type PagesBySlugQueryResult = {
               elements?: Array<
                 | {
                     image?: ImageElementImage
-                    imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                    imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                     roundedCorners?: boolean
                     invertColor?: boolean
                     blendModeLighten?: boolean
@@ -2270,6 +2344,14 @@ export type PagesBySlugQueryResult = {
                     _key: string
                   }
               >
+            }
+          | {
+              _key: string
+              _type: 'pbBlockQuote'
+              quoteText?: string
+              quoteCredit?: QuoteCredit
+              textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+              showQuoteMarks?: boolean
             }
           | {
               _key: string

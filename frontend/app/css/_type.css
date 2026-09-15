@@ -12,23 +12,27 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
 
 /* Headings */
 .ts-h1 {
-  @apply font-display uppercase leading-90 ts-size-42/24 lg:ts-size-104/36;
+  @apply font-display uppercase leading-90 ts-size-42/24 md:ts-size-104/36 relative left-outdent;
 }
 
 .ts-h2 {
-  @apply font-display uppercase leading-none ts-size-28/24 lg:ts-size-56/36;
+  @apply font-display uppercase leading-none ts-size-28/24 md:ts-size-56/36;
 }
 
 .ts-h2-serif {
-  @apply font-serif leading-120 -tracking-2 ts-size-28/24 lg:ts-size-56/36;
+  @apply font-serif leading-120 -tracking-2 ts-size-28/24 md:ts-size-56/36;
 }
 
 .ts-h3 {
-  @apply font-serif leading-120 -tracking-1 ts-size-24/24 lg:ts-size-43/36;
+  @apply font-serif leading-120 -tracking-2 ts-size-24/24 md:ts-size-43/36;
 }
 
 .ts-h4 {
-  @apply font-serif leading-120 ts-size-22/24 lg:ts-size-32/36;
+  @apply font-serif leading-120 -tracking-2 ts-size-22/24 md:ts-size-32/36;
+}
+
+.ts-quote {
+  @apply font-serif leading-120 -tracking-2 text-22 @xs:text-24 @sm:text-26 @lg:text-32 @4xl:text-43 @7xl:text-56 @9xl:text-75 @10xl:text-85;
 }
 
 /* Labels */
@@ -37,7 +41,7 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
 }
 
 .ts-h6 {
-  @apply uppercase leading-none tracking-5 font-bold ts-size-9/24 lg:ts-size-12/36;
+  @apply uppercase leading-none tracking-2 font-bold ts-size-9/24 lg:ts-size-12/36 2xl:text-12;
 }
 
 /* Paragraphs */
@@ -55,7 +59,7 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
 }
 
 .ts-p-xs {
-  @apply leading-145 ts-size-11/24 lg:ts-size-12/36;
+  @apply leading-145 ts-size-11/24 lg:ts-size-12/36 2xl:text-12;
 }
 
 /* Misc */

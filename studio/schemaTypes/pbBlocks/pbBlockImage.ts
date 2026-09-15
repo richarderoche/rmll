@@ -6,6 +6,7 @@ export const crops = [
   {title: 'Original', value: 0},
   {title: '1:1 (square)', value: 1},
   {title: '4:6', value: 0.6666666667},
+  {title: '4:5', value: 0.8},
   {title: '6:4', value: 1.5},
   {title: '16:9', value: 1.7777777778},
   {title: '5:2', value: 2.5},
@@ -14,6 +15,7 @@ export const crops = [
 export const hotspotPreviews = [
   {title: '1:1', aspectRatio: 1},
   {title: '4:6', aspectRatio: 0.6666666667},
+  {title: '4:5', aspectRatio: 0.8},
   {title: '6:4', aspectRatio: 1.5},
   {title: '16:9', aspectRatio: 1.7777777778},
   {title: '5:2', aspectRatio: 2.5},

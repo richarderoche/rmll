@@ -22,6 +22,10 @@
   /* --breakpoint-5xl: 140rem; 2240px */
   /* --breakpoint-6xl: 160rem; 2560px */
 
+  --container-8xl: 90rem; /* 1440px */
+  --container-9xl: 100rem; /* 1600px */
+  --container-10xl: 120rem; /* 1920px */
+
   --ease-*: initial;
   --ease-in-quad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
   --ease-in-cubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
@@ -69,7 +73,7 @@
   --spacing-section: calc(var(--gut) * 4);
   --spacing-button-x: 0.9em;
   --spacing-button-y: 0.7em;
-  --spacing-outdent: -0.065em;
+  --spacing-outdent: -0.03125em;
   --spacing-max-ch: 55ch;
   --spacing-header: calc(var(--gut) * 2);
 

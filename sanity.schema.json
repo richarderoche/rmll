@@ -458,6 +458,29 @@
   },
   {
     "type": "type",
+    "name": "quoteCredit",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "name": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "subtitle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "type": "type",
     "name": "pbBlockMarquee.settings",
     "value": {
       "type": "object",
@@ -2724,6 +2747,69 @@
     }
   },
   {
+    "name": "pbBlockQuote",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "pbBlockQuote"
+          }
+        },
+        "quoteText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "quoteCredit": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "quoteCredit"
+          },
+          "optional": true
+        },
+        "textStyle": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "ts-quote"
+              },
+              {
+                "type": "string",
+                "value": "ts-h2-serif"
+              },
+              {
+                "type": "string",
+                "value": "ts-h3"
+              },
+              {
+                "type": "string",
+                "value": "ts-h4"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "showQuoteMarks": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "pbBlockMarquee",
     "type": "type",
     "value": {
@@ -2861,6 +2947,10 @@
                           {
                             "type": "number",
                             "value": 0.6666666667
+                          },
+                          {
+                            "type": "number",
+                            "value": 0.8
                           },
                           {
                             "type": "number",
@@ -3187,6 +3277,21 @@
             },
             "rest": {
               "type": "inline",
+              "name": "pbBlockQuote"
+            }
+          },
+          {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
               "name": "pbBlockMarquee"
             }
           },
@@ -3345,6 +3450,10 @@
               {
                 "type": "number",
                 "value": 0.6666666667
+              },
+              {
+                "type": "number",
+                "value": 0.8
               },
               {
                 "type": "number",

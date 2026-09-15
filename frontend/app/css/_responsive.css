@@ -26,7 +26,7 @@ If these change, make sure to update the respective values in the type styles.
 /* 768px */
 @media (min-width: 48rem) {
   :root {
-    --gut: 2.25rem; /* 36px */
+    --gut: 1.625rem; /* 26px */
   }
 }
 /* 1024px */
