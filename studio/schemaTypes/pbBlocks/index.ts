@@ -6,12 +6,13 @@ export default defineType({
   type: 'array',
   of: [
     {title: 'Text', type: 'pbBlockText'},
-    {title: 'Rich Text', type: 'pbBlockRichText'},
     {title: 'Image', type: 'pbBlockImage'},
     {title: 'Video Embed', type: 'pbBlockVideoEmbed'},
     {title: 'Buttons', type: 'pbBlockButtons'},
     {title: 'Divider/Spacer', type: 'pbBlockDivider'},
     {title: 'Scrolling Marquee', type: 'pbBlockMarquee'},
+    {title: 'Rich Text', type: 'pbBlockRichText'},
+    {title: 'Copy to Clipboard', type: 'pbBlockCopyToClipboard'},
   ],
   options: {
     insertMenu: {
@@ -21,17 +22,17 @@ export default defineType({
           title: 'Essential',
           of: [
             'pbBlockText',
-            'pbBlockRichText',
             'pbBlockImage',
-            'pbBlockVideoEmbed',
             'pbBlockButton',
             'pbBlockDivider',
+            'pbBlockVideoEmbed',
+            'pbBlockRichText',
           ],
         },
         {
           name: 'specialty',
           title: 'Specialty',
-          of: ['pbBlockMarquee'],
+          of: ['pbBlockMarquee', 'pbBlockCopyToClipboard'],
         },
       ],
     },

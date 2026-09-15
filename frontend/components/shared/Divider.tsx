@@ -1,40 +1,28 @@
 import {cn} from '@/lib/utils'
 
 export interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
-  showOnMobile?: boolean
-  showOnTablet?: boolean
-  showOnDesktop?: boolean
   showDividerLine?: boolean
   size?: number
+  sizeBelow?: number
 }
 
 export default function Divider({
-  showOnMobile = true,
-  showOnTablet = true,
-  showOnDesktop = true,
   showDividerLine = true,
-  size = 1,
+  size = 0,
+  sizeBelow = 0,
   className,
   ...props
 }: DividerProps) {
   return (
     <div
+      style={{
+        marginTop: `calc(var(--spacing-gut-50) * ${size})`,
+        marginBottom: showDividerLine ? `calc(var(--spacing-gut-50) * ${sizeBelow})` : '0',
+      }}
       className={cn(
-        'h-2 w-full hidden',
+        'h-2 w-full',
         !showDividerLine && 'opacity-0',
-        showOnMobile ? 'max-md:block' : '',
-        showOnTablet ? 'md:max-lg:block' : '',
-        showOnDesktop ? 'lg:block' : '',
         className ? className : 'border-b-2 border-divider border-dotted',
-        size === 2
-          ? 'my-gut-50'
-          : size === 3
-            ? 'my-gut'
-            : size === 4
-              ? 'my-gut-150'
-              : size === 5
-                ? 'my-gut-200'
-                : '',
       )}
       {...props}
     />

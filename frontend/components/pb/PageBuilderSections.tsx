@@ -89,8 +89,10 @@ export default function PageBuilderSections({
           >
             <div
               style={{
-                paddingTop: marginTop ? `calc(var(--gut) * ${marginTop})` : undefined,
-                paddingBottom: marginBottom ? `calc(var(--gut) * ${marginBottom})` : undefined,
+                paddingTop: marginTop ? `calc(var(--spacing-gut-50) * ${marginTop})` : undefined,
+                paddingBottom: marginBottom
+                  ? `calc(var(--spacing-gut-50) * ${marginBottom})`
+                  : undefined,
               }}
             >
               <SanityVisualEditingPath path={[...sectionPath]}>

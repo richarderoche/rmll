@@ -67,6 +67,8 @@
   --spacing-gut-900: calc(var(--gut) * 9);
   --spacing-gut-1000: calc(var(--gut) * 10);
   --spacing-section: calc(var(--gut) * 4);
+  --spacing-button-x: 0.9em;
+  --spacing-button-y: 0.7em;
   --spacing-outdent: -0.065em;
   --spacing-max-ch: 55ch;
   --spacing-header: calc(var(--gut) * 2);

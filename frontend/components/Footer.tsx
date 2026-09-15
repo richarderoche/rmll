@@ -130,7 +130,7 @@ export default function Footer({settings}: FooterProps) {
                     )}
                   </div>
                   <Button
-                    text={footerPopup?.title || 'Popup'}
+                    text={footerPopup?.title || 'More Info'}
                     onClick={() => setShowPopup(!showPopup)}
                     width="full"
                   />

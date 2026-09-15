@@ -4,29 +4,38 @@ import {cn} from '@/lib/utils'
 import type {PbBlockImage} from '@/sanity.types'
 import type {Image as SanityImageType} from 'sanity'
 import ImageBasic from '../shared/ImageBasic'
-import {SITE_MAX_WIDTH} from '../shared/SiteWidth'
+import ToneOverlays from '../shared/ToneOverlays'
 
 export default function BlockImage({block, trueSizes}: {block: PbBlockImage; trueSizes: string}) {
+  const {image, imageWidth, imageCrop, priority, caption, colorTone, screenVisibility} = block
+  const {showOnMobile, showOnTablet, showOnDesktop} = screenVisibility || {}
+  // For forcing lazy if not visible on all screens
+  const visibleOnAllScreens =
+    (showOnMobile ?? true) && (showOnTablet ?? true) && (showOnDesktop ?? true)
+
   return (
     <>
       <div
-        className={cn('relative group', !block.disableCorners ? 'corner' : '')}
+        className="relative group"
         style={{
-          width: block.imageWidth ? block.imageWidth + '%' : 'auto',
+          width: imageWidth ? imageWidth + '%' : 'auto',
         }}
       >
         <ImageBasic
-          image={block.image as SanityImageType}
-          alt={block.image?.alt || ''}
+          image={image as SanityImageType}
+          alt={image?.alt || ''}
           sizes={trueSizes}
-          ratio={block.imageCrop || 0}
-          priority={block.priority ?? false}
-          maxDimension={SITE_MAX_WIDTH / 2}
+          ratio={imageCrop || 0}
+          priority={visibleOnAllScreens ? (priority ?? false) : false}
+          maxDimension={1000}
+          className={cn(
+            colorTone === 'green' ? 'brightness-110 contrast-110' : '',
+            colorTone === 'grayscale' ? 'contrast-110' : '',
+          )}
         />
+        <ToneOverlays colorTone={block.colorTone} />
       </div>
-      {block.caption && (
-        <div className="ts-p-sm text-pretty text-body-subtle mt-gut-50">{block.caption}</div>
-      )}
+      {caption && <div className="ts-p-sm text-pretty text-body-subtle mt-gut-50">{caption}</div>}
     </>
   )
 }

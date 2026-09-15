@@ -56,11 +56,7 @@ export default function SectionGridDouble({
     <SiteWidth>
       <SiteGrid>
         <div className={outerClasses}>
-          <SiteGrid
-            yGaps={true}
-            looseColSpacing={rowWidth && rowWidth > 8 ? true : false}
-            yAlignment={yAlignment}
-          >
+          <SiteGrid yGaps={true} yAlignment={yAlignment}>
             {columnOne && columnOneBlocks.length > 0 && (
               <SanityVisualEditingPath path={[...sectionPath, 'columnOne']}>
                 <GridCol

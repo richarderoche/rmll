@@ -1,22 +1,22 @@
-import { Image as ImageIcon } from 'lucide-react'
-import { defineField, defineType } from 'sanity'
-import { imgAltField } from '../fields'
+import {Image as ImageIcon} from 'lucide-react'
+import {defineField, defineType} from 'sanity'
+import {imgAltField} from '../fields'
 
 export const crops = [
-  { title: 'Original', value: 0 },
-  { title: '1:1 (square)', value: 1 },
-  { title: '4:6', value: 0.6666666667 },
-  { title: '6:4', value: 1.5 },
-  { title: '16:9', value: 1.7777777778 },
-  { title: '5:2', value: 2.5 },
+  {title: 'Original', value: 0},
+  {title: '1:1 (square)', value: 1},
+  {title: '4:6', value: 0.6666666667},
+  {title: '6:4', value: 1.5},
+  {title: '16:9', value: 1.7777777778},
+  {title: '5:2', value: 2.5},
 ]
 
 export const hotspotPreviews = [
-  { title: '1:1', aspectRatio: 1 },
-  { title: '4:6', aspectRatio: 0.6666666667 },
-  { title: '6:4', aspectRatio: 1.5 },
-  { title: '16:9', aspectRatio: 1.7777777778 },
-  { title: '5:2', aspectRatio: 2.5 },
+  {title: '1:1', aspectRatio: 1},
+  {title: '4:6', aspectRatio: 0.6666666667},
+  {title: '6:4', aspectRatio: 1.5},
+  {title: '16:9', aspectRatio: 1.7777777778},
+  {title: '5:2', aspectRatio: 2.5},
 ]
 
 export default defineType({
@@ -34,9 +34,7 @@ export default defineType({
           previews: hotspotPreviews,
         },
       },
-      fields: [
-        defineField(imgAltField),
-      ],
+      fields: [defineField(imgAltField)],
     }),
     defineField({
       name: 'imageCrop',
@@ -50,13 +48,11 @@ export default defineType({
     defineField({
       name: 'imageWidth',
       title: 'Image Width (in % of column)',
-      description:
-        'Change sparingly - this can make responsive layouts harder to manage.',
+      description: 'Change sparingly - this can make responsive layouts harder to manage.',
       type: 'number',
       initialValue: 100,
       validation: (Rule) => Rule.max(100),
     }),
-    
     defineField({
       name: 'caption',
       title: 'Caption (optional supporting text for all users)',
@@ -65,20 +61,51 @@ export default defineType({
       rows: 2,
     }),
     defineField({
+      name: 'colorTone',
+      title: 'Color Tone',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Original', value: 'original'},
+          {title: 'Green', value: 'green'},
+          {title: 'Grayscale', value: 'grayscale'},
+        ],
+      },
+      initialValue: 'original',
+    }),
+    defineField({
       name: 'priority',
       title: 'High Priority Loading',
       type: 'boolean',
-      description:
-        'Enable for images above the fold to improve loading performance',
+      description: 'Enable for images above the fold to improve loading performance',
       initialValue: false,
     }),
     defineField({
-      name: 'disableCorners',
-      title: 'Disable Rounded Corners?',
+      name: 'screenVisibility',
+      title: 'Screen Visibility',
       description:
-        'Disable if corner rounding causes issues (e.g. logos, icons, infographics).',
-      type: 'boolean',
-      initialValue: false,
+        'Change rarely. Usually only when you need drastically different ratios for different screens.',
+      type: 'object',
+      fields: [
+        defineField({
+          title: 'Mobile Visibility',
+          name: 'showOnMobile',
+          type: 'boolean',
+          initialValue: true,
+        }),
+        defineField({
+          title: 'Tablet Visibility',
+          name: 'showOnTablet',
+          type: 'boolean',
+          initialValue: true,
+        }),
+        defineField({
+          title: 'Desktop Visibility',
+          name: 'showOnDesktop',
+          type: 'boolean',
+          initialValue: true,
+        }),
+      ],
     }),
   ],
   preview: {
@@ -87,23 +114,20 @@ export default defineType({
       alt: 'image.alt',
       imageCrop: 'imageCrop',
       priority: 'priority',
-      disableCorners: 'disableCorners',
+      colorTone: 'colorTone',
     },
-    prepare({ image, alt, imageCrop, priority, disableCorners }) {
+    prepare({image, alt, imageCrop, priority, colorTone}) {
       const maxLen = 40
-      const truncate = (str: string) =>
-        str.length > maxLen ? str.slice(0, maxLen - 1) + '…' : str
+      const truncate = (str: string) => (str.length > maxLen ? str.slice(0, maxLen - 1) + '…' : str)
       const altText = alt ? `${truncate(alt)}` : '(no alt text)'
       const priorityText = priority ? 'Priority: Priority' : 'Priority: Lazy'
       const imageCropText = imageCrop
         ? `Crop: ${crops.find((crop) => crop.value === imageCrop)?.title}`
         : 'Crop: Original'
-      const disableCornersText = disableCorners
-        ? 'Corners: Normal'
-        : 'Corners: Rounded'
+      const colorToneText = colorTone ? `Tone: ${colorTone}` : 'Tone: Original'
       return {
         title: 'Image: ' + altText,
-        subtitle: [imageCropText, priorityText, disableCornersText].join(' / '),
+        subtitle: [imageCropText, priorityText, colorToneText].join(' / '),
         media: image ? image : ImageIcon,
       }
     },

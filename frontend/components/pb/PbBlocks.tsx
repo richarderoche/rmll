@@ -1,11 +1,14 @@
 'use client'
 
+import {screenVisibilityClassName} from '@/lib/screenVisibility'
 import {cn} from '@/lib/utils'
+import type {PbBlockDivider, PbBlockImage} from '@/sanity.types'
 import {PbBlocksQueryResult} from '@/types'
 import dynamic from 'next/dynamic'
 import {Fragment, Suspense, type ComponentType} from 'react'
 // import static components for common or lightweight components
 import BlockButtons from './BlockButtons'
+import BlockCopyToClipboard from './BlockCopyToClipboard'
 import BlockDivider from './BlockDivider'
 import BlockImage from './BlockImage'
 import BlockText from './BlockText'
@@ -43,7 +46,8 @@ const blockRegistry: Record<string, BlockRegistryEntry> = {
     dynamic: true,
   },
   pbBlockButtons: {Component: asType(BlockButtons)},
-  pbBlockDivider: {Component: asType(BlockDivider), wrap: false},
+  pbBlockCopyToClipboard: {Component: asType(BlockCopyToClipboard)},
+  pbBlockDivider: {Component: asType(BlockDivider)},
   pbBlockMarquee: {Component: asType(BlockMarquee), dynamic: true},
 }
 
@@ -52,6 +56,29 @@ type BlockRenderProps = {
   dataSanity: string | undefined
   block: PbBlocksQueryResult[number]
   trueSizes: string
+}
+
+function blockWrapClassName(block: PbBlocksQueryResult[number], wrapClassName?: string) {
+  let visibility: string | undefined
+
+  if (block._type === 'pbBlockDivider') {
+    const {showOnMobile, showOnTablet, showOnDesktop} = block as PbBlockDivider
+    visibility = screenVisibilityClassName(
+      showOnMobile ?? true,
+      showOnTablet ?? true,
+      showOnDesktop ?? true,
+    )
+  } else if (block._type === 'pbBlockImage') {
+    const {screenVisibility} = block as PbBlockImage
+    const {showOnMobile, showOnTablet, showOnDesktop} = screenVisibility || {}
+    visibility = screenVisibilityClassName(
+      showOnMobile ?? true,
+      showOnTablet ?? true,
+      showOnDesktop ?? true,
+    )
+  }
+
+  return cn(visibility, wrapClassName)
 }
 
 function renderBlock(entry: BlockRegistryEntry, props: BlockRenderProps) {
@@ -70,7 +97,7 @@ function renderBlock(entry: BlockRegistryEntry, props: BlockRenderProps) {
     wrap === false ? (
       component
     ) : (
-      <div data-sanity={dataSanity} className={wrapClassName}>
+      <div data-sanity={dataSanity} className={blockWrapClassName(block, wrapClassName)}>
         {component}
       </div>
     )

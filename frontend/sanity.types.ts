@@ -27,6 +27,12 @@ export type Start = {
   desktop: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 }
 
+export type ScreenVisibility = {
+  showOnMobile?: boolean
+  showOnTablet?: boolean
+  showOnDesktop?: boolean
+}
+
 export type VideoAspectRatio = {
   width: number
   height: number
@@ -69,12 +75,6 @@ export type YAlignment = {
   desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
 }
 
-export type MarkDefsFileLinkFile = {
-  asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "file.media" in schema
-  _type: 'file'
-}
-
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
@@ -89,6 +89,12 @@ export type ImageElementImage = {
   crop?: SanityImageCrop
   alt?: string
   _type: 'image'
+}
+
+export type MarkDefsFileLinkFile = {
+  asset?: SanityFileAssetReference
+  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  _type: 'file'
 }
 
 export type SocialLink = {
@@ -247,8 +253,8 @@ export type PbSectionSettings = {
   _type: 'pbSectionSettings'
   enableSection?: boolean
   sectionId?: string
-  marginTop?: 1 | 2 | 3 | 4 | 5
-  marginBottom?: 1 | 2 | 3 | 4 | 5
+  marginTop?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  marginBottom?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
 }
 
 export type PbSections = Array<
@@ -381,20 +387,23 @@ export type PbBlockMarquee = {
 
 export type PbBlockDivider = {
   _type: 'pbBlockDivider'
+  showDividerLine?: boolean
+  size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+  sizeBelow?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
   showOnMobile?: boolean
   showOnTablet?: boolean
   showOnDesktop?: boolean
-  showDividerLine?: boolean
-  size?: 1 | 2 | 3 | 4 | 5
+}
+
+export type PbBlockCopyToClipboard = {
+  _type: 'pbBlockCopyToClipboard'
+  textToCopy?: string
 }
 
 export type PbBlocks = Array<
   | ({
       _key: string
     } & PbBlockText)
-  | ({
-      _key: string
-    } & PbBlockRichText)
   | ({
       _key: string
     } & PbBlockImage)
@@ -410,6 +419,12 @@ export type PbBlocks = Array<
   | ({
       _key: string
     } & PbBlockMarquee)
+  | ({
+      _key: string
+    } & PbBlockRichText)
+  | ({
+      _key: string
+    } & PbBlockCopyToClipboard)
 >
 
 export type PbBlockButtons = {
@@ -434,8 +449,9 @@ export type PbBlockImage = {
   imageCrop?: 0 | 1 | 0.6666666667 | 1.5 | 1.7777777778 | 2.5
   imageWidth?: number
   caption?: string
+  colorTone?: 'original' | 'green' | 'grayscale'
   priority?: boolean
-  disableCorners?: boolean
+  screenVisibility?: ScreenVisibility
 }
 
 export type HomeReference = {
@@ -719,6 +735,7 @@ export type Geopoint = {
 export type AllSanitySchemaTypes =
   | Size
   | Start
+  | ScreenVisibility
   | VideoAspectRatio
   | FileLink
   | PbBlockMarqueeSettings
@@ -726,9 +743,9 @@ export type AllSanitySchemaTypes =
   | SanityFileAssetReference
   | FileLinkFile
   | YAlignment
-  | MarkDefsFileLinkFile
   | SanityImageAssetReference
   | ImageElementImage
+  | MarkDefsFileLinkFile
   | SocialLink
   | Seo
   | PageReference
@@ -748,6 +765,7 @@ export type AllSanitySchemaTypes =
   | PbBlockRichText
   | PbBlockMarquee
   | PbBlockDivider
+  | PbBlockCopyToClipboard
   | PbBlocks
   | PbBlockButtons
   | PbBlockImage
@@ -861,12 +879,18 @@ export type HomePageQueryResult = {
               }
             | {
                 _key: string
+                _type: 'pbBlockCopyToClipboard'
+                textToCopy?: string
+              }
+            | {
+                _key: string
                 _type: 'pbBlockDivider'
+                showDividerLine?: boolean
+                size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+                sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
                 showOnMobile?: boolean
                 showOnTablet?: boolean
                 showOnDesktop?: boolean
-                showDividerLine?: boolean
-                size?: 1 | 2 | 3 | 4 | 5
               }
             | {
                 _key: string
@@ -882,8 +906,9 @@ export type HomePageQueryResult = {
                 imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
+                colorTone?: 'grayscale' | 'green' | 'original'
                 priority?: boolean
-                disableCorners?: boolean
+                screenVisibility?: ScreenVisibility
               }
             | {
                 _key: string
@@ -1034,12 +1059,18 @@ export type HomePageQueryResult = {
               }
             | {
                 _key: string
+                _type: 'pbBlockCopyToClipboard'
+                textToCopy?: string
+              }
+            | {
+                _key: string
                 _type: 'pbBlockDivider'
+                showDividerLine?: boolean
+                size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+                sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
                 showOnMobile?: boolean
                 showOnTablet?: boolean
                 showOnDesktop?: boolean
-                showDividerLine?: boolean
-                size?: 1 | 2 | 3 | 4 | 5
               }
             | {
                 _key: string
@@ -1055,8 +1086,9 @@ export type HomePageQueryResult = {
                 imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
+                colorTone?: 'grayscale' | 'green' | 'original'
                 priority?: boolean
-                disableCorners?: boolean
+                screenVisibility?: ScreenVisibility
               }
             | {
                 _key: string
@@ -1215,12 +1247,18 @@ export type HomePageQueryResult = {
               }
             | {
                 _key: string
+                _type: 'pbBlockCopyToClipboard'
+                textToCopy?: string
+              }
+            | {
+                _key: string
                 _type: 'pbBlockDivider'
+                showDividerLine?: boolean
+                size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+                sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
                 showOnMobile?: boolean
                 showOnTablet?: boolean
                 showOnDesktop?: boolean
-                showDividerLine?: boolean
-                size?: 1 | 2 | 3 | 4 | 5
               }
             | {
                 _key: string
@@ -1236,8 +1274,9 @@ export type HomePageQueryResult = {
                 imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
+                colorTone?: 'grayscale' | 'green' | 'original'
                 priority?: boolean
-                disableCorners?: boolean
+                screenVisibility?: ScreenVisibility
               }
             | {
                 _key: string
@@ -1394,12 +1433,18 @@ export type HomePageQueryResult = {
             }
           | {
               _key: string
+              _type: 'pbBlockCopyToClipboard'
+              textToCopy?: string
+            }
+          | {
+              _key: string
               _type: 'pbBlockDivider'
+              showDividerLine?: boolean
+              size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+              sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
               showOnMobile?: boolean
               showOnTablet?: boolean
               showOnDesktop?: boolean
-              showDividerLine?: boolean
-              size?: 1 | 2 | 3 | 4 | 5
             }
           | {
               _key: string
@@ -1415,8 +1460,9 @@ export type HomePageQueryResult = {
               imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
               imageWidth?: number
               caption?: string
+              colorTone?: 'grayscale' | 'green' | 'original'
               priority?: boolean
-              disableCorners?: boolean
+              screenVisibility?: ScreenVisibility
             }
           | {
               _key: string
@@ -1607,12 +1653,18 @@ export type PagesBySlugQueryResult = {
               }
             | {
                 _key: string
+                _type: 'pbBlockCopyToClipboard'
+                textToCopy?: string
+              }
+            | {
+                _key: string
                 _type: 'pbBlockDivider'
+                showDividerLine?: boolean
+                size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+                sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
                 showOnMobile?: boolean
                 showOnTablet?: boolean
                 showOnDesktop?: boolean
-                showDividerLine?: boolean
-                size?: 1 | 2 | 3 | 4 | 5
               }
             | {
                 _key: string
@@ -1628,8 +1680,9 @@ export type PagesBySlugQueryResult = {
                 imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
+                colorTone?: 'grayscale' | 'green' | 'original'
                 priority?: boolean
-                disableCorners?: boolean
+                screenVisibility?: ScreenVisibility
               }
             | {
                 _key: string
@@ -1780,12 +1833,18 @@ export type PagesBySlugQueryResult = {
               }
             | {
                 _key: string
+                _type: 'pbBlockCopyToClipboard'
+                textToCopy?: string
+              }
+            | {
+                _key: string
                 _type: 'pbBlockDivider'
+                showDividerLine?: boolean
+                size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+                sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
                 showOnMobile?: boolean
                 showOnTablet?: boolean
                 showOnDesktop?: boolean
-                showDividerLine?: boolean
-                size?: 1 | 2 | 3 | 4 | 5
               }
             | {
                 _key: string
@@ -1801,8 +1860,9 @@ export type PagesBySlugQueryResult = {
                 imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
+                colorTone?: 'grayscale' | 'green' | 'original'
                 priority?: boolean
-                disableCorners?: boolean
+                screenVisibility?: ScreenVisibility
               }
             | {
                 _key: string
@@ -1961,12 +2021,18 @@ export type PagesBySlugQueryResult = {
               }
             | {
                 _key: string
+                _type: 'pbBlockCopyToClipboard'
+                textToCopy?: string
+              }
+            | {
+                _key: string
                 _type: 'pbBlockDivider'
+                showDividerLine?: boolean
+                size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+                sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
                 showOnMobile?: boolean
                 showOnTablet?: boolean
                 showOnDesktop?: boolean
-                showDividerLine?: boolean
-                size?: 1 | 2 | 3 | 4 | 5
               }
             | {
                 _key: string
@@ -1982,8 +2048,9 @@ export type PagesBySlugQueryResult = {
                 imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
+                colorTone?: 'grayscale' | 'green' | 'original'
                 priority?: boolean
-                disableCorners?: boolean
+                screenVisibility?: ScreenVisibility
               }
             | {
                 _key: string
@@ -2140,12 +2207,18 @@ export type PagesBySlugQueryResult = {
             }
           | {
               _key: string
+              _type: 'pbBlockCopyToClipboard'
+              textToCopy?: string
+            }
+          | {
+              _key: string
               _type: 'pbBlockDivider'
+              showDividerLine?: boolean
+              size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+              sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
               showOnMobile?: boolean
               showOnTablet?: boolean
               showOnDesktop?: boolean
-              showDividerLine?: boolean
-              size?: 1 | 2 | 3 | 4 | 5
             }
           | {
               _key: string
@@ -2161,8 +2234,9 @@ export type PagesBySlugQueryResult = {
               imageCrop?: 0.6666666667 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
               imageWidth?: number
               caption?: string
+              colorTone?: 'grayscale' | 'green' | 'original'
               priority?: boolean
-              disableCorners?: boolean
+              screenVisibility?: ScreenVisibility
             }
           | {
               _key: string

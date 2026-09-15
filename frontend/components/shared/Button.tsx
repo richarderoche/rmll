@@ -43,7 +43,8 @@ export default function Button(props: ButtonProps) {
   const isExternal = href?.startsWith('http')
 
   const buttonClasses = cn(
-    style !== 'underline' && 'border flex items-center',
+    'ts-h5',
+    style !== 'underline' && `border flex items-center py-button-y px-button-x`,
     style === 'fill' && 'bg-body border-body text-bg',
     style === 'outline' && 'bg-bg',
     style === 'underline' && 'ts-h5 inline-link',
@@ -73,9 +74,5 @@ export default function Button(props: ButtonProps) {
 }
 
 export function ButtonInner({text}: {text: string}) {
-  return (
-    <span className="leading-none whitespace-nowrap ts-h5 py-[.4em] px-[.8em] center-caps">
-      {text}
-    </span>
-  )
+  return <span className="leading-none whitespace-nowrap center-caps">{text}</span>
 }

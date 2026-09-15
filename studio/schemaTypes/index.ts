@@ -13,6 +13,7 @@ import seo from './objects/seo'
 import socialLink from './objects/socialLink'
 import pbBlocks from './pbBlocks'
 import pbBlockButtons from './pbBlocks/pbBlockButtons'
+import pbBlockCopyToClipboard from './pbBlocks/pbBlockCopyToClipboard'
 import pbBlockDivider from './pbBlocks/pbBlockDivider'
 import pbBlockImage from './pbBlocks/pbBlockImage'
 import pbBlockMarquee from './pbBlocks/pbBlockMarquee'
@@ -49,6 +50,7 @@ export const schemaTypes = [
   pbBlockImage,
   pbBlockButtons,
   pbBlocks,
+  pbBlockCopyToClipboard,
   pbBlockDivider,
   pbBlockMarquee,
   pbBlockRichText,
