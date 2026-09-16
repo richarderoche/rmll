@@ -47,6 +47,12 @@ export const getTypeTitles = (types: string[]) => {
         return 'Button'
       case 'pbBlockMarquee':
         return 'Marquee'
+      case 'pbBlockPress':
+        return 'Press Link'
+      case 'pbBlockCopyToClipboard':
+        return 'Copy to Clipboard'
+      case 'pbBlockQuote':
+        return 'Quote'
       default:
         return null
     }

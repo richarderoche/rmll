@@ -365,6 +365,29 @@ export type PbBlockQuote = {
   showQuoteMarks?: boolean
 }
 
+export type PbBlockPress = {
+  _type: 'pbBlockPress'
+  format?: 'thumbnail' | 'textOnly'
+  title?: string
+  source?: string
+  logo?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  }
+  url?: string
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+}
+
 export type PbBlockMarquee = {
   _type: 'pbBlockMarquee'
   settings?: PbBlockMarqueeSettings
@@ -432,6 +455,9 @@ export type PbBlocks = Array<
   | ({
       _key: string
     } & PbBlockQuote)
+  | ({
+      _key: string
+    } & PbBlockPress)
   | ({
       _key: string
     } & PbBlockMarquee)
@@ -781,6 +807,7 @@ export type AllSanitySchemaTypes =
   | PbBlockText
   | PbBlockRichText
   | PbBlockQuote
+  | PbBlockPress
   | PbBlockMarquee
   | PbBlockDivider
   | PbBlockCopyToClipboard

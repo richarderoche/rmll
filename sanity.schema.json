@@ -2810,6 +2810,161 @@
     }
   },
   {
+    "name": "pbBlockPress",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "pbBlockPress"
+          }
+        },
+        "format": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "thumbnail"
+              },
+              {
+                "type": "string",
+                "value": "textOnly"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "title": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "source": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "logo": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "asset": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageAsset.reference"
+                },
+                "optional": true
+              },
+              "media": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "unknown"
+                },
+                "optional": true
+              },
+              "hotspot": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageHotspot"
+                },
+                "optional": true
+              },
+              "crop": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageCrop"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "image"
+                }
+              }
+            }
+          },
+          "optional": true
+        },
+        "url": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "image": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "object",
+            "attributes": {
+              "asset": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageAsset.reference"
+                },
+                "optional": true
+              },
+              "media": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "unknown"
+                },
+                "optional": true
+              },
+              "hotspot": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageHotspot"
+                },
+                "optional": true
+              },
+              "crop": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "inline",
+                  "name": "sanity.imageCrop"
+                },
+                "optional": true
+              },
+              "alt": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                },
+                "optional": true
+              },
+              "_type": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string",
+                  "value": "image"
+                }
+              }
+            }
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
     "name": "pbBlockMarquee",
     "type": "type",
     "value": {
@@ -3278,6 +3433,21 @@
             "rest": {
               "type": "inline",
               "name": "pbBlockQuote"
+            }
+          },
+          {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "pbBlockPress"
             }
           },
           {

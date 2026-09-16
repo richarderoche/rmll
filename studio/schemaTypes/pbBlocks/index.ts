@@ -11,6 +11,7 @@ export default defineType({
     {title: 'Buttons', type: 'pbBlockButtons'},
     {title: 'Divider/Spacer', type: 'pbBlockDivider'},
     {title: 'Quote', type: 'pbBlockQuote'},
+    {title: 'Press Link', type: 'pbBlockPress'},
     {title: 'Scrolling Marquee', type: 'pbBlockMarquee'},
     {title: 'Rich Text', type: 'pbBlockRichText'},
     {title: 'Copy to Clipboard', type: 'pbBlockCopyToClipboard'},
@@ -34,7 +35,7 @@ export default defineType({
         {
           name: 'specialty',
           title: 'Specialty',
-          of: ['pbBlockMarquee', 'pbBlockCopyToClipboard'],
+          of: ['pbBlockPress', 'pbBlockMarquee', 'pbBlockCopyToClipboard'],
         },
       ],
     },

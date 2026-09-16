@@ -17,6 +17,7 @@ import pbBlockCopyToClipboard from './pbBlocks/pbBlockCopyToClipboard'
 import pbBlockDivider from './pbBlocks/pbBlockDivider'
 import pbBlockImage from './pbBlocks/pbBlockImage'
 import pbBlockMarquee from './pbBlocks/pbBlockMarquee'
+import pbBlockPress from './pbBlocks/pbBlockPress'
 import pbBlockQuote from './pbBlocks/pbBlockQuote'
 import pbBlockRichText from './pbBlocks/pbBlockRichText'
 import pbBlockText from './pbBlocks/pbBlockText'
@@ -54,6 +55,7 @@ export const schemaTypes = [
   pbBlockCopyToClipboard,
   pbBlockDivider,
   pbBlockMarquee,
+  pbBlockPress,
   pbBlockQuote,
   pbBlockRichText,
   pbBlockText,

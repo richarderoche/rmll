@@ -11,6 +11,7 @@ import BlockButtons from './BlockButtons'
 import BlockCopyToClipboard from './BlockCopyToClipboard'
 import BlockDivider from './BlockDivider'
 import BlockImage from './BlockImage'
+import BlockPress from './BlockPress'
 import BlockQuote from './BlockQuote'
 import BlockText from './BlockText'
 import {useSanityDataAttribute} from './SanityVisualEditingContext'
@@ -50,6 +51,7 @@ const blockRegistry: Record<string, BlockRegistryEntry> = {
   pbBlockCopyToClipboard: {Component: asType(BlockCopyToClipboard)},
   pbBlockDivider: {Component: asType(BlockDivider)},
   pbBlockMarquee: {Component: asType(BlockMarquee), dynamic: true},
+  pbBlockPress: {Component: asType(BlockPress)},
   pbBlockQuote: {Component: asType(BlockQuote)},
 }
 
