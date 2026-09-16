@@ -60,5 +60,12 @@ If these change, make sure to update the respective values in the type styles.
   }
 }
 
+/* 2240px */
+@media (min-width: 140rem) {
+  :root {
+    --gut: 3.5rem; /* 56px */
+  }
+}
+
 /* Custom Media Queries */
 @custom-variant widescreen (@media (min-aspect-ratio: 16/10));
