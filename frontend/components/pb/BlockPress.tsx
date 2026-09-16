@@ -18,10 +18,11 @@ export default function BlockPress({block, trueSizes}: {block: PbBlockPress; tru
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="@container flex flex-col gap-gut-25 p-gut-33 hover:bg-bg-subtle transition-colors corner group"
+        className="@container flex flex-col gap-gut-25 p-gut-33 group relative z-1"
       >
+        <div className="absolute inset-0 bg-bg-subtle opacity-0 scale-x-95 group-hover:opacity-100 group-hover:scale-100 transition-all ease-gleasing duration-400 corner -z-1 pointer-events-none"></div>
         {source && (
-          <div className="ts-h6 text-sage-800 group-hover:text-body transition-colors">
+          <div className="ts-h6 text-sage-800 group-hover:text-body transition-colors ease-gleasing duration-400">
             {source}
           </div>
         )}
