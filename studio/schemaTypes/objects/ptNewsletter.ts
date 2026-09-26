@@ -1,16 +1,17 @@
 import DocumentPdfIcon from '@sanity/icons/DocumentPdf'
 import DocumentSheetIcon from '@sanity/icons/DocumentSheet'
 import {defineField, defineType} from 'sanity'
-
-import {ptStyles} from './ptBlockStyles'
-
-export {ptStyles}
+import {ptStyles} from './ptBasic'
 
 export default defineType({
-  name: 'ptBasic',
+  name: 'ptNewsletter',
   title: 'RTE',
   type: 'array',
   of: [
+    {
+      type: 'pbBlockImage',
+    },
+    {type: 'ptDivider'},
     {
       type: 'block',
       marks: {

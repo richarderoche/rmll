@@ -8,6 +8,8 @@ import navLinks from './objects/navLinks'
 import navPage from './objects/navPage'
 import ptBasic from './objects/ptBasic'
 import ptBody from './objects/ptBody'
+import ptDivider from './objects/ptDivider'
+import ptNewsletter from './objects/ptNewsletter'
 import ptSingle from './objects/ptSingle'
 import ptSlim from './objects/ptSlim'
 import seo from './objects/seo'
@@ -71,6 +73,8 @@ export const schemaTypes = [
   pbTitleSection,
   ptBasic,
   ptBody,
+  ptDivider,
+  ptNewsletter,
   ptSingle,
   ptSlim,
   seo,

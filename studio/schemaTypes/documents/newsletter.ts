@@ -72,6 +72,19 @@ export default defineType({
       title: 'Body Content (Below Title)',
       name: 'bodyContent',
       type: 'pbBlocks',
+      initialValue: [
+        {
+          _type: 'pbBlockRichText',
+          textContent: [
+            {
+              _type: 'block',
+              style: 'normal',
+              markDefs: [],
+              children: [{_type: 'span', text: '', marks: []}],
+            },
+          ],
+        },
+      ],
     }),
     defineField({
       name: 'seo',

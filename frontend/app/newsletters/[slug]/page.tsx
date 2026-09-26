@@ -77,7 +77,7 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
       : null
 
   // Default to an empty object to allow previews on non-existent documents
-  const {coverImage, title, edition, teaserText, bodyContent} = data ?? {}
+  const {coverImage, title, edition, bodyContent} = data ?? {}
   const trueSizes = getTrueSizes(
     {mobile: 12, tablet: 12, desktop: 12},
     {mobile: 12, tablet: 12, desktop: 6},

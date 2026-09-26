@@ -7,7 +7,7 @@ export default defineType({
   title: 'Rich Text',
   type: 'object',
   icon: TextInitial,
-  fields: [defineField({name: 'textContent', title: 'Content', type: 'ptBasic'})],
+  fields: [defineField({name: 'textContent', title: 'Content', type: 'ptNewsletter'})],
   preview: {
     select: {
       content: 'textContent',

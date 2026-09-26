@@ -7,15 +7,18 @@ import RichTextWrap from '../shared/RichTextWrap'
 
 export default function BlockRichText({
   block,
+  trueSizes,
   'data-sanity': dataSanity,
 }: {
   block: PbBlockRichText
+  trueSizes?: string
   'data-sanity'?: string
 }) {
   return (
     <RichTextWrap data-sanity={dataSanity}>
       <CustomPortableText
         value={block.textContent as PortableTextBlock[]}
+        trueSizes={trueSizes}
       />
     </RichTextWrap>
   )

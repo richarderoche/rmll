@@ -5,8 +5,15 @@ interface SiteWidthProps {
   className?: string
 }
 
-export const SITE_MAX_WIDTH = 2000
+export const SITE_MAX_WIDTH = 2560
 
 export default function SiteWidth({children, className}: SiteWidthProps) {
-  return <div className={cn('px-gut w-full max-w-full', className)}>{children}</div>
+  return (
+    <div
+      style={{maxWidth: SITE_MAX_WIDTH + 'px'}}
+      className={cn('px-gut w-full mx-auto', className)}
+    >
+      {children}
+    </div>
+  )
 }
