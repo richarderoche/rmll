@@ -4,6 +4,7 @@ If these change, make sure to update the respective values in the type styles.
 
 :root {
   --gut: 1.25rem; /* 20px */
+  --section-space: calc(var(--gut) * 3);
 }
 /* 430px (design size) */
 @media (min-width: 26.875) {
@@ -27,12 +28,14 @@ If these change, make sure to update the respective values in the type styles.
 @media (min-width: 48rem) {
   :root {
     --gut: 1.625rem; /* 26px */
+    --section-space: calc(var(--gut) * 3.5);
   }
 }
 /* 1024px */
 @media (min-width: 64rem) {
   :root {
     --gut: 1.5625rem; /* 25px */
+    --section-space: calc(var(--gut) * 4);
   }
 }
 /* 1280px */

@@ -1,32 +1,37 @@
-import { getFileAsset } from '@sanity/asset-utils'
-import {
-  PortableText,
-  type PortableTextBlock,
-  type PortableTextComponents,
-} from 'next-sanity'
+import {getFileAsset} from '@sanity/asset-utils'
+import {PortableText, type PortableTextBlock, type PortableTextComponents} from 'next-sanity'
 import Link from 'next/link'
 
-import { dataset, projectId } from '@/sanity/lib/api'
-import { resolveHref } from '@/sanity/lib/utils'
+import {dataset, projectId} from '@/sanity/lib/api'
+import {resolveHref} from '@/sanity/lib/utils'
 
-export function CustomPortableText({ value }: { value: PortableTextBlock[] }) {
+export function CustomPortableText({value}: {value: PortableTextBlock[]}) {
   const components: PortableTextComponents = {
     block: {
-      normal: ({ children }) => {
+      normal: ({children}) => {
         return <p>{children}</p>
       },
-      h1: ({ children }) => {
+      h1: ({children}) => {
         return <h2 className="ts-h1 text-balance">{children}</h2>
       },
-      h2: ({ children }) => {
+      h2: ({children}) => {
         return <h3 className="ts-h2 text-pretty">{children}</h3>
       },
-      h3: ({ children }) => {
+      h3: ({children}) => {
         return <h4 className="ts-h3 text-pretty">{children}</h4>
+      },
+      h4: ({children}) => {
+        return <h5 className="ts-h4 text-pretty">{children}</h5>
+      },
+      h5: ({children}) => {
+        return <h6 className="ts-h5 text-pretty">{children}</h6>
+      },
+      h6: ({children}) => {
+        return <h6 className="ts-h6 text-pretty">{children}</h6>
       },
     },
     marks: {
-      link: ({ children, value }) => {
+      link: ({children, value}) => {
         return (
           <a
             className="inline-link not-prose"
@@ -38,8 +43,8 @@ export function CustomPortableText({ value }: { value: PortableTextBlock[] }) {
           </a>
         )
       },
-      internalLink: ({ children, value }) => {
-        const { slug = {}, type = 'page' } = value
+      internalLink: ({children, value}) => {
+        const {slug = {}, type = 'page'} = value
         const href = resolveHref(type, slug.current)
 
         return (
@@ -48,7 +53,7 @@ export function CustomPortableText({ value }: { value: PortableTextBlock[] }) {
           </Link>
         )
       },
-      fileLink: ({ children, value }) => {
+      fileLink: ({children, value}) => {
         const url = getFileAsset(value.file.asset, {
           projectId: projectId,
           dataset: dataset,
@@ -65,7 +70,7 @@ export function CustomPortableText({ value }: { value: PortableTextBlock[] }) {
         )
       },
     },
-    listItem: ({ children }) => {
+    listItem: ({children}) => {
       return <li>{children}</li>
     },
   }

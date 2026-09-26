@@ -1,11 +1,11 @@
-import RedoIcon from '@sanity/icons/Redo'
-import { defineField, defineType } from 'sanity'
+import {Undo2} from 'lucide-react'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'redirect',
   title: 'Redirects',
   type: 'document',
-  icon: RedoIcon,
+  icon: Undo2,
   fields: [
     defineField({
       name: 'deployNote',
@@ -21,8 +21,7 @@ export default defineType({
       name: 'fromPath',
       title: 'From ',
       type: 'string',
-      description:
-        'Old slug being redirected FROM. Use preceding slash (e.g. "/help")',
+      description: 'Old slug being redirected FROM. Use preceding slash (e.g. "/help")',
       validation: (rule) =>
         rule.required().custom((value) => {
           if (value && !value.startsWith('/')) {
@@ -35,8 +34,7 @@ export default defineType({
       name: 'toPath',
       title: 'To',
       type: 'string',
-      description:
-        'New slug being redirected TO. Use preceding slash (e.g. "/support")',
+      description: 'New slug being redirected TO. Use preceding slash (e.g. "/support")',
       validation: (rule) =>
         rule.required().custom((value) => {
           if (value && !value.startsWith('/')) {
@@ -59,7 +57,7 @@ export default defineType({
       to: 'toPath',
       from: 'fromPath',
     },
-    prepare({ to, from }) {
+    prepare({to, from}) {
       return {
         title: from,
         subtitle: `↳ ${to}`,

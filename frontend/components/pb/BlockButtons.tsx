@@ -5,7 +5,6 @@ import Button from '../shared/Button'
 
 export type BlockButtonsType = Extract<PbBlocksQueryResult[number], {_type: 'pbBlockButtons'}>
 
-/** Resolved `button` object from GROQ (`pbButton` projection). `_key` only exists on array items. */
 type BlockButtonFromQuery = NonNullable<BlockButtonsType['buttons']>[number]
 
 export type BlockButtonType = Omit<BlockButtonFromQuery, '_key'> & {

@@ -124,6 +124,16 @@ export const pagesBySlugQuery = defineQuery(`
   }
 `)
 
+export const newsletterBySlugQuery = defineQuery(`
+  *[_type == "newsletter" && slug.current == $slug][0] {
+    ...,
+    "slug": slug.current,
+    bodyContent[]{
+      ${pbBlocks}
+    },
+    ${seo},
+  }
+`)
 export const projectBySlugQuery = defineQuery(`
   *[_type == "project" && slug.current == $slug][0] {
     ...,

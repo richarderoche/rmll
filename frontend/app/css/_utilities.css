@@ -40,6 +40,20 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
   font-size: calc(var(--gut) * --value(ratio, [ratio]));
 }
 
+/*
+Pad left by n grid columns on a T-column grid (gutters between columns).
+Example: pl-col-1/12, pl-col-2/6, pl-col-3 (defaults to 12 columns).
+*/
+@utility pl-col-* {
+  padding-left: calc(
+    --value(integer) * ((100% - (var(--gut) * 11)) / 12) + --value(integer) * var(--gut)
+  );
+  padding-left: calc(
+    --value(integer) * ((100% - (var(--gut) * (--modifier(integer) - 1))) / --modifier(integer)) +
+      --value(integer) * var(--gut)
+  );
+}
+
 @utility leading-* {
   line-height: calc(--value(number) / 100);
 }

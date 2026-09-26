@@ -117,6 +117,8 @@ export interface PbBlocksProps {
   columnBlocks: PbBlocksQueryResult
   trueSizes: string
   spaceBetweenBlocks: string
+  /** Sanity field name for this block array (default: column `pbBlocks`). */
+  blocksFieldName?: string
   blockWidths?: {
     mobile?: string
     tablet?: string
@@ -128,6 +130,7 @@ export default function PbBlocks({
   columnBlocks,
   trueSizes,
   spaceBetweenBlocks,
+  blocksFieldName = 'pbBlocks',
   blockWidths = {
     mobile: 'grid-cols-1',
     tablet: 'md:grid-cols-1',
@@ -152,7 +155,7 @@ export default function PbBlocks({
 
         return renderBlock(entry, {
           blockKey: _key,
-          dataSanity: getDataAttribute(['pbBlocks', {_key}]),
+          dataSanity: getDataAttribute([blocksFieldName, {_key}]),
           block,
           trueSizes,
         })

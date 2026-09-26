@@ -74,12 +74,6 @@ export type FileLinkFile = {
   _type: 'file'
 }
 
-export type YAlignment = {
-  mobile: 'self-start' | 'self-center' | 'self-end'
-  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-}
-
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
@@ -100,6 +94,12 @@ export type MarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
   media?: unknown // Unable to locate the referenced type "file.media" in schema
   _type: 'file'
+}
+
+export type YAlignment = {
+  mobile: 'self-start' | 'self-center' | 'self-end'
+  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
 }
 
 export type SocialLink = {
@@ -383,7 +383,6 @@ export type PbBlockPress = {
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
-    alt?: string
     _type: 'image'
   }
 }
@@ -411,7 +410,7 @@ export type PbBlockMarquee = {
       }
     | {
         image?: ImageElementImage
-        imageCrop?: 0 | 1 | 0.6666666667 | 0.8 | 1.5 | 1.7777777778 | 2.5
+        imageCrop?: 0 | 1 | 0.6666666667 | 0.75 | 0.8 | 1.3333333333 | 1.5 | 1.7777777778 | 2.5
         roundedCorners?: boolean
         invertColor?: boolean
         blendModeLighten?: boolean
@@ -488,7 +487,7 @@ export type PbBlockImage = {
     alt?: string
     _type: 'image'
   }
-  imageCrop?: 0 | 1 | 0.6666666667 | 0.8 | 1.5 | 1.7777777778 | 2.5
+  imageCrop?: 0 | 1 | 0.6666666667 | 0.75 | 0.8 | 1.3333333333 | 1.5 | 1.7777777778 | 2.5
   imageWidth?: number
   caption?: string
   colorTone?: 'original' | 'green' | 'grayscale'
@@ -606,6 +605,29 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
+}
+
+export type Newsletter = {
+  _id: string
+  _type: 'newsletter'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  edition: string
+  slug: Slug
+  publishDate: string
+  coverImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  title: string
+  teaserText?: string
+  bodyContent?: PbBlocks
+  seo?: Seo
 }
 
 export type Settings = {
@@ -785,10 +807,10 @@ export type AllSanitySchemaTypes =
   | BlockWidths
   | SanityFileAssetReference
   | FileLinkFile
-  | YAlignment
   | SanityImageAssetReference
   | ImageElementImage
   | MarkDefsFileLinkFile
+  | YAlignment
   | SocialLink
   | Seo
   | PageReference
@@ -827,6 +849,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | Newsletter
   | Settings
   | Home
   | Page

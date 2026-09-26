@@ -16,12 +16,12 @@
   "dependencies": {
     "@sanity/dashboard": "^6.0.18",
     "@sanity/icons": "^5.2.1",
-    "@sanity/vision": "^6.11.0",
+    "@sanity/vision": "^6.14.1",
     "@tabler/icons-react": "^3.46.0",
     "lucide-react": "^1.39.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "sanity": "^6.11.0",
+    "sanity": "^6.14.1",
     "sanity-plugin-dashboard-widget-vercel": "^4.0.28",
     "sanity-plugin-mux-input": "^5.0.12",
     "styled-components": "^6.5.3"

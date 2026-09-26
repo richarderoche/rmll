@@ -1,11 +1,11 @@
-import DocumentIcon from '@sanity/icons/Document'
-import { defineField, defineType } from 'sanity'
+import DocumentsIcon from '@sanity/icons/Documents'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'project',
   title: 'Project',
   type: 'document',
-  icon: DocumentIcon,
+  icon: DocumentsIcon,
   fields: [
     defineField({
       name: 'title',
@@ -37,8 +37,7 @@ export default defineType({
     defineField({
       name: 'seo',
       title: 'SEO',
-      description:
-        'Add description here. Image optional (defaults to cover image).',
+      description: 'Add description here. Image optional (defaults to cover image).',
       type: 'seo',
     }),
   ],

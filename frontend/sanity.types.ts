@@ -74,12 +74,6 @@ export type FileLinkFile = {
   _type: 'file'
 }
 
-export type YAlignment = {
-  mobile: 'self-start' | 'self-center' | 'self-end'
-  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-}
-
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
@@ -100,6 +94,12 @@ export type MarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
   media?: unknown // Unable to locate the referenced type "file.media" in schema
   _type: 'file'
+}
+
+export type YAlignment = {
+  mobile: 'self-start' | 'self-center' | 'self-end'
+  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
 }
 
 export type SocialLink = {
@@ -383,7 +383,6 @@ export type PbBlockPress = {
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
-    alt?: string
     _type: 'image'
   }
 }
@@ -411,7 +410,7 @@ export type PbBlockMarquee = {
       }
     | {
         image?: ImageElementImage
-        imageCrop?: 0 | 1 | 0.6666666667 | 0.8 | 1.5 | 1.7777777778 | 2.5
+        imageCrop?: 0 | 1 | 0.6666666667 | 0.75 | 0.8 | 1.3333333333 | 1.5 | 1.7777777778 | 2.5
         roundedCorners?: boolean
         invertColor?: boolean
         blendModeLighten?: boolean
@@ -488,7 +487,7 @@ export type PbBlockImage = {
     alt?: string
     _type: 'image'
   }
-  imageCrop?: 0 | 1 | 0.6666666667 | 0.8 | 1.5 | 1.7777777778 | 2.5
+  imageCrop?: 0 | 1 | 0.6666666667 | 0.75 | 0.8 | 1.3333333333 | 1.5 | 1.7777777778 | 2.5
   imageWidth?: number
   caption?: string
   colorTone?: 'original' | 'green' | 'grayscale'
@@ -606,6 +605,29 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
+}
+
+export type Newsletter = {
+  _id: string
+  _type: 'newsletter'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  edition: string
+  slug: Slug
+  publishDate: string
+  coverImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  title: string
+  teaserText?: string
+  bodyContent?: PbBlocks
+  seo?: Seo
 }
 
 export type Settings = {
@@ -785,10 +807,10 @@ export type AllSanitySchemaTypes =
   | BlockWidths
   | SanityFileAssetReference
   | FileLinkFile
-  | YAlignment
   | SanityImageAssetReference
   | ImageElementImage
   | MarkDefsFileLinkFile
+  | YAlignment
   | SocialLink
   | Seo
   | PageReference
@@ -827,6 +849,7 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | Newsletter
   | Settings
   | Home
   | Page
@@ -948,7 +971,8 @@ export type HomePageQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?:
+                  0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -962,7 +986,8 @@ export type HomePageQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?:
+                        0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1007,7 +1032,6 @@ export type HomePageQueryResult = {
                   media?: unknown
                   hotspot?: SanityImageHotspot
                   crop?: SanityImageCrop
-                  alt?: string
                   _type: 'image'
                 }
               }
@@ -1159,7 +1183,8 @@ export type HomePageQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?:
+                  0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1173,7 +1198,8 @@ export type HomePageQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?:
+                        0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1218,7 +1244,6 @@ export type HomePageQueryResult = {
                   media?: unknown
                   hotspot?: SanityImageHotspot
                   crop?: SanityImageCrop
-                  alt?: string
                   _type: 'image'
                 }
               }
@@ -1378,7 +1403,8 @@ export type HomePageQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?:
+                  0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1392,7 +1418,8 @@ export type HomePageQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?:
+                        0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1437,7 +1464,6 @@ export type HomePageQueryResult = {
                   media?: unknown
                   hotspot?: SanityImageHotspot
                   crop?: SanityImageCrop
-                  alt?: string
                   _type: 'image'
                 }
               }
@@ -1595,7 +1621,8 @@ export type HomePageQueryResult = {
                 alt?: string
                 _type: 'image'
               }
-              imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+              imageCrop?:
+                0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
               imageWidth?: number
               caption?: string
               colorTone?: 'grayscale' | 'green' | 'original'
@@ -1609,7 +1636,8 @@ export type HomePageQueryResult = {
               elements?: Array<
                 | {
                     image?: ImageElementImage
-                    imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                    imageCrop?:
+                      0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                     roundedCorners?: boolean
                     invertColor?: boolean
                     blendModeLighten?: boolean
@@ -1654,7 +1682,6 @@ export type HomePageQueryResult = {
                 media?: unknown
                 hotspot?: SanityImageHotspot
                 crop?: SanityImageCrop
-                alt?: string
                 _type: 'image'
               }
             }
@@ -1846,7 +1873,8 @@ export type PagesBySlugQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?:
+                  0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -1860,7 +1888,8 @@ export type PagesBySlugQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?:
+                        0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -1905,7 +1934,6 @@ export type PagesBySlugQueryResult = {
                   media?: unknown
                   hotspot?: SanityImageHotspot
                   crop?: SanityImageCrop
-                  alt?: string
                   _type: 'image'
                 }
               }
@@ -2057,7 +2085,8 @@ export type PagesBySlugQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?:
+                  0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -2071,7 +2100,8 @@ export type PagesBySlugQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?:
+                        0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -2116,7 +2146,6 @@ export type PagesBySlugQueryResult = {
                   media?: unknown
                   hotspot?: SanityImageHotspot
                   crop?: SanityImageCrop
-                  alt?: string
                   _type: 'image'
                 }
               }
@@ -2276,7 +2305,8 @@ export type PagesBySlugQueryResult = {
                   alt?: string
                   _type: 'image'
                 }
-                imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                imageCrop?:
+                  0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                 imageWidth?: number
                 caption?: string
                 colorTone?: 'grayscale' | 'green' | 'original'
@@ -2290,7 +2320,8 @@ export type PagesBySlugQueryResult = {
                 elements?: Array<
                   | {
                       image?: ImageElementImage
-                      imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                      imageCrop?:
+                        0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                       roundedCorners?: boolean
                       invertColor?: boolean
                       blendModeLighten?: boolean
@@ -2335,7 +2366,6 @@ export type PagesBySlugQueryResult = {
                   media?: unknown
                   hotspot?: SanityImageHotspot
                   crop?: SanityImageCrop
-                  alt?: string
                   _type: 'image'
                 }
               }
@@ -2493,7 +2523,8 @@ export type PagesBySlugQueryResult = {
                 alt?: string
                 _type: 'image'
               }
-              imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+              imageCrop?:
+                0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
               imageWidth?: number
               caption?: string
               colorTone?: 'grayscale' | 'green' | 'original'
@@ -2507,7 +2538,8 @@ export type PagesBySlugQueryResult = {
               elements?: Array<
                 | {
                     image?: ImageElementImage
-                    imageCrop?: 0.6666666667 | 0.8 | 0 | 1.5 | 1.7777777778 | 1 | 2.5
+                    imageCrop?:
+                      0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
                     roundedCorners?: boolean
                     invertColor?: boolean
                     blendModeLighten?: boolean
@@ -2552,7 +2584,6 @@ export type PagesBySlugQueryResult = {
                 media?: unknown
                 hotspot?: SanityImageHotspot
                 crop?: SanityImageCrop
-                alt?: string
                 _type: 'image'
               }
             }
@@ -2646,6 +2677,244 @@ export type PagesBySlugQueryResult = {
           alt?: string
           _type: 'image'
         }
+      }
+  > | null
+  seo?: Seo
+  seoTitle: string | null
+  description: string | null
+  ogImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    _type: 'image'
+  } | null
+  noIndex: boolean | null
+} | null
+
+// Source: sanity/lib/queries.ts
+// Variable: newsletterBySlugQuery
+// Query: *[_type == "newsletter" && slug.current == $slug][0] {    ...,    "slug": slug.current,    bodyContent[]{        ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
+export type NewsletterBySlugQueryResult = {
+  _id: string
+  _type: 'newsletter'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  edition: string
+  slug: string
+  publishDate: string
+  coverImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  title: string
+  teaserText?: string
+  bodyContent: Array<
+    | {
+        _key: string
+        _type: 'pbBlockButtons'
+        buttons: Array<{
+          _key: string
+          _type: 'button'
+          linkType?: 'externalLink' | 'file' | 'sitePage'
+          sitePage: {
+            _type: 'navPage'
+            title?: string
+            page:
+              | {
+                  type: 'home'
+                  slug: null
+                  title: string
+                }
+              | {
+                  type: 'page'
+                  slug: string
+                  title: string
+                }
+              | {
+                  type: 'project'
+                  slug: string
+                  title: string
+                }
+              | null
+            anchorLink?: string
+          } | null
+          externalLink: {
+            _type: 'navExternal'
+            title?: string
+            url?: string
+            page: null
+          } | null
+          fileLink: {
+            file?: FileLinkFile
+            buttonText?: string
+            url: string | null
+          } | null
+          style?: 'fill' | 'outline' | 'underline'
+        }>
+      }
+    | {
+        _key: string
+        _type: 'pbBlockCopyToClipboard'
+        textToCopy?: string
+      }
+    | {
+        _key: string
+        _type: 'pbBlockDivider'
+        showDividerLine?: boolean
+        size?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+        sizeBelow?: 1 | 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+        showOnMobile?: boolean
+        showOnTablet?: boolean
+        showOnDesktop?: boolean
+      }
+    | {
+        _key: string
+        _type: 'pbBlockImage'
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          alt?: string
+          _type: 'image'
+        }
+        imageCrop?: 0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
+        imageWidth?: number
+        caption?: string
+        colorTone?: 'grayscale' | 'green' | 'original'
+        priority?: boolean
+        screenVisibility?: ScreenVisibility
+      }
+    | {
+        _key: string
+        _type: 'pbBlockMarquee'
+        settings?: PbBlockMarqueeSettings
+        elements?: Array<
+          | {
+              image?: ImageElementImage
+              imageCrop?:
+                0.6666666667 | 0.75 | 0.8 | 0 | 1.3333333333 | 1.5 | 1.7777777778 | 1 | 2.5
+              roundedCorners?: boolean
+              invertColor?: boolean
+              blendModeLighten?: boolean
+              _type: 'imageElement'
+              _key: string
+            }
+          | {
+              text?: string
+              style?:
+                | 'ts-h1'
+                | 'ts-h2-serif'
+                | 'ts-h2'
+                | 'ts-h3'
+                | 'ts-h4'
+                | 'ts-h5'
+                | 'ts-h6'
+                | 'ts-p-lg'
+                | 'ts-p-md'
+                | 'ts-p-sm'
+                | 'ts-p-xs'
+              _type: 'textElement'
+              _key: string
+            }
+        >
+      }
+    | {
+        _key: string
+        _type: 'pbBlockPress'
+        format?: 'textOnly' | 'thumbnail'
+        title?: string
+        source?: string
+        logo?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+        url?: string
+        image?: {
+          asset?: SanityImageAssetReference
+          media?: unknown
+          hotspot?: SanityImageHotspot
+          crop?: SanityImageCrop
+          _type: 'image'
+        }
+      }
+    | {
+        _key: string
+        _type: 'pbBlockQuote'
+        quoteText?: string
+        quoteCredit?: QuoteCredit
+        textStyle?: 'ts-h2-serif' | 'ts-h3' | 'ts-h4' | 'ts-quote'
+        showQuoteMarks?: boolean
+      }
+    | {
+        _key: string
+        _type: 'pbBlockRichText'
+        textContent: Array<{
+          children?: Array<{
+            marks?: Array<string>
+            text?: string
+            _type: 'span'
+            _key: string
+          }>
+          style?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'normal'
+          listItem?: 'bullet' | 'number'
+          markDefs: Array<
+            | {
+                file?: MarkDefsFileLinkFile
+                _type: 'fileLink'
+                _key: string
+              }
+            | {
+                reference?: PageReference
+                _type: 'internalLink'
+                _key: string
+                slug: Slug | null
+                type: 'page' | null
+              }
+            | {
+                href?: string
+                _type: 'link'
+                _key: string
+              }
+          > | null
+          level?: number
+          _type: 'block'
+          _key: string
+        }> | null
+      }
+    | {
+        _key: string
+        _type: 'pbBlockText'
+        textStyle?:
+          | 'ts-h1'
+          | 'ts-h2-serif'
+          | 'ts-h2'
+          | 'ts-h3'
+          | 'ts-h4'
+          | 'ts-h5'
+          | 'ts-h6'
+          | 'ts-p-lg'
+          | 'ts-p-md'
+          | 'ts-p-sm'
+          | 'ts-p-xs'
+        color?: 'text-body' | 'text-sage-800'
+        balanceLines?: boolean
+        textContent?: string
+      }
+    | {
+        _key: string
+        _type: 'pbBlockVideoEmbed'
+        videoEmbedUrl?: string
+        videoAspectRatio?: VideoAspectRatio
       }
   > | null
   seo?: Seo
@@ -2882,15 +3151,19 @@ export type ScriptsQueryResult = {
 } | null
 
 // Query TypeMap
-import '@sanity/client'
-declare module '@sanity/client' {
+declare global {
   interface SanityQueries {
     '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n  }\n,\n    showcaseProjects[]{\n      _key,\n      "project": @->{\n        _id,\n        _type,\n        coverImage,\n        "slug": slug.current,\n        title,\n      }\n    },\n  }\n': HomePageQueryResult
     '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
+    '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
     '\n  *[_type == "project" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': ProjectBySlugQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == $type]{"slug": slug.current, "updatedAt": _updatedAt}\n': SitemapByTypeQueryResult
     '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
     '\n  *[_type == "settings"][0]{\n    "gtmId": googletagmanagerID,\n    customScripts,\n  }\n': ScriptsQueryResult
   }
+}
+// Lets @sanity/client releases that predate the global registry read it too
+declare module '@sanity/client' {
+  interface SanityQueries extends globalThis.SanityQueries {}
 }

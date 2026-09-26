@@ -1,5 +1,4 @@
-import CogIcon from '@sanity/icons/Cog'
-import {LinkIcon} from 'lucide-react'
+import {LinkIcon, Settings} from 'lucide-react'
 import {defineField, defineType} from 'sanity'
 import {capitalize, ptToText} from '../../lib/utils'
 import {imgAltField} from '../fields'
@@ -9,7 +8,7 @@ export default defineType({
   name: 'settings',
   title: 'Settings',
   type: 'document',
-  icon: CogIcon,
+  icon: Settings,
   groups: [
     {
       name: 'header',

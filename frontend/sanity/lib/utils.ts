@@ -1,6 +1,6 @@
-import { dataset, projectId } from '@/sanity/lib/api'
-import { createImageUrlBuilder } from '@sanity/image-url'
-import type { Image } from 'sanity'
+import {dataset, projectId} from '@/sanity/lib/api'
+import {createImageUrlBuilder} from '@sanity/image-url'
+import type {Image} from 'sanity'
 
 //
 // Image Helpers
@@ -31,6 +31,8 @@ export function resolveHref(
       return `/${hash}`
     case 'page':
       return slug ? `/${slug}${hash}` : undefined
+    case 'newsletter':
+      return slug ? `/newsletters/${slug}${hash}` : undefined
     case 'project':
       return slug ? `/projects/${slug}${hash}` : undefined
     default:

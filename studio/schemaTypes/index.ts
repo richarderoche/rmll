@@ -1,3 +1,4 @@
+import newsletter from './documents/newsletter'
 import page from './documents/page'
 import project from './documents/project'
 import redirect from './documents/redirect'
@@ -40,6 +41,7 @@ export const schemaTypes = [
   home,
   settings,
   // Documents
+  newsletter,
   page,
   project,
   redirect,

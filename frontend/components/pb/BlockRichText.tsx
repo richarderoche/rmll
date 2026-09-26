@@ -7,12 +7,13 @@ import RichTextWrap from '../shared/RichTextWrap'
 
 export default function BlockRichText({
   block,
-  ...rest
+  'data-sanity': dataSanity,
 }: {
   block: PbBlockRichText
-} & React.ComponentPropsWithoutRef<'div'>) {
+  'data-sanity'?: string
+}) {
   return (
-    <RichTextWrap {...rest}>
+    <RichTextWrap data-sanity={dataSanity}>
       <CustomPortableText
         value={block.textContent as PortableTextBlock[]}
       />

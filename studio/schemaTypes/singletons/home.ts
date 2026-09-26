@@ -1,12 +1,12 @@
-import HomeIcon from '@sanity/icons/Home'
 import StackCompactIcon from '@sanity/icons/StackCompact'
-import { defineArrayMember, defineField, defineType } from 'sanity'
+import {House} from 'lucide-react'
+import {defineArrayMember, defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'home',
   title: 'Home',
   type: 'document',
-  icon: HomeIcon,
+  icon: House,
   fields: [
     defineField({
       name: 'title',
@@ -18,13 +18,12 @@ export default defineType({
     defineField({
       name: 'showcaseProjects',
       title: 'Showcase projects',
-      description:
-        'These are the projects that will appear first on your landing page.',
+      description: 'These are the projects that will appear first on your landing page.',
       type: 'array',
       of: [
         defineArrayMember({
           type: 'reference',
-          to: [{ type: 'project' }],
+          to: [{type: 'project'}],
         }),
       ],
     }),
@@ -39,9 +38,8 @@ export default defineType({
     select: {
       title: 'title',
     },
-    prepare({ title }) {
+    prepare({title}) {
       return {
-        subtitle: 'Home',
         title,
       }
     },
