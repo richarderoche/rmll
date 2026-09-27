@@ -332,6 +332,7 @@ export type PbSections = Array<
 export type PbLatestNews = {
   _type: 'pbLatestNews'
   sectionSettings?: PbSectionSettings
+  priority?: boolean
 }
 
 export type PbGridDouble = {

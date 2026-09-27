@@ -332,6 +332,7 @@ export type PbSections = Array<
 export type PbLatestNews = {
   _type: 'pbLatestNews'
   sectionSettings?: PbSectionSettings
+  priority?: boolean
 }
 
 export type PbGridDouble = {
@@ -1979,6 +1980,7 @@ export type HomePageQueryResult = {
         _key: string
         _type: 'pbLatestNews'
         sectionSettings?: PbSectionSettings
+        priority?: boolean
         newsletter: {
           _id: string
           _type: 'newsletter'
@@ -3064,6 +3066,7 @@ export type PagesBySlugQueryResult = {
         _key: string
         _type: 'pbLatestNews'
         sectionSettings?: PbSectionSettings
+        priority?: boolean
         newsletter: {
           _id: string
           _type: 'newsletter'

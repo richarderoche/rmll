@@ -20,7 +20,7 @@ export default function SectionLatestNews({section}: {section: PbLatestNewsSecti
           alt={coverImage?.alt ?? `Cover image from ${edition}`}
           ratio={4 / 3}
           sizes={imgSizesFormat(88, 93, 46)}
-          priority={true}
+          priority={section.priority}
           maxDimension={640}
         />
         <div className="md:col-span-7 lg:col-span-6 flex flex-col gap-gut md:justify-between">

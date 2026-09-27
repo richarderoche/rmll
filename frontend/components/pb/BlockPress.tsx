@@ -34,8 +34,8 @@ export default function BlockPress({block, trueSizes}: {block: PbBlockPress; tru
   return (
     <div className="flex flex-col gap-gut-33 py-gut-25">
       {logo && (
-        <div className="max-w-200">
-          <ImageBasic image={logo} alt={source || 'Source Logo'} sizes="200px" maxDimension={200} />
+        <div className="max-w-150">
+          <ImageBasic image={logo} alt={source || 'Source Logo'} sizes="150px" maxDimension={150} />
         </div>
       )}
       {!logo && source && <div className="ts-h6 text-sage-800">{source}</div>}

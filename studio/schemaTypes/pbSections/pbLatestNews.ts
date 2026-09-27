@@ -12,6 +12,13 @@ export default defineType({
       name: 'sectionSettings',
       type: 'pbSectionSettings',
     }),
+    defineField({
+      name: 'priority',
+      title: 'High Priority Loading',
+      type: 'boolean',
+      description: 'Enable for images above the fold to improve loading performance',
+      initialValue: true,
+    }),
   ],
   preview: {
     prepare() {
