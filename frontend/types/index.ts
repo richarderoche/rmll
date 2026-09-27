@@ -28,4 +28,14 @@ export type PbBlocksQueryResult = NonNullable<
   NonNullable<PbGridSection['columns']>[number]['pbBlocks']
 >
 
+type PageBuilderSection = NonNullable<
+  NonNullable<PagesBySlugQueryResult>['pbSections']
+>[number]
+
+/** `pbLatestNews` section from page builder GROQ (includes resolved `newsletter`). */
+export type PbLatestNewsSection = Extract<
+  PageBuilderSection,
+  {_type: 'pbLatestNews'}
+>
+
 export type PageBuilderData = PagesBySlugQueryResult | HomePageQueryResult | undefined

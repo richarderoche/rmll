@@ -191,6 +191,51 @@ export type PtSingle = Array<{
   _key: string
 }>
 
+export type PtNewsletter = Array<
+  | ({
+      _key: string
+    } & PbBlockImage)
+  | ({
+      _key: string
+    } & PtDivider)
+  | {
+      children?: Array<{
+        marks?: Array<string>
+        text?: string
+        _type: 'span'
+        _key: string
+      }>
+      style?:
+        'normal' | 'h1' | 'h2' | 'h2-serif' | 'h3' | 'h4' | 'p-lg' | 'p-sm' | 'p-xs' | 'h5' | 'h6'
+      listItem?: 'bullet' | 'number'
+      markDefs?: Array<
+        | {
+            href?: string
+            _type: 'link'
+            _key: string
+          }
+        | {
+            reference?: PageReference
+            _type: 'internalLink'
+            _key: string
+          }
+        | {
+            file?: MarkDefsFileLinkFile
+            _type: 'fileLink'
+            _key: string
+          }
+      >
+      level?: number
+      _type: 'block'
+      _key: string
+    }
+>
+
+export type PtDivider = {
+  _type: 'ptDivider'
+  variant?: string
+}
+
 export type PtBody = Array<{
   children?: Array<{
     marks?: Array<string>
@@ -213,7 +258,7 @@ export type PtBasic = Array<{
     _type: 'span'
     _key: string
   }>
-  style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  style?: 'normal' | 'h1' | 'h2' | 'h2-serif' | 'h3' | 'h4' | 'p-lg' | 'p-sm' | 'p-xs' | 'h5' | 'h6'
   listItem?: 'bullet' | 'number'
   markDefs?: Array<
     | {
@@ -227,7 +272,11 @@ export type PtBasic = Array<{
         _key: string
       }
     | {
-        file?: MarkDefsFileLinkFile
+        file?: {
+          asset?: SanityFileAssetReference
+          media?: unknown
+          _type: 'file'
+        }
         _type: 'fileLink'
         _key: string
       }
@@ -275,7 +324,15 @@ export type PbSections = Array<
   | ({
       _key: string
     } & PbGridDouble)
+  | ({
+      _key: string
+    } & PbLatestNews)
 >
+
+export type PbLatestNews = {
+  _type: 'pbLatestNews'
+  sectionSettings?: PbSectionSettings
+}
 
 export type PbGridDouble = {
   _type: 'pbGridDouble'
@@ -354,7 +411,7 @@ export type PbBlockText = {
 
 export type PbBlockRichText = {
   _type: 'pbBlockRichText'
-  textContent?: PtBasic
+  textContent?: PtNewsletter
 }
 
 export type PbBlockQuote = {
@@ -816,11 +873,14 @@ export type AllSanitySchemaTypes =
   | PageReference
   | PtSlim
   | PtSingle
+  | PtNewsletter
+  | PtDivider
   | PtBody
   | PtBasic
   | PbTitleSection
   | PbSectionSettings
   | PbSections
+  | PbLatestNews
   | PbGridDouble
   | PbGridSingle
   | PbGridMulti

@@ -45,7 +45,7 @@ export default function Button(props: ButtonProps) {
   const buttonClasses = cn(
     'ts-h5',
     style !== 'underline' && `border flex items-center py-button-y px-button-x`,
-    style === 'fill' && 'bg-body border-body text-bg',
+    style === 'fill' && 'bg-olive border-olive',
     style === 'outline' && 'bg-bg',
     style === 'underline' && 'ts-h5 inline-link',
     width === 'full' ? 'w-full' : 'w-fit',

@@ -1,6 +1,13 @@
 'use client'
 
-import {PbGridDouble, PbGridMulti, PbGridSingle, PbSections, PbTitleSection} from '@/sanity.types'
+import {
+  PbGridDouble,
+  PbGridMulti,
+  PbGridSingle,
+  PbSections,
+  PbTitleSection,
+} from '@/sanity.types'
+import type {PbLatestNewsSection} from '@/types'
 import {Suspense, type ReactNode} from 'react'
 import {
   SanityPathSegment,
@@ -10,6 +17,7 @@ import {
 import SectionGridDouble from './SectionGridDouble'
 import SectionGridMulti from './SectionGridMulti'
 import SectionGridSingle from './SectionGridSingle'
+import SectionLatestNews from './SectionLatestNews'
 import SectionTitleHero from './SectionTitleHero'
 // import dynamic from 'next/dynamic' — uncomment when adding dynamic sections
 
@@ -40,6 +48,11 @@ const sectionRegistry = {
   pbTitleSection: {
     render: (section, {isFirst}) => (
       <SectionTitleHero section={section as PbTitleSection} isFirst={isFirst} />
+    ),
+  },
+  pbLatestNews: {
+    render: (section) => (
+      <SectionLatestNews section={section as PbLatestNewsSection} />
     ),
   },
   // pbCarousel: {

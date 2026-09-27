@@ -94,6 +94,20 @@ const pb = `
         }
       }
     },
+    _type == "pbLatestNews" => {
+      ...,
+      "newsletter": *[
+        _type == "newsletter" &&
+        defined(slug.current)
+      ] | order(publishDate desc)[0]{
+        ...,
+        "slug": slug.current,
+        title,
+        edition,
+        coverImage,
+        teaserText,
+      }
+    },
   }
 `
 

@@ -99,7 +99,7 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
             image={coverImage as SanityImageType}
             alt={coverImage?.alt ?? `Cover image from ${edition}`}
             ratio={4 / 3}
-            sizes={imgSizesFormat(88, 46, 46)}
+            sizes={imgSizesFormat(88, 93, 46)}
             priority={true}
             maxDimension={640}
           />
