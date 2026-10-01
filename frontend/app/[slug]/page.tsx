@@ -1,6 +1,7 @@
 import PageBuilder from '@/components/pb/PageBuilder'
 import PageWrapper from '@/components/shared/PageWrapper'
 import {getFirstSectionInfo} from '@/lib/utils'
+import {PagesBySlugQueryResult} from '@/sanity.types'
 import {sanityFetch} from '@/sanity/lib/live'
 import {pagesBySlugQuery, slugsByTypeQuery} from '@/sanity/lib/queries'
 import {urlForOpenGraphImage} from '@/sanity/lib/utils'
@@ -24,11 +25,11 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const params = await props.params
-  const {data: page} = await sanityFetch({
+  const {data: page} = (await sanityFetch({
     query: pagesBySlugQuery,
     params,
     stega: false,
-  })
+  })) as {data: PagesBySlugQueryResult}
 
   const ogImage = urlForOpenGraphImage(page?.ogImage as Image)
   const noIndex = page?.noIndex ?? false
@@ -54,7 +55,9 @@ export async function generateMetadata(
 
 export default async function PageSlugRoute(props: PageProps<'/[slug]'>) {
   const params = await props.params
-  const {data} = await sanityFetch({query: pagesBySlugQuery, params, stega: false})
+  const {data} = (await sanityFetch({query: pagesBySlugQuery, params, stega: false})) as {
+    data: PagesBySlugQueryResult
+  }
 
   // Only show the 404 page if we're in production, when in draft mode we might be about to create a page on this slug, and live reload won't work on the 404 route
   if (!data?._id && !(await draftMode()).isEnabled) {

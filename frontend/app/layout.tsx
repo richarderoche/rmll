@@ -17,10 +17,10 @@ import {handleError} from './client-utils'
 import {allFontVars} from './fonts'
 
 export async function generateMetadata(): Promise<Metadata> {
-  const {data: settings} = await sanityFetch({
+  const {data: settings} = (await sanityFetch({
     query: settingsQuery,
     stega: false,
-  })
+  })) as {data: SettingsQueryResult}
 
   const ogImage = urlForOpenGraphImage(settings?.ogImage as Image)
   const noIndex = settings?.noIndex ?? false

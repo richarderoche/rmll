@@ -5,6 +5,7 @@ import PageWrapper from '@/components/shared/PageWrapper'
 import SiteGrid from '@/components/shared/SiteGrid'
 import SiteWidth from '@/components/shared/SiteWidth'
 import {getTrueSizes, imgSizesFormat} from '@/lib/utils'
+import {NewsletterBySlugQueryResult} from '@/sanity.types'
 import {studioUrl} from '@/sanity/lib/api'
 import {sanityFetch} from '@/sanity/lib/live'
 import {newsletterBySlugQuery, slugsByTypeQuery} from '@/sanity/lib/queries'
@@ -31,11 +32,11 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const params = await props.params
-  const {data: newsletter} = await sanityFetch({
+  const {data: newsletter} = (await sanityFetch({
     query: newsletterBySlugQuery,
     params,
     stega: false,
-  })
+  })) as {data: NewsletterBySlugQueryResult}
 
   const ogImage = urlForOpenGraphImage((newsletter?.ogImage ?? newsletter?.coverImage) as Image)
   const noIndex = newsletter?.noIndex ?? false
@@ -61,7 +62,9 @@ export async function generateMetadata(
 
 export default async function NewsletterSlugRoute(props: PageProps<'/newsletters/[slug]'>) {
   const params = await props.params
-  const {data} = await sanityFetch({query: newsletterBySlugQuery, params, stega: false})
+  const {data} = (await sanityFetch({query: newsletterBySlugQuery, params, stega: false})) as {
+    data: NewsletterBySlugQueryResult
+  }
 
   if (!data?._id && !(await draftMode()).isEnabled) {
     notFound()

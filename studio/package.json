@@ -14,21 +14,21 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@sanity/dashboard": "^6.0.18",
-    "@sanity/icons": "^5.2.1",
-    "@sanity/vision": "^6.14.1",
-    "@tabler/icons-react": "^3.46.0",
-    "lucide-react": "^1.39.0",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "sanity": "^6.14.1",
-    "sanity-plugin-dashboard-widget-vercel": "^4.0.28",
-    "sanity-plugin-mux-input": "^5.0.12",
+    "@sanity/dashboard": "^6.0.19",
+    "@sanity/icons": "^5.2.3",
+    "@sanity/vision": "^6.17.0",
+    "@tabler/icons-react": "^3.48.0",
+    "lucide-react": "^1.49.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "sanity": "^6.17.0",
+    "sanity-plugin-dashboard-widget-vercel": "^4.0.29",
+    "sanity-plugin-mux-input": "^5.0.13",
     "styled-components": "^6.5.3"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^7.0.0",
-    "@types/react": "^19.2.18",
+    "@types/react": "^19.3.0",
     "typescript": "^7.0.2"
   }
 }
