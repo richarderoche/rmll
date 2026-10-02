@@ -4429,6 +4429,10 @@
               {
                 "type": "string",
                 "value": "file"
+              },
+              {
+                "type": "string",
+                "value": "subscribe"
               }
             ]
           },
@@ -4455,6 +4459,21 @@
           "value": {
             "type": "inline",
             "name": "fileLink"
+          },
+          "optional": true
+        },
+        "subscribe": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "note"
+          },
+          "optional": true
+        },
+        "subscribeText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": true
         },
@@ -5109,6 +5128,13 @@
         "value": {
           "type": "inline",
           "name": "navLinks"
+        },
+        "optional": true
+      },
+      "newsletterLink": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },

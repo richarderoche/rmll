@@ -81,7 +81,7 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
       : null
 
   // Default to an empty object to allow previews on non-existent documents
-  const {slug, coverImage, title, edition, bodyContent, editions} = data ?? {}
+  const {slug, coverImage, title, edition, bodyContent, editions, subscribeUrl} = data ?? {}
   const trueSizes = getTrueSizes(
     {mobile: 12, tablet: 12, desktop: 12},
     {mobile: 12, tablet: 12, desktop: 6},
@@ -113,12 +113,15 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
               </SanityVisualEditingProvider>
             )}
           </div>
-          <div className="pt-section col-span-12 md:col-span-4 lg:col-span-3 lg:col-start-10 lg:sticky lg:top-section">
-            <NewsletterSidebar
-              editions={editions ?? []}
-              slug={slug ?? ''}
-              edition={edition ?? ''}
-            />
+          <div className="pt-section col-span-12 md:col-span-4 lg:col-span-3 lg:col-start-10">
+            <div className="md:sticky md:top-[calc(var(--spacing-header)+var(--spacing-gut))] flex flex-col gap-gut-50">
+              <NewsletterSidebar
+                editions={editions ?? []}
+                slug={slug ?? ''}
+                edition={edition ?? ''}
+                subscribeUrl={subscribeUrl ?? ''}
+              />
+            </div>
           </div>
         </SiteGrid>
       </SiteWidth>

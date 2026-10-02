@@ -604,10 +604,12 @@ export type Column = {
 
 export type Button = {
   _type: 'button'
-  linkType?: 'sitePage' | 'externalLink' | 'file'
+  linkType?: 'sitePage' | 'externalLink' | 'file' | 'subscribe'
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
+  subscribe?: Note
+  subscribeText?: string
   style?: 'fill' | 'outline' | 'underline'
 }
 
@@ -718,6 +720,7 @@ export type Settings = {
     } & SocialLink
   >
   footerNav?: NavLinks
+  newsletterLink?: string
   title?: string
   seo?: Seo
   googletagmanagerID?: string
@@ -925,7 +928,7 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "home"][0]{    ...,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },        }      }    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        ...,        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },    showcaseProjects[]{      _key,      "project": @->{        _id,        _type,        coverImage,        "slug": slug.current,        title,      }    },  }
+// Query: *[_type == "home"][0]{    ...,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        ...,        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },    showcaseProjects[]{      _key,      "project": @->{        _id,        _type,        coverImage,        "slug": slug.current,        title,      }    },  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'home'
@@ -966,45 +969,88 @@ export type HomePageQueryResult = {
             | {
                 _key: string
                 _type: 'pbBlockButtons'
-                buttons: Array<{
-                  _key: string
-                  _type: 'button'
-                  linkType?: 'externalLink' | 'file' | 'sitePage'
-                  sitePage: {
-                    _type: 'navPage'
-                    title?: string
-                    page:
-                      | {
-                          type: 'home'
-                          slug: null
-                          title: string
-                        }
-                      | {
-                          type: 'page'
-                          slug: string
-                          title: string
-                        }
-                      | {
-                          type: 'project'
-                          slug: string
-                          title: string
-                        }
-                      | null
-                    anchorLink?: string
-                  } | null
-                  externalLink: {
-                    _type: 'navExternal'
-                    title?: string
-                    url?: string
-                    page: null
-                  } | null
-                  fileLink: {
-                    file?: FileLinkFile
-                    buttonText?: string
-                    url: string | null
-                  } | null
-                  style?: 'fill' | 'outline' | 'underline'
-                }>
+                buttons: Array<
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        title: string | 'Subscribe'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        _type: 'navExternal'
+                        title?: string
+                        url?: string
+                        page: null
+                      } | null
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                >
               }
             | {
                 _key: string
@@ -1217,45 +1263,88 @@ export type HomePageQueryResult = {
             | {
                 _key: string
                 _type: 'pbBlockButtons'
-                buttons: Array<{
-                  _key: string
-                  _type: 'button'
-                  linkType?: 'externalLink' | 'file' | 'sitePage'
-                  sitePage: {
-                    _type: 'navPage'
-                    title?: string
-                    page:
-                      | {
-                          type: 'home'
-                          slug: null
-                          title: string
-                        }
-                      | {
-                          type: 'page'
-                          slug: string
-                          title: string
-                        }
-                      | {
-                          type: 'project'
-                          slug: string
-                          title: string
-                        }
-                      | null
-                    anchorLink?: string
-                  } | null
-                  externalLink: {
-                    _type: 'navExternal'
-                    title?: string
-                    url?: string
-                    page: null
-                  } | null
-                  fileLink: {
-                    file?: FileLinkFile
-                    buttonText?: string
-                    url: string | null
-                  } | null
-                  style?: 'fill' | 'outline' | 'underline'
-                }>
+                buttons: Array<
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        title: string | 'Subscribe'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        _type: 'navExternal'
+                        title?: string
+                        url?: string
+                        page: null
+                      } | null
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                >
               }
             | {
                 _key: string
@@ -1476,45 +1565,88 @@ export type HomePageQueryResult = {
             | {
                 _key: string
                 _type: 'pbBlockButtons'
-                buttons: Array<{
-                  _key: string
-                  _type: 'button'
-                  linkType?: 'externalLink' | 'file' | 'sitePage'
-                  sitePage: {
-                    _type: 'navPage'
-                    title?: string
-                    page:
-                      | {
-                          type: 'home'
-                          slug: null
-                          title: string
-                        }
-                      | {
-                          type: 'page'
-                          slug: string
-                          title: string
-                        }
-                      | {
-                          type: 'project'
-                          slug: string
-                          title: string
-                        }
-                      | null
-                    anchorLink?: string
-                  } | null
-                  externalLink: {
-                    _type: 'navExternal'
-                    title?: string
-                    url?: string
-                    page: null
-                  } | null
-                  fileLink: {
-                    file?: FileLinkFile
-                    buttonText?: string
-                    url: string | null
-                  } | null
-                  style?: 'fill' | 'outline' | 'underline'
-                }>
+                buttons: Array<
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        title: string | 'Subscribe'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        _type: 'navExternal'
+                        title?: string
+                        url?: string
+                        page: null
+                      } | null
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                >
               }
             | {
                 _key: string
@@ -1733,45 +1865,88 @@ export type HomePageQueryResult = {
           | {
               _key: string
               _type: 'pbBlockButtons'
-              buttons: Array<{
-                _key: string
-                _type: 'button'
-                linkType?: 'externalLink' | 'file' | 'sitePage'
-                sitePage: {
-                  _type: 'navPage'
-                  title?: string
-                  page:
-                    | {
-                        type: 'home'
-                        slug: null
-                        title: string
-                      }
-                    | {
-                        type: 'page'
-                        slug: string
-                        title: string
-                      }
-                    | {
-                        type: 'project'
-                        slug: string
-                        title: string
-                      }
-                    | null
-                  anchorLink?: string
-                } | null
-                externalLink: {
-                  _type: 'navExternal'
-                  title?: string
-                  url?: string
-                  page: null
-                } | null
-                fileLink: {
-                  file?: FileLinkFile
-                  buttonText?: string
-                  url: string | null
-                } | null
-                style?: 'fill' | 'outline' | 'underline'
-              }>
+              buttons: Array<
+                | {
+                    _key: string
+                    _type: 'button'
+                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    sitePage: {
+                      _type: 'navPage'
+                      title?: string
+                      page:
+                        | {
+                            type: 'home'
+                            slug: null
+                            title: string
+                          }
+                        | {
+                            type: 'page'
+                            slug: string
+                            title: string
+                          }
+                        | {
+                            type: 'project'
+                            slug: string
+                            title: string
+                          }
+                        | null
+                      anchorLink?: string
+                    } | null
+                    externalLink: {
+                      title: string | 'Subscribe'
+                      url: string | null
+                    }
+                    fileLink: {
+                      file?: FileLinkFile
+                      buttonText?: string
+                      url: string | null
+                    } | null
+                    subscribe?: Note
+                    subscribeText?: string
+                    style?: 'fill' | 'outline' | 'underline'
+                  }
+                | {
+                    _key: string
+                    _type: 'button'
+                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    sitePage: {
+                      _type: 'navPage'
+                      title?: string
+                      page:
+                        | {
+                            type: 'home'
+                            slug: null
+                            title: string
+                          }
+                        | {
+                            type: 'page'
+                            slug: string
+                            title: string
+                          }
+                        | {
+                            type: 'project'
+                            slug: string
+                            title: string
+                          }
+                        | null
+                      anchorLink?: string
+                    } | null
+                    externalLink: {
+                      _type: 'navExternal'
+                      title?: string
+                      url?: string
+                      page: null
+                    } | null
+                    fileLink: {
+                      file?: FileLinkFile
+                      buttonText?: string
+                      url: string | null
+                    } | null
+                    subscribe?: Note
+                    subscribeText?: string
+                    style?: 'fill' | 'outline' | 'underline'
+                  }
+              >
             }
           | {
               _key: string
@@ -2026,7 +2201,7 @@ export type HomePageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: pagesBySlugQuery
-// Query: *[_type == "page" && slug.current == $slug][0] {    ...,    "slug": slug.current,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },        }      }    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        ...,        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "page" && slug.current == $slug][0] {    ...,    "slug": slug.current,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        ...,        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
 export type PagesBySlugQueryResult = {
   _id: string
   _type: 'page'
@@ -2052,45 +2227,88 @@ export type PagesBySlugQueryResult = {
             | {
                 _key: string
                 _type: 'pbBlockButtons'
-                buttons: Array<{
-                  _key: string
-                  _type: 'button'
-                  linkType?: 'externalLink' | 'file' | 'sitePage'
-                  sitePage: {
-                    _type: 'navPage'
-                    title?: string
-                    page:
-                      | {
-                          type: 'home'
-                          slug: null
-                          title: string
-                        }
-                      | {
-                          type: 'page'
-                          slug: string
-                          title: string
-                        }
-                      | {
-                          type: 'project'
-                          slug: string
-                          title: string
-                        }
-                      | null
-                    anchorLink?: string
-                  } | null
-                  externalLink: {
-                    _type: 'navExternal'
-                    title?: string
-                    url?: string
-                    page: null
-                  } | null
-                  fileLink: {
-                    file?: FileLinkFile
-                    buttonText?: string
-                    url: string | null
-                  } | null
-                  style?: 'fill' | 'outline' | 'underline'
-                }>
+                buttons: Array<
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        title: string | 'Subscribe'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        _type: 'navExternal'
+                        title?: string
+                        url?: string
+                        page: null
+                      } | null
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                >
               }
             | {
                 _key: string
@@ -2303,45 +2521,88 @@ export type PagesBySlugQueryResult = {
             | {
                 _key: string
                 _type: 'pbBlockButtons'
-                buttons: Array<{
-                  _key: string
-                  _type: 'button'
-                  linkType?: 'externalLink' | 'file' | 'sitePage'
-                  sitePage: {
-                    _type: 'navPage'
-                    title?: string
-                    page:
-                      | {
-                          type: 'home'
-                          slug: null
-                          title: string
-                        }
-                      | {
-                          type: 'page'
-                          slug: string
-                          title: string
-                        }
-                      | {
-                          type: 'project'
-                          slug: string
-                          title: string
-                        }
-                      | null
-                    anchorLink?: string
-                  } | null
-                  externalLink: {
-                    _type: 'navExternal'
-                    title?: string
-                    url?: string
-                    page: null
-                  } | null
-                  fileLink: {
-                    file?: FileLinkFile
-                    buttonText?: string
-                    url: string | null
-                  } | null
-                  style?: 'fill' | 'outline' | 'underline'
-                }>
+                buttons: Array<
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        title: string | 'Subscribe'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        _type: 'navExternal'
+                        title?: string
+                        url?: string
+                        page: null
+                      } | null
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                >
               }
             | {
                 _key: string
@@ -2562,45 +2823,88 @@ export type PagesBySlugQueryResult = {
             | {
                 _key: string
                 _type: 'pbBlockButtons'
-                buttons: Array<{
-                  _key: string
-                  _type: 'button'
-                  linkType?: 'externalLink' | 'file' | 'sitePage'
-                  sitePage: {
-                    _type: 'navPage'
-                    title?: string
-                    page:
-                      | {
-                          type: 'home'
-                          slug: null
-                          title: string
-                        }
-                      | {
-                          type: 'page'
-                          slug: string
-                          title: string
-                        }
-                      | {
-                          type: 'project'
-                          slug: string
-                          title: string
-                        }
-                      | null
-                    anchorLink?: string
-                  } | null
-                  externalLink: {
-                    _type: 'navExternal'
-                    title?: string
-                    url?: string
-                    page: null
-                  } | null
-                  fileLink: {
-                    file?: FileLinkFile
-                    buttonText?: string
-                    url: string | null
-                  } | null
-                  style?: 'fill' | 'outline' | 'underline'
-                }>
+                buttons: Array<
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        title: string | 'Subscribe'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'project'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                      } | null
+                      externalLink: {
+                        _type: 'navExternal'
+                        title?: string
+                        url?: string
+                        page: null
+                      } | null
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      subscribe?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                    }
+                >
               }
             | {
                 _key: string
@@ -2819,45 +3123,88 @@ export type PagesBySlugQueryResult = {
           | {
               _key: string
               _type: 'pbBlockButtons'
-              buttons: Array<{
-                _key: string
-                _type: 'button'
-                linkType?: 'externalLink' | 'file' | 'sitePage'
-                sitePage: {
-                  _type: 'navPage'
-                  title?: string
-                  page:
-                    | {
-                        type: 'home'
-                        slug: null
-                        title: string
-                      }
-                    | {
-                        type: 'page'
-                        slug: string
-                        title: string
-                      }
-                    | {
-                        type: 'project'
-                        slug: string
-                        title: string
-                      }
-                    | null
-                  anchorLink?: string
-                } | null
-                externalLink: {
-                  _type: 'navExternal'
-                  title?: string
-                  url?: string
-                  page: null
-                } | null
-                fileLink: {
-                  file?: FileLinkFile
-                  buttonText?: string
-                  url: string | null
-                } | null
-                style?: 'fill' | 'outline' | 'underline'
-              }>
+              buttons: Array<
+                | {
+                    _key: string
+                    _type: 'button'
+                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    sitePage: {
+                      _type: 'navPage'
+                      title?: string
+                      page:
+                        | {
+                            type: 'home'
+                            slug: null
+                            title: string
+                          }
+                        | {
+                            type: 'page'
+                            slug: string
+                            title: string
+                          }
+                        | {
+                            type: 'project'
+                            slug: string
+                            title: string
+                          }
+                        | null
+                      anchorLink?: string
+                    } | null
+                    externalLink: {
+                      title: string | 'Subscribe'
+                      url: string | null
+                    }
+                    fileLink: {
+                      file?: FileLinkFile
+                      buttonText?: string
+                      url: string | null
+                    } | null
+                    subscribe?: Note
+                    subscribeText?: string
+                    style?: 'fill' | 'outline' | 'underline'
+                  }
+                | {
+                    _key: string
+                    _type: 'button'
+                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    sitePage: {
+                      _type: 'navPage'
+                      title?: string
+                      page:
+                        | {
+                            type: 'home'
+                            slug: null
+                            title: string
+                          }
+                        | {
+                            type: 'page'
+                            slug: string
+                            title: string
+                          }
+                        | {
+                            type: 'project'
+                            slug: string
+                            title: string
+                          }
+                        | null
+                      anchorLink?: string
+                    } | null
+                    externalLink: {
+                      _type: 'navExternal'
+                      title?: string
+                      url?: string
+                      page: null
+                    } | null
+                    fileLink: {
+                      file?: FileLinkFile
+                      buttonText?: string
+                      url: string | null
+                    } | null
+                    subscribe?: Note
+                    subscribeText?: string
+                    style?: 'fill' | 'outline' | 'underline'
+                  }
+              >
             }
           | {
               _key: string
@@ -3123,7 +3470,7 @@ export type PagesBySlugQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: newsletterBySlugQuery
-// Query: *[_type == "newsletter" && slug.current == $slug][0] {    ...,    "slug": slug.current,    bodyContent[]{        ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },    }  },    },    "editions": *[      _type == "newsletter" &&      defined(slug.current)    ] | order(publishDate desc){      "value": slug.current,      "label": edition,    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "newsletter" && slug.current == $slug][0] {    ...,    "slug": slug.current,    bodyContent[]{        ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },    },    "editions": *[      _type == "newsletter" &&      defined(slug.current)    ] | order(publishDate desc){      "value": slug.current,      "label": edition,    },    "subscribeUrl": *[_type == "settings"][0].newsletterLink,      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
 export type NewsletterBySlugQueryResult = {
   _id: string
   _type: 'newsletter'
@@ -3147,45 +3494,88 @@ export type NewsletterBySlugQueryResult = {
     | {
         _key: string
         _type: 'pbBlockButtons'
-        buttons: Array<{
-          _key: string
-          _type: 'button'
-          linkType?: 'externalLink' | 'file' | 'sitePage'
-          sitePage: {
-            _type: 'navPage'
-            title?: string
-            page:
-              | {
-                  type: 'home'
-                  slug: null
-                  title: string
-                }
-              | {
-                  type: 'page'
-                  slug: string
-                  title: string
-                }
-              | {
-                  type: 'project'
-                  slug: string
-                  title: string
-                }
-              | null
-            anchorLink?: string
-          } | null
-          externalLink: {
-            _type: 'navExternal'
-            title?: string
-            url?: string
-            page: null
-          } | null
-          fileLink: {
-            file?: FileLinkFile
-            buttonText?: string
-            url: string | null
-          } | null
-          style?: 'fill' | 'outline' | 'underline'
-        }>
+        buttons: Array<
+          | {
+              _key: string
+              _type: 'button'
+              linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+              sitePage: {
+                _type: 'navPage'
+                title?: string
+                page:
+                  | {
+                      type: 'home'
+                      slug: null
+                      title: string
+                    }
+                  | {
+                      type: 'page'
+                      slug: string
+                      title: string
+                    }
+                  | {
+                      type: 'project'
+                      slug: string
+                      title: string
+                    }
+                  | null
+                anchorLink?: string
+              } | null
+              externalLink: {
+                title: string | 'Subscribe'
+                url: string | null
+              }
+              fileLink: {
+                file?: FileLinkFile
+                buttonText?: string
+                url: string | null
+              } | null
+              subscribe?: Note
+              subscribeText?: string
+              style?: 'fill' | 'outline' | 'underline'
+            }
+          | {
+              _key: string
+              _type: 'button'
+              linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+              sitePage: {
+                _type: 'navPage'
+                title?: string
+                page:
+                  | {
+                      type: 'home'
+                      slug: null
+                      title: string
+                    }
+                  | {
+                      type: 'page'
+                      slug: string
+                      title: string
+                    }
+                  | {
+                      type: 'project'
+                      slug: string
+                      title: string
+                    }
+                  | null
+                anchorLink?: string
+              } | null
+              externalLink: {
+                _type: 'navExternal'
+                title?: string
+                url?: string
+                page: null
+              } | null
+              fileLink: {
+                file?: FileLinkFile
+                buttonText?: string
+                url: string | null
+              } | null
+              subscribe?: Note
+              subscribeText?: string
+              style?: 'fill' | 'outline' | 'underline'
+            }
+        >
       }
     | {
         _key: string
@@ -3390,6 +3780,7 @@ export type NewsletterBySlugQueryResult = {
     value: string
     label: string
   }>
+  subscribeUrl: string | null
   seoTitle: string | null
   description: string | null
   ogImage: {
@@ -3456,7 +3847,7 @@ export type SitemapByTypeQueryResult = Array<
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'settings'
@@ -3497,44 +3888,86 @@ export type SettingsQueryResult = {
   > | null
   footerCTAs: Array<{
     heading?: string
-    link: {
-      _type: 'button'
-      linkType?: 'externalLink' | 'file' | 'sitePage'
-      sitePage: {
-        _type: 'navPage'
-        title?: string
-        page:
-          | {
-              type: 'home'
-              slug: null
-              title: string
-            }
-          | {
-              type: 'page'
-              slug: string
-              title: string
-            }
-          | {
-              type: 'project'
-              slug: string
-              title: string
-            }
-          | null
-        anchorLink?: string
-      } | null
-      externalLink: {
-        _type: 'navExternal'
-        title?: string
-        url?: string
-        page: null
-      } | null
-      fileLink: {
-        file?: FileLinkFile
-        buttonText?: string
-        url: string | null
-      } | null
-      style?: 'fill' | 'outline' | 'underline'
-    } | null
+    link:
+      | {
+          _type: 'button'
+          linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+          sitePage: {
+            _type: 'navPage'
+            title?: string
+            page:
+              | {
+                  type: 'home'
+                  slug: null
+                  title: string
+                }
+              | {
+                  type: 'page'
+                  slug: string
+                  title: string
+                }
+              | {
+                  type: 'project'
+                  slug: string
+                  title: string
+                }
+              | null
+            anchorLink?: string
+          } | null
+          externalLink: {
+            title: string | 'Subscribe'
+            url: string | null
+          }
+          fileLink: {
+            file?: FileLinkFile
+            buttonText?: string
+            url: string | null
+          } | null
+          subscribe?: Note
+          subscribeText?: string
+          style?: 'fill' | 'outline' | 'underline'
+        }
+      | {
+          _type: 'button'
+          linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+          sitePage: {
+            _type: 'navPage'
+            title?: string
+            page:
+              | {
+                  type: 'home'
+                  slug: null
+                  title: string
+                }
+              | {
+                  type: 'page'
+                  slug: string
+                  title: string
+                }
+              | {
+                  type: 'project'
+                  slug: string
+                  title: string
+                }
+              | null
+            anchorLink?: string
+          } | null
+          externalLink: {
+            _type: 'navExternal'
+            title?: string
+            url?: string
+            page: null
+          } | null
+          fileLink: {
+            file?: FileLinkFile
+            buttonText?: string
+            url: string | null
+          } | null
+          subscribe?: Note
+          subscribeText?: string
+          style?: 'fill' | 'outline' | 'underline'
+        }
+      | null
     _key: string
   }> | null
   footerPopup?: {
@@ -3586,6 +4019,7 @@ export type SettingsQueryResult = {
         anchorLink?: string
       }
   > | null
+  newsletterLink?: string
   title?: string
   seo?: Seo
   googletagmanagerID?: string
@@ -3625,13 +4059,13 @@ export type ScriptsQueryResult = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        ...,\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    showcaseProjects[]{\n      _key,\n      "project": @->{\n        _id,\n        _type,\n        coverImage,\n        "slug": slug.current,\n        title,\n      }\n    },\n  }\n': HomePageQueryResult
-    '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        ...,\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
-    '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n    }\n  },\n\n    },\n    "editions": *[\n      _type == "newsletter" &&\n      defined(slug.current)\n    ] | order(publishDate desc){\n      "value": slug.current,\n      "label": edition,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
+    '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        ...,\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    showcaseProjects[]{\n      _key,\n      "project": @->{\n        _id,\n        _type,\n        coverImage,\n        "slug": slug.current,\n        title,\n      }\n    },\n  }\n': HomePageQueryResult
+    '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        ...,\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
+    '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n    },\n    "editions": *[\n      _type == "newsletter" &&\n      defined(slug.current)\n    ] | order(publishDate desc){\n      "value": slug.current,\n      "label": edition,\n    },\n    "subscribeUrl": *[_type == "settings"][0].newsletterLink,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
     '\n  *[_type == "project" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': ProjectBySlugQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == $type]{"slug": slug.current, "updatedAt": _updatedAt}\n': SitemapByTypeQueryResult
-    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
     '\n  *[_type == "settings"][0]{\n    "gtmId": googletagmanagerID,\n    customScripts,\n  }\n': ScriptsQueryResult
   }
 }

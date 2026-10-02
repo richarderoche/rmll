@@ -32,6 +32,7 @@ const portableText = `
     }
   }
 `
+const settingsNewsletterLink = `*[_type == "settings"][0].newsletterLink`
 
 const pbButton = `
   ...,
@@ -44,6 +45,13 @@ const pbButton = `
   fileLink {
     ...,
     "url": file.asset->url,
+  },
+  linkType == "subscribe" => {
+    "externalLink": {
+      ...,
+      "title": coalesce(subscribeText, "Subscribe"),
+      "url": ${settingsNewsletterLink}
+    }
   },
 `
 
@@ -152,6 +160,7 @@ export const newsletterBySlugQuery = defineQuery(`
       "value": slug.current,
       "label": edition,
     },
+    "subscribeUrl": ${settingsNewsletterLink},
     ${seo},
   }
 `)

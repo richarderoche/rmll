@@ -604,10 +604,11 @@ export type Column = {
 
 export type Button = {
   _type: 'button'
-  linkType?: 'sitePage' | 'externalLink' | 'file'
+  linkType?: 'sitePage' | 'externalLink' | 'file' | 'subscribe'
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
+  subscribe?: Note
   style?: 'fill' | 'outline' | 'underline'
 }
 
@@ -718,6 +719,7 @@ export type Settings = {
     } & SocialLink
   >
   footerNav?: NavLinks
+  newsletterLink?: string
   title?: string
   seo?: Seo
   googletagmanagerID?: string

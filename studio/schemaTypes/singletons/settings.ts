@@ -19,6 +19,10 @@ export default defineType({
       title: 'Footer',
     },
     {
+      name: 'misc',
+      title: 'Misc',
+    },
+    {
       name: 'seo',
       title: 'SEO',
     },
@@ -140,6 +144,13 @@ export default defineType({
       name: 'footerNav',
       type: 'navLinks',
       group: 'footer',
+    }),
+    defineField({
+      name: 'newsletterLink',
+      title: 'Newsletter Link',
+      type: 'string',
+      group: 'misc',
+      description: 'The full URL to the newsletter signup page. Used for "Subscribe" button.',
     }),
     defineField({
       name: 'title',

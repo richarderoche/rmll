@@ -1,9 +1,9 @@
-import { useMediaQuery } from 'hamo'
+import {useMediaQuery} from 'hamo'
 
 export function useOrientation() {
   const isPortrait = useMediaQuery('(orientation: portrait)')
   const isLandscape = useMediaQuery('(orientation: landscape)')
-  return { isPortrait, isLandscape }
+  return {isPortrait, isLandscape}
 }
 
 export function usePrefersReducedMotion() {

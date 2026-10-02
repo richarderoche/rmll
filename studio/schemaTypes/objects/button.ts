@@ -5,6 +5,7 @@ export const BUTTON_TYPE_OPTIONS: {title: string; value: string}[] = [
   {title: 'Internal', value: 'sitePage'},
   {title: 'External', value: 'externalLink'},
   {title: 'File', value: 'file'},
+  {title: 'Subscribe', value: 'subscribe'},
 ]
 
 export default defineType({
@@ -65,6 +66,21 @@ export default defineType({
           description: 'Text shown on the button (e.g. "Download PDF")',
         }),
       ],
+    }),
+    defineField({
+      title: 'Subscribe Button',
+      description:
+        'This creates an external link to the URL set in the Settings "Newsletter Link" field (if set). Use this so that if you change the newsletter link, you only need to update the Settings and not all the buttons.',
+      name: 'subscribeNote',
+      type: 'note',
+      hidden: ({parent}) => parent?.linkType !== 'subscribe',
+    }),
+    defineField({
+      title: 'Button Text',
+      name: 'subscribeText',
+      type: 'string',
+      initialValue: 'Subscribe',
+      hidden: ({parent}) => parent?.linkType !== 'subscribe',
     }),
     defineField({
       title: 'Button style',
