@@ -101,7 +101,7 @@ export default function NewsletterHero({
 
   return (
     <div ref={scopeRef} className="contents">
-      <div className="col-span-12 lg:col-span-5 ts-h1 flex flex-col lg:mt-em relative z-1">
+      <div className="col-span-12 lg:col-span-5 ts-h1 flex flex-col lg:mt-em relative z-1 text-sage-800">
         <span
           ref={editionRef}
           className="opacity-0"
