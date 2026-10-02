@@ -68,22 +68,22 @@ export const viewport: Viewport = {
 
 export default async function RootLayout({children}: LayoutProps<'/'>) {
   const {isEnabled: isDraftMode} = await draftMode()
-  const {data: settings} = await sanityFetch({
+  const {data: settings} = (await sanityFetch({
     query: settingsQuery,
     stega: false,
-  })
+  })) as {data: SettingsQueryResult}
 
   return (
     <html lang="en" className={`${allFontVars} light-theme`} data-scroll-behavior="smooth">
-      <body>
+      <body className="relative">
         <Lenis />
         <GSAP />
-        <div className="flex min-h-screen flex-col justify-start ts-p-md">
-          <Navbar />
+        <div className="flex min-h-screen flex-col justify-start ts-p-md isolate">
+          <Navbar settings={settings} />
           <main className="grow" id="main-content">
             {children}
           </main>
-          <Footer settings={settings as SettingsQueryResult} />
+          <Footer settings={settings} />
         </div>
 
         <Toaster />

@@ -1,22 +1,17 @@
-import { sanityFetch } from '@/sanity/lib/live'
-import { settingsQuery } from '@/sanity/lib/queries'
-import type { NavItem } from '@/types'
+import {SettingsQueryResult} from '@/sanity.types'
+import type {NavItem} from '@/types'
 import Link from 'next/link'
 import NavLinks from '../shared/NavLinks'
 import SiteWidth from '../shared/SiteWidth'
 import MobileNav from './MobileNav'
 import SkipLink from './SkipLink'
 
-export default async function Navbar() {
-  const { data } = await sanityFetch({
-    query: settingsQuery,
-    stega: false,
-  })
-  const headerNav = data?.headerNav || ([] as NavItem[])
-  const siteTitle = data?.title || 'Missing Site Title'
+export default async function Navbar({settings}: {settings: SettingsQueryResult}) {
+  const headerNav = settings?.headerNav || ([] as NavItem[])
+  const siteTitle = settings?.title || 'Missing Site Title'
 
   return (
-    <header className="h-header fixed top-0 left-0 w-full z-10">
+    <header className="h-header fixed top-0 left-0 w-full z-100 isolate">
       <SkipLink />
       <SiteWidth className="h-full flex items-center justify-between gap-x-gut ts-p-md">
         <Link className="ts-h5" href="/">

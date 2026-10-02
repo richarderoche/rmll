@@ -1,10 +1,9 @@
 import PbBlocks from '@/components/pb/PbBlocks'
 import {SanityVisualEditingProvider} from '@/components/pb/SanityVisualEditingContext'
-import ImageBasic from '@/components/shared/ImageBasic'
 import PageWrapper from '@/components/shared/PageWrapper'
 import SiteGrid from '@/components/shared/SiteGrid'
 import SiteWidth from '@/components/shared/SiteWidth'
-import {getTrueSizes, imgSizesFormat} from '@/lib/utils'
+import {getTrueSizes} from '@/lib/utils'
 import {NewsletterBySlugQueryResult} from '@/sanity.types'
 import {studioUrl} from '@/sanity/lib/api'
 import {sanityFetch} from '@/sanity/lib/live'
@@ -16,6 +15,8 @@ import {createDataAttribute} from 'next-sanity'
 import {draftMode} from 'next/headers'
 import {notFound} from 'next/navigation'
 import type {Image, Image as SanityImageType} from 'sanity'
+import NewsletterSidebar from './NewletterSidebar'
+import NewsletterHero from './NewsletterHero'
 
 export async function generateStaticParams() {
   const {data} = await sanityFetch({
@@ -80,7 +81,7 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
       : null
 
   // Default to an empty object to allow previews on non-existent documents
-  const {coverImage, title, edition, bodyContent} = data ?? {}
+  const {slug, coverImage, title, edition, bodyContent, editions} = data ?? {}
   const trueSizes = getTrueSizes(
     {mobile: 12, tablet: 12, desktop: 12},
     {mobile: 12, tablet: 12, desktop: 6},
@@ -90,21 +91,10 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
     <PageWrapper className="pt-section">
       <SiteWidth className="">
         <SiteGrid className="relative">
-          <div className="col-span-12 lg:col-span-5 ts-h1 flex flex-col lg:mt-em">
-            <span className="">{edition}</span>
-            <span className="pl-col-1/6 lg:pl-col-2/5 whitespace-nowrap overflow-visible">
-              Newsletter
-            </span>
-          </div>
-          <ImageBasic
-            className="col-span-12 lg:col-span-7 aspect-4/3 max-md:-mt-gut-66 max-lg:-mt-gut"
-            data-sanity={dataAttribute?.('coverImage')}
-            image={coverImage as SanityImageType}
-            alt={coverImage?.alt ?? `Cover image from ${edition}`}
-            ratio={4 / 3}
-            sizes={imgSizesFormat(88, 93, 46)}
-            priority={true}
-            maxDimension={640}
+          <NewsletterHero
+            edition={edition ?? ''}
+            coverImage={coverImage as SanityImageType}
+            dataAttribute={dataAttribute?.('coverImage')}
           />
           <div className="pt-gut-200 md:pt-section col-span-12 md:col-span-8 lg:col-span-6 lg:col-start-3 max-md:order-last">
             {title && <h1 className="ts-h2-serif text-balance mb-em">{title}</h1>}
@@ -124,7 +114,11 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
             )}
           </div>
           <div className="pt-section col-span-12 md:col-span-4 lg:col-span-3 lg:col-start-10 lg:sticky lg:top-section">
-            Sidebar
+            <NewsletterSidebar
+              editions={editions ?? []}
+              slug={slug ?? ''}
+              edition={edition ?? ''}
+            />
           </div>
         </SiteGrid>
       </SiteWidth>

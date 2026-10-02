@@ -145,6 +145,13 @@ export const newsletterBySlugQuery = defineQuery(`
     bodyContent[]{
       ${pbBlocks}
     },
+    "editions": *[
+      _type == "newsletter" &&
+      defined(slug.current)
+    ] | order(publishDate desc){
+      "value": slug.current,
+      "label": edition,
+    },
     ${seo},
   }
 `)
