@@ -6,8 +6,8 @@ import '@/public/rmll-logo-badge.svg'
 import type {SettingsQueryResult} from '@/sanity.types'
 import {PortableTextBlock} from 'next-sanity'
 import Image from 'next/image'
-import {useState} from 'react'
-import {BlockButton} from './pb/BlockButtons'
+import {type ReactNode, useState} from 'react'
+import {BlockButton, BlockButtonType} from './pb/BlockButtons'
 import Button from './shared/Button'
 import CurrentYear from './shared/CurrentYear'
 import {CustomPortableText} from './shared/CustomPortableText'
@@ -19,9 +19,10 @@ import SiteWidth from './shared/SiteWidth'
 
 type FooterProps = {
   settings: SettingsQueryResult | null
+  weather?: ReactNode
 }
 
-export default function Footer({settings}: FooterProps) {
+export default function Footer({settings, weather}: FooterProps) {
   const [showPopup, setShowPopup] = useState(false)
 
   if (!settings) {
@@ -32,21 +33,31 @@ export default function Footer({settings}: FooterProps) {
   const hasCTAs = footerCTAs && footerCTAs.length > 0
   const hasSocialIcons = socialIcons && socialIcons.length > 0
   const hasFooterNav = footerNav && footerNav.length > 0
-  const popupTransitionClasses = 'transition-transform ease-gleasing duration-500'
+  const popupTransitionClasses = 'ease-gleasing duration-500'
 
   return (
     <footer className="bottom-0 mt-section">
       <SiteWidth className="overflow-hidden">
         <Divider />
+
         <SiteGrid className="pt-gut-150">
           <div className="max-lg:hidden col-span-2">
             <CopyrightAndLogo />
           </div>
-          <div className="col-span-12 lg:col-span-8 lg:col-start-5">
+          <div className="col-span-12 lg:col-span-8 lg:col-start-5 relative">
+            <div
+              className={cn(
+                'max-lg:mb-gut transition-opacity lg:absolute',
+                popupTransitionClasses,
+                showPopup ? 'opacity-20 lg:opacity-0' : '',
+              )}
+            >
+              {weather}
+            </div>
             <div className="-mr-gut">
               <div
                 className={cn(
-                  'flex w-full flex-row',
+                  'flex w-full flex-row transition-transform',
                   popupTransitionClasses,
                   showPopup
                     ? '-translate-x-full lg:translate-x-0'
@@ -59,7 +70,7 @@ export default function Footer({settings}: FooterProps) {
                       return (
                         <div key={key}>
                           {cta.heading && <FooterHeading heading={cta.heading} />}
-                          {cta.link && <BlockButton btn={cta.link} />}
+                          {cta.link && <BlockButton btn={cta.link as BlockButtonType} />}
                         </div>
                       )
                     })}
@@ -114,7 +125,7 @@ export default function Footer({settings}: FooterProps) {
                 <div className="relative z-1">
                   <div
                     className={cn(
-                      'absolute h-0 w-full pb-[25%] bg-red-500 -z-1',
+                      'absolute h-0 w-full pb-[25%] bg-red-500 -z-1 transition-transform',
                       popupTransitionClasses,
                       showPopup ? '-translate-y-full' : '',
                     )}

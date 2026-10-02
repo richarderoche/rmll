@@ -3,6 +3,7 @@ import {DraftModeBootstrap} from '@/components/DraftModeBootstrap'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import GlobalScripts from '@/components/shared/GlobalScripts'
+import WeatherAtRanch from '@/components/shared/WeatherAtRanch'
 import {GSAP} from '@/components/shared/GSAP'
 import {Lenis} from '@/components/shared/Lenis'
 import {SettingsQueryResult} from '@/sanity.types'
@@ -83,7 +84,7 @@ export default async function RootLayout({children}: LayoutProps<'/'>) {
           <main className="grow" id="main-content">
             {children}
           </main>
-          <Footer settings={settings} />
+          <Footer settings={settings} weather={<WeatherAtRanch />} />
         </div>
 
         <Toaster />

@@ -17,7 +17,7 @@ export default defineType({
       title: 'Page',
       name: 'page',
       type: 'reference',
-      to: [{type: 'home'}, {type: 'page'}, {type: 'project'}],
+      to: [{type: 'home'}, {type: 'page'}, {type: 'newsletter'}],
     }),
     defineField({
       name: 'anchorLink',

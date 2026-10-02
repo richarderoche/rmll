@@ -124,16 +124,6 @@ export const homePageQuery = defineQuery(`
   *[_type == "home"][0]{
     ...,
     ${pb},
-    showcaseProjects[]{
-      _key,
-      "project": @->{
-        _id,
-        _type,
-        coverImage,
-        "slug": slug.current,
-        title,
-      }
-    },
   }
 `)
 
@@ -164,14 +154,6 @@ export const newsletterBySlugQuery = defineQuery(`
     ${seo},
   }
 `)
-export const projectBySlugQuery = defineQuery(`
-  *[_type == "project" && slug.current == $slug][0] {
-    ...,
-    "slug": slug.current,
-    ${seo},
-  }
-`)
-
 export const slugsByTypeQuery = defineQuery(`
   *[_type == $type && defined(slug.current)]{"slug": slug.current}
 `)

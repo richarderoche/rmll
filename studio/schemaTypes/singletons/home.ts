@@ -1,6 +1,6 @@
 import StackCompactIcon from '@sanity/icons/StackCompact'
 import {House} from 'lucide-react'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export default defineType({
   name: 'home',
@@ -14,18 +14,6 @@ export default defineType({
       title: 'Title',
       type: 'string',
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: 'showcaseProjects',
-      title: 'Showcase projects',
-      description: 'These are the projects that will appear first on your landing page.',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'project'}],
-        }),
-      ],
     }),
     defineField({
       name: 'pbSections',

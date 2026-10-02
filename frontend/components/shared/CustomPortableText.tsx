@@ -20,7 +20,7 @@ export function CustomPortableText({
   const components: PortableTextComponents = {
     block: {
       'normal': ({children}) => {
-        return <p className="ts-p-md">{children}</p>
+        return <p>{children}</p>
       },
       'h1': ({children}) => {
         return <h2 className="ts-h1">{children}</h2>

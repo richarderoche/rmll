@@ -1,6 +1,5 @@
 import newsletter from './documents/newsletter'
 import page from './documents/page'
-import project from './documents/project'
 import redirect from './documents/redirect'
 import button from './objects/button'
 import navExternal from './objects/navExternal'
@@ -46,7 +45,6 @@ export const schemaTypes = [
   // Documents
   newsletter,
   page,
-  project,
   redirect,
   // Objects
   button,

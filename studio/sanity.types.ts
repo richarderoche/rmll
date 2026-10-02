@@ -560,17 +560,17 @@ export type HomeReference = {
   [internalGroqTypeReferenceTo]?: 'home'
 }
 
-export type ProjectReference = {
+export type NewsletterReference = {
   _ref: string
   _type: 'reference'
   _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'project'
+  [internalGroqTypeReferenceTo]?: 'newsletter'
 }
 
 export type NavPage = {
   _type: 'navPage'
   title?: string
-  page?: HomeReference | PageReference | ProjectReference
+  page?: HomeReference | PageReference | NewsletterReference
   anchorLink?: string
 }
 
@@ -608,7 +608,8 @@ export type Button = {
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
-  subscribe?: Note
+  subscribeNote?: Note
+  subscribeText?: string
   style?: 'fill' | 'outline' | 'underline'
 }
 
@@ -626,21 +627,26 @@ export type Redirect = {
 
 export type Note = string
 
-export type Project = {
+export type Newsletter = {
   _id: string
-  _type: 'project'
+  _type: 'newsletter'
   _createdAt: string
   _updatedAt: string
   _rev: string
-  title: string
+  edition: string
   slug: Slug
+  publishDate: string
   coverImage: {
     asset?: SanityImageAssetReference
     media?: unknown
     hotspot?: SanityImageHotspot
     crop?: SanityImageCrop
+    alt?: string
     _type: 'image'
   }
+  title: string
+  teaserText?: string
+  bodyContent?: PbBlocks
   seo?: Seo
 }
 
@@ -664,29 +670,6 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
-}
-
-export type Newsletter = {
-  _id: string
-  _type: 'newsletter'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  edition: string
-  slug: Slug
-  publishDate: string
-  coverImage: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
-  title: string
-  teaserText?: string
-  bodyContent?: PbBlocks
-  seo?: Seo
 }
 
 export type Settings = {
@@ -739,11 +722,6 @@ export type Home = {
   _updatedAt: string
   _rev: string
   title: string
-  showcaseProjects?: Array<
-    {
-      _key: string
-    } & ProjectReference
-  >
   pbSections?: PbSections
 }
 
@@ -900,7 +878,7 @@ export type AllSanitySchemaTypes =
   | PbBlockButtons
   | PbBlockImage
   | HomeReference
-  | ProjectReference
+  | NewsletterReference
   | NavPage
   | NavLinks
   | NavExternal
@@ -908,11 +886,10 @@ export type AllSanitySchemaTypes =
   | Button
   | Redirect
   | Note
-  | Project
+  | Newsletter
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
-  | Newsletter
   | Settings
   | Home
   | Page

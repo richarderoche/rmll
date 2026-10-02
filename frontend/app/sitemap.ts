@@ -1,29 +1,29 @@
-import { sanityFetch } from '@/sanity/lib/live'
-import { sitemapByTypeQuery } from '@/sanity/lib/queries'
-import { resolveHref } from '@/sanity/lib/utils'
-import { MetadataRoute } from 'next'
+import {SitemapByTypeQueryResult} from '@/sanity.types'
+import {sanityFetch} from '@/sanity/lib/live'
+import {sitemapByTypeQuery} from '@/sanity/lib/queries'
+import {resolveHref} from '@/sanity/lib/utils'
+import {MetadataRoute} from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseURL = 'https://landlibrary.org'
-  const home = await sanityFetch({
+  const home = (await sanityFetch({
     query: sitemapByTypeQuery,
-    params: { type: 'home' },
+    params: {type: 'home'},
     stega: false,
     perspective: 'published',
-  })
-  const pages = await sanityFetch({
+  })) as {data: SitemapByTypeQueryResult}
+  const pages = (await sanityFetch({
     query: sitemapByTypeQuery,
-    params: { type: 'page' },
+    params: {type: 'page'},
     stega: false,
     perspective: 'published',
-  })
-  const projects = await sanityFetch({
+  })) as {data: SitemapByTypeQueryResult}
+  const newsletters = (await sanityFetch({
     query: sitemapByTypeQuery,
-    params: { type: 'project' },
+    params: {type: 'newsletter'},
     stega: false,
     perspective: 'published',
-  })
-
+  })) as {data: SitemapByTypeQueryResult}
   const sitemap = [
     {
       url: baseURL,
@@ -33,12 +33,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ]
 
-  pages.data.map(({ slug, updatedAt }) => {
+  pages.data.map(({slug, updatedAt}) => {
     sitemap.push(smObject(baseURL, slug, 'page', 'yearly', 0.8, updatedAt))
   })
 
-  projects.data.map(({ slug, updatedAt }) => {
-    sitemap.push(smObject(baseURL, slug, 'project', 'yearly', 0.6, updatedAt))
+  newsletters.data.map(({slug, updatedAt}) => {
+    sitemap.push(smObject(baseURL, slug, 'newsletter', 'yearly', 0.6, updatedAt))
   })
 
   return sitemap as MetadataRoute.Sitemap
@@ -48,15 +48,9 @@ function smObject(
   baseURL: string,
   slug: string | null,
   type = 'page',
-  freq:
-    | 'yearly'
-    | 'monthly'
-    | 'weekly'
-    | 'daily'
-    | 'hourly'
-    | 'never' = 'yearly',
+  freq: 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'never' = 'yearly',
   prio: number = 0.8,
-  updatedAt: string
+  updatedAt: string,
 ) {
   const url = baseURL + resolveHref(type, slug)
 
