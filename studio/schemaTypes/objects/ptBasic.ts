@@ -1,7 +1,6 @@
 import DocumentPdfIcon from '@sanity/icons/DocumentPdf'
 import DocumentSheetIcon from '@sanity/icons/DocumentSheet'
 import {defineField, defineType} from 'sanity'
-
 import {ptStyles} from './ptBlockStyles'
 
 export {ptStyles}
@@ -42,7 +41,7 @@ export default defineType({
                 name: 'reference',
                 type: 'reference',
                 title: 'Reference',
-                to: [{type: 'page'}],
+                to: [{type: 'page'}, {type: 'newsletter'}],
               }),
             ],
           },

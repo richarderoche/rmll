@@ -1,5 +1,6 @@
 import PageBuilder from '@/components/pb/PageBuilder'
 import PageWrapper from '@/components/shared/PageWrapper'
+import {PAGE_BUILDER_REVALIDATE_SECONDS} from '@/lib/revalidate'
 import {getFirstSectionInfo} from '@/lib/utils'
 import {PagesBySlugQueryResult} from '@/sanity.types'
 import {sanityFetch} from '@/sanity/lib/live'
@@ -9,6 +10,8 @@ import type {Metadata, ResolvingMetadata} from 'next'
 import {draftMode} from 'next/headers'
 import {notFound} from 'next/navigation'
 import type {Image} from 'sanity'
+
+export const revalidate = PAGE_BUILDER_REVALIDATE_SECONDS
 
 export async function generateStaticParams() {
   const {data} = await sanityFetch({

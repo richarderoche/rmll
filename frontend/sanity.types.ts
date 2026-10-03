@@ -74,6 +74,12 @@ export type FileLinkFile = {
   _type: 'file'
 }
 
+export type YAlignment = {
+  mobile: 'self-start' | 'self-center' | 'self-end'
+  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+}
+
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
@@ -94,12 +100,6 @@ export type MarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
   media?: unknown // Unable to locate the referenced type "file.media" in schema
   _type: 'file'
-}
-
-export type YAlignment = {
-  mobile: 'self-start' | 'self-center' | 'self-end'
-  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
 }
 
 export type SocialLink = {
@@ -251,6 +251,13 @@ export type PtBody = Array<{
   _key: string
 }>
 
+export type NewsletterReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'newsletter'
+}
+
 export type PtBasic = Array<{
   children?: Array<{
     marks?: Array<string>
@@ -267,7 +274,7 @@ export type PtBasic = Array<{
         _key: string
       }
     | {
-        reference?: PageReference
+        reference?: PageReference | NewsletterReference
         _type: 'internalLink'
         _key: string
       }
@@ -327,6 +334,9 @@ export type PbSections = Array<
   | ({
       _key: string
     } & PbLatestNews)
+  | ({
+      _key: string
+    } & PbEventsFeed)
 >
 
 export type PbLatestNews = {
@@ -375,6 +385,26 @@ export type PbGridMulti = {
     blockWidths?: BlockWidths
     _key: string
   }>
+}
+
+export type EventReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'event'
+}
+
+export type PbEventsFeed = {
+  _type: 'pbEventsFeed'
+  sectionSettings?: PbSectionSettings
+  title?: string
+  listingType: 'upcoming' | 'past' | 'manual'
+  events?: Array<
+    {
+      _key: string
+    } & EventReference
+  >
+  showMoreQty?: number
 }
 
 export type PbColSettings = {
@@ -560,13 +590,6 @@ export type HomeReference = {
   [internalGroqTypeReferenceTo]?: 'home'
 }
 
-export type NewsletterReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'newsletter'
-}
-
 export type NavPage = {
   _type: 'navPage'
   title?: string
@@ -670,6 +693,83 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
+}
+
+export type EventLocation = {
+  _id: string
+  _type: 'eventLocation'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug: Slug
+}
+
+export type EventTag = {
+  _id: string
+  _type: 'eventTag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug: Slug
+}
+
+export type EventLocationReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'eventLocation'
+}
+
+export type EventTagReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'eventTag'
+}
+
+export type Event = {
+  _id: string
+  _type: 'event'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+  subtitle?: string
+  date: string
+  thumbnailMain: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  thumbnailBook?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  locations?: Array<
+    {
+      _key: string
+    } & EventLocationReference
+  >
+  tags?: Array<
+    {
+      _key: string
+    } & EventTagReference
+  >
+  link?: {
+    linkType?: 'sitePage' | 'externalLink'
+    sitePage?: PageReference
+    externalLink?: string
+  }
 }
 
 export type Settings = {
@@ -845,10 +945,10 @@ export type AllSanitySchemaTypes =
   | BlockWidths
   | SanityFileAssetReference
   | FileLinkFile
+  | YAlignment
   | SanityImageAssetReference
   | ImageElementImage
   | MarkDefsFileLinkFile
-  | YAlignment
   | SocialLink
   | Seo
   | PageReference
@@ -857,6 +957,7 @@ export type AllSanitySchemaTypes =
   | PtNewsletter
   | PtDivider
   | PtBody
+  | NewsletterReference
   | PtBasic
   | PbTitleSection
   | PbSectionSettings
@@ -865,6 +966,8 @@ export type AllSanitySchemaTypes =
   | PbGridDouble
   | PbGridSingle
   | PbGridMulti
+  | EventReference
+  | PbEventsFeed
   | PbColSettings
   | PbBlockVideoEmbed
   | PbBlockText
@@ -878,7 +981,6 @@ export type AllSanitySchemaTypes =
   | PbBlockButtons
   | PbBlockImage
   | HomeReference
-  | NewsletterReference
   | NavPage
   | NavLinks
   | NavExternal
@@ -890,6 +992,11 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | EventLocation
+  | EventTag
+  | EventLocationReference
+  | EventTagReference
+  | Event
   | Settings
   | Home
   | Page
@@ -904,7 +1011,7 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "home"][0]{    ...,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        ...,        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },  }
+// Query: *[_type == "home"][0]{    ...,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbEventsFeed" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  }        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc){            title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  }        },        listingType == "past" => *[          _type == "event" &&          defined(date) &&          dateTime(date) < dateTime(now())        ] | order(date desc){            title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  }        },        []      )    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'home'
@@ -913,6 +1020,50 @@ export type HomePageQueryResult = {
   _rev: string
   title: string
   pbSections: Array<
+    | {
+        _key: string
+        _type: 'pbEventsFeed'
+        sectionSettings?: PbSectionSettings
+        title?: string
+        listingType: 'manual' | 'past' | 'upcoming'
+        events:
+          | Array<{
+              title: string
+              subtitle: string | null
+              date: string
+              thumbnailMain: {
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                alt?: string
+                _type: 'image'
+              }
+              thumbnailBook: {
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                alt?: string
+                _type: 'image'
+              } | null
+              locations: Array<{
+                title: string | null
+                slug: string
+              }> | null
+              tags: Array<{
+                title: string | null
+                slug: string
+              }> | null
+              link: {
+                linkType: 'externalLink' | 'sitePage' | null
+                path: string | null
+              } | null
+            }>
+          | Array<never>
+          | null
+        showMoreQty?: number
+      }
     | {
         _key: string
         _type: 'pbGridDouble'
@@ -2153,14 +2304,9 @@ export type HomePageQueryResult = {
         sectionSettings?: PbSectionSettings
         priority?: boolean
         newsletter: {
-          _id: string
-          _type: 'newsletter'
-          _createdAt: string
-          _updatedAt: string
-          _rev: string
-          edition: string
           slug: string
-          publishDate: string
+          title: string
+          edition: string
           coverImage: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -2169,10 +2315,7 @@ export type HomePageQueryResult = {
             alt?: string
             _type: 'image'
           }
-          title: string
           teaserText: string | null
-          bodyContent?: PbBlocks
-          seo?: Seo
         } | null
       }
     | {
@@ -2197,7 +2340,7 @@ export type HomePageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: pagesBySlugQuery
-// Query: *[_type == "page" && slug.current == $slug][0] {    ...,    "slug": slug.current,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        ...,        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "page" && slug.current == $slug][0] {    ...,    "slug": slug.current,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbGridDouble" => {      ...,      columnOne {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      },      columnTwo {        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbEventsFeed" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  }        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc){            title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  }        },        listingType == "past" => *[          _type == "event" &&          defined(date) &&          dateTime(date) < dateTime(now())        ] | order(date desc){            title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  }        },        []      )    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": seo.image,  "noIndex": seo.hideFromSearchEngines,  }
 export type PagesBySlugQueryResult = {
   _id: string
   _type: 'page'
@@ -2207,6 +2350,50 @@ export type PagesBySlugQueryResult = {
   title: string
   slug: string
   pbSections: Array<
+    | {
+        _key: string
+        _type: 'pbEventsFeed'
+        sectionSettings?: PbSectionSettings
+        title?: string
+        listingType: 'manual' | 'past' | 'upcoming'
+        events:
+          | Array<{
+              title: string
+              subtitle: string | null
+              date: string
+              thumbnailMain: {
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                alt?: string
+                _type: 'image'
+              }
+              thumbnailBook: {
+                asset?: SanityImageAssetReference
+                media?: unknown
+                hotspot?: SanityImageHotspot
+                crop?: SanityImageCrop
+                alt?: string
+                _type: 'image'
+              } | null
+              locations: Array<{
+                title: string | null
+                slug: string
+              }> | null
+              tags: Array<{
+                title: string | null
+                slug: string
+              }> | null
+              link: {
+                linkType: 'externalLink' | 'sitePage' | null
+                path: string | null
+              } | null
+            }>
+          | Array<never>
+          | null
+        showMoreQty?: number
+      }
     | {
         _key: string
         _type: 'pbGridDouble'
@@ -3447,14 +3634,9 @@ export type PagesBySlugQueryResult = {
         sectionSettings?: PbSectionSettings
         priority?: boolean
         newsletter: {
-          _id: string
-          _type: 'newsletter'
-          _createdAt: string
-          _updatedAt: string
-          _rev: string
-          edition: string
           slug: string
-          publishDate: string
+          title: string
+          edition: string
           coverImage: {
             asset?: SanityImageAssetReference
             media?: unknown
@@ -3463,10 +3645,7 @@ export type PagesBySlugQueryResult = {
             alt?: string
             _type: 'image'
           }
-          title: string
           teaserText: string | null
-          bodyContent?: PbBlocks
-          seo?: Seo
         } | null
       }
     | {
@@ -4077,8 +4256,8 @@ export type ScriptsQueryResult = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        ...,\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n  }\n': HomePageQueryResult
-    '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        ...,\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
+    '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbEventsFeed" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  }\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc){\n          \n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  }\n\n        },\n        listingType == "past" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) < dateTime(now())\n        ] | order(date desc){\n          \n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  }\n\n        },\n        []\n      )\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n  }\n': HomePageQueryResult
+    '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbGridDouble" => {\n      ...,\n      columnOne {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      },\n      columnTwo {\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbEventsFeed" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  }\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc){\n          \n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  }\n\n        },\n        listingType == "past" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) < dateTime(now())\n        ] | order(date desc){\n          \n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  }\n\n        },\n        []\n      )\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
     '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n    },\n    "editions": *[\n      _type == "newsletter" &&\n      defined(slug.current)\n    ] | order(publishDate desc){\n      "value": slug.current,\n      "label": edition,\n    },\n    "subscribeUrl": *[_type == "settings"][0].newsletterLink,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": seo.image,\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == $type]{"slug": slug.current, "updatedAt": _updatedAt}\n': SitemapByTypeQueryResult

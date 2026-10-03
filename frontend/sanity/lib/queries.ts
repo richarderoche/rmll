@@ -34,6 +34,29 @@ const portableText = `
 `
 const settingsNewsletterLink = `*[_type == "settings"][0].newsletterLink`
 
+const eventData = `
+  title,
+  subtitle,
+  date,
+  thumbnailMain,
+  thumbnailBook,
+  locations[]->{
+    title,
+    "slug": slug.current,
+  },
+  tags[]->{
+    title,
+    "slug": slug.current,
+  },
+  "link": link {
+    linkType,
+    "path": select(
+      linkType == "sitePage" => sitePage->slug.current,
+      linkType == "externalLink" => externalLink,
+    ),
+  }
+`
+
 const pbButton = `
   ...,
   sitePage {
@@ -102,13 +125,35 @@ const pb = `
         }
       }
     },
+    _type == "pbEventsFeed" => {
+      ...,
+      "events": select(
+        listingType == "manual" => events[defined(@)]->{
+          ${eventData}
+        },
+        listingType == "upcoming" => *[
+          _type == "event" &&
+          defined(date) &&
+          dateTime(date) >= dateTime(now())
+        ] | order(date asc){
+          ${eventData}
+        },
+        listingType == "past" => *[
+          _type == "event" &&
+          defined(date) &&
+          dateTime(date) < dateTime(now())
+        ] | order(date desc){
+          ${eventData}
+        },
+        []
+      )
+    },
     _type == "pbLatestNews" => {
       ...,
       "newsletter": *[
         _type == "newsletter" &&
         defined(slug.current)
       ] | order(publishDate desc)[0]{
-        ...,
         "slug": slug.current,
         title,
         edition,

@@ -74,6 +74,12 @@ export type FileLinkFile = {
   _type: 'file'
 }
 
+export type YAlignment = {
+  mobile: 'self-start' | 'self-center' | 'self-end'
+  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
+}
+
 export type SanityImageAssetReference = {
   _ref: string
   _type: 'reference'
@@ -94,12 +100,6 @@ export type MarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
   media?: unknown // Unable to locate the referenced type "file.media" in schema
   _type: 'file'
-}
-
-export type YAlignment = {
-  mobile: 'self-start' | 'self-center' | 'self-end'
-  tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
-  desktop: 'inherit' | 'self-start' | 'self-center' | 'self-end'
 }
 
 export type SocialLink = {
@@ -251,6 +251,13 @@ export type PtBody = Array<{
   _key: string
 }>
 
+export type NewsletterReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'newsletter'
+}
+
 export type PtBasic = Array<{
   children?: Array<{
     marks?: Array<string>
@@ -267,7 +274,7 @@ export type PtBasic = Array<{
         _key: string
       }
     | {
-        reference?: PageReference
+        reference?: PageReference | NewsletterReference
         _type: 'internalLink'
         _key: string
       }
@@ -375,6 +382,26 @@ export type PbGridMulti = {
     blockWidths?: BlockWidths
     _key: string
   }>
+}
+
+export type EventReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'event'
+}
+
+export type PbEventsFeed = {
+  _type: 'pbEventsFeed'
+  sectionSettings?: PbSectionSettings
+  title?: string
+  listingType: 'upcoming' | 'past' | 'manual'
+  events?: Array<
+    {
+      _key: string
+    } & EventReference
+  >
+  showMoreQty?: number
 }
 
 export type PbColSettings = {
@@ -560,13 +587,6 @@ export type HomeReference = {
   [internalGroqTypeReferenceTo]?: 'home'
 }
 
-export type NewsletterReference = {
-  _ref: string
-  _type: 'reference'
-  _weak?: boolean
-  [internalGroqTypeReferenceTo]?: 'newsletter'
-}
-
 export type NavPage = {
   _type: 'navPage'
   title?: string
@@ -670,6 +690,83 @@ export type Slug = {
   _type: 'slug'
   current: string
   source?: string
+}
+
+export type EventLocation = {
+  _id: string
+  _type: 'eventLocation'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug: Slug
+}
+
+export type EventTag = {
+  _id: string
+  _type: 'eventTag'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title?: string
+  slug: Slug
+}
+
+export type EventLocationReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'eventLocation'
+}
+
+export type EventTagReference = {
+  _ref: string
+  _type: 'reference'
+  _weak?: boolean
+  [internalGroqTypeReferenceTo]?: 'eventTag'
+}
+
+export type Event = {
+  _id: string
+  _type: 'event'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  title: string
+  slug: Slug
+  subtitle?: string
+  date: string
+  thumbnailMain: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  thumbnailBook?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  locations?: Array<
+    {
+      _key: string
+    } & EventLocationReference
+  >
+  tags?: Array<
+    {
+      _key: string
+    } & EventTagReference
+  >
+  link?: {
+    linkType?: 'sitePage' | 'externalLink'
+    sitePage?: PageReference
+    externalLink?: string
+  }
 }
 
 export type Settings = {
@@ -845,10 +942,10 @@ export type AllSanitySchemaTypes =
   | BlockWidths
   | SanityFileAssetReference
   | FileLinkFile
+  | YAlignment
   | SanityImageAssetReference
   | ImageElementImage
   | MarkDefsFileLinkFile
-  | YAlignment
   | SocialLink
   | Seo
   | PageReference
@@ -857,6 +954,7 @@ export type AllSanitySchemaTypes =
   | PtNewsletter
   | PtDivider
   | PtBody
+  | NewsletterReference
   | PtBasic
   | PbTitleSection
   | PbSectionSettings
@@ -865,6 +963,8 @@ export type AllSanitySchemaTypes =
   | PbGridDouble
   | PbGridSingle
   | PbGridMulti
+  | EventReference
+  | PbEventsFeed
   | PbColSettings
   | PbBlockVideoEmbed
   | PbBlockText
@@ -878,7 +978,6 @@ export type AllSanitySchemaTypes =
   | PbBlockButtons
   | PbBlockImage
   | HomeReference
-  | NewsletterReference
   | NavPage
   | NavLinks
   | NavExternal
@@ -890,6 +989,11 @@ export type AllSanitySchemaTypes =
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
+  | EventLocation
+  | EventTag
+  | EventLocationReference
+  | EventTagReference
+  | Event
   | Settings
   | Home
   | Page

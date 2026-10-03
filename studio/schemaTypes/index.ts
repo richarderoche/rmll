@@ -1,3 +1,6 @@
+import event from './documents/event'
+import eventLocation from './documents/eventLocation'
+import eventTag from './documents/eventTag'
 import newsletter from './documents/newsletter'
 import page from './documents/page'
 import redirect from './documents/redirect'
@@ -27,6 +30,7 @@ import pbBlockVideoEmbed from './pbBlocks/pbBlockVideoEmbed'
 import pbSections from './pbSections'
 import column from './pbSections/column'
 import pbColSettings from './pbSections/pbColSettings'
+import pbEventsFeed from './pbSections/pbEventsFeed'
 import pbGridDouble from './pbSections/pbGridDouble'
 import pbGridMulti from './pbSections/pbGridMulti'
 import pbGridSingle from './pbSections/pbGridSingle'
@@ -43,8 +47,11 @@ export const schemaTypes = [
   home,
   settings,
   // Documents
-  newsletter,
   page,
+  event,
+  eventTag,
+  eventLocation,
+  newsletter,
   redirect,
   // Objects
   button,
@@ -64,6 +71,7 @@ export const schemaTypes = [
   pbBlockText,
   pbBlockVideoEmbed,
   pbColSettings,
+  pbEventsFeed,
   pbGridMulti,
   pbGridSingle,
   pbGridDouble,
@@ -80,5 +88,3 @@ export const schemaTypes = [
   seo,
   socialLink,
 ]
-
-export const singletons = []

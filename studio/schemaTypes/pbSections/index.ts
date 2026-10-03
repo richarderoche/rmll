@@ -10,5 +10,6 @@ export default defineType({
     {type: 'pbGridSingle'},
     {type: 'pbGridDouble'},
     {type: 'pbLatestNews'},
+    {type: 'pbEventsFeed'},
   ],
 })
