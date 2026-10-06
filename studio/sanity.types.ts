@@ -334,6 +334,9 @@ export type PbSections = Array<
   | ({
       _key: string
     } & PbLatestNews)
+  | ({
+      _key: string
+    } & PbEventsFeed)
 >
 
 export type PbLatestNews = {
