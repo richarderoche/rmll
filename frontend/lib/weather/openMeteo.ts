@@ -1,8 +1,4 @@
-import {
-  RANCH_LATITUDE,
-  RANCH_LONGITUDE,
-  WEATHER_REVALIDATE_SECONDS,
-} from '@/lib/weather/constants'
+import {RANCH_LATITUDE, RANCH_LONGITUDE} from '@/lib/weather/constants'
 
 export type WeatherCondition =
   | 'sunny'
@@ -54,9 +50,7 @@ export async function getRanchWeather(): Promise<RanchWeather | null> {
   const url = `https://api.open-meteo.com/v1/forecast?${params.toString()}`
 
   try {
-    const res = await fetch(url, {
-      next: {revalidate: WEATHER_REVALIDATE_SECONDS},
-    })
+    const res = await fetch(url)
 
     if (!res.ok) return null
 

@@ -3,9 +3,9 @@ import {DraftModeBootstrap} from '@/components/DraftModeBootstrap'
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import GlobalScripts from '@/components/shared/GlobalScripts'
-import WeatherAtRanch from '@/components/shared/WeatherAtRanch'
 import {GSAP} from '@/components/shared/GSAP'
 import {Lenis} from '@/components/shared/Lenis'
+import WeatherAtRanch from '@/components/shared/WeatherAtRanch'
 import {SettingsQueryResult} from '@/sanity.types'
 import {sanityFetch, SanityLive} from '@/sanity/lib/live'
 import {settingsQuery} from '@/sanity/lib/queries'
@@ -16,6 +16,9 @@ import type {Image} from 'sanity'
 import {Toaster} from 'sonner'
 import {handleError} from './client-utils'
 import {allFontVars} from './fonts'
+
+// Revalidation (ISR) for Event expiry and footer Weather
+export const revalidate = 1800 // 30 minutes
 
 export async function generateMetadata(): Promise<Metadata> {
   const {data: settings} = (await sanityFetch({
