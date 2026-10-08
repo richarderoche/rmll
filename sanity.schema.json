@@ -5390,6 +5390,13 @@
           }
         },
         "optional": true
+      },
+      "btnText": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
       }
     }
   },

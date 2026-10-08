@@ -125,6 +125,12 @@ export default defineType({
         }),
       ],
     }),
+    defineField({
+      name: 'btnText',
+      title: 'Button Text',
+      type: 'string',
+      initialValue: 'Details',
+    }),
   ],
   preview: {
     select: {

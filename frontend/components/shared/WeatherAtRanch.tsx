@@ -1,4 +1,4 @@
-import {getRanchWeather, weatherConditionLabels} from '@/lib/weather/openMeteo'
+import {getRanchWeather} from '@/lib/weather/openMeteo'
 import IconWeather from '../icons/IconWeather'
 
 export default async function WeatherAtRanch() {
@@ -6,14 +6,12 @@ export default async function WeatherAtRanch() {
 
   if (!weather) return null
 
-  const conditionLabel = weatherConditionLabels[weather.condition]
-
   return (
     <div className="flex flex-col gap-y-3">
       <p className="flex flex-wrap items-center gap-x-[.45em] ts-h5">
         <span>At the Ranch</span>
         <span aria-hidden="true">
-          <IconWeather className="size-em relative top-[-.0625em]" />
+          <IconWeather condition={weather.condition} className="size-em relative top-[-.0625em]" />
         </span>
         <span>{Math.round(weather.tempF)}°</span>
       </p>

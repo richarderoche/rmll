@@ -15,6 +15,7 @@ export type SelectProps = {
   value: SelectOption | null
   onValueChange: (next: string | null) => void
   options: SelectOption[]
+  includeAllOption?: boolean
   emptyLabel?: string | null
   className?: string
   colorClasses?: string
@@ -25,15 +26,20 @@ export default function SelectComponent({
   value,
   onValueChange,
   options,
+  includeAllOption = false,
   emptyLabel = 'All',
-  colorClasses,
+  colorClasses = 'bg-bg-subtle',
   className,
 }: SelectProps) {
+  const allOptionLabel = emptyLabel ?? 'All'
+  const listItems = includeAllOption ? [{value: '', label: allOptionLabel}, ...options] : options
+  const rootValue = value?.value ?? (includeAllOption ? '' : null)
+
   return (
     <div className={cn('flex flex-col w-full', colorClasses, className)}>
       <Select.Root
-        items={options}
-        defaultValue={value?.value ?? null}
+        items={listItems}
+        value={rootValue}
         onValueChange={(v) => onValueChange(v === '' ? null : v)}
         modal={false}
       >
@@ -42,16 +48,20 @@ export default function SelectComponent({
           <Select.Value placeholder={emptyLabel ?? 'Select an option'}>
             {(selectedValue) => {
               const placeholder = emptyLabel ?? 'Select an option'
-              if (
+              const isEmpty =
                 selectedValue == null ||
                 selectedValue === '' ||
                 (Array.isArray(selectedValue) && selectedValue.length === 0)
-              ) {
+
+              if (isEmpty) {
+                if (includeAllOption) {
+                  return `${label}: ${allOptionLabel}`
+                }
                 return placeholder
               }
 
               const activeLabel =
-                options.find((option) => option.value === selectedValue)?.label ??
+                listItems.find((option) => option.value === selectedValue)?.label ??
                 String(selectedValue)
 
               return `${label}: ${activeLabel}`
@@ -72,9 +82,9 @@ export default function SelectComponent({
               )}
             >
               <Select.List>
-                {options.map(({label, value}) => (
+                {listItems.map(({label, value}) => (
                   <Select.Item
-                    key={label}
+                    key={value === '' ? '__all__' : value}
                     value={value}
                     className="ts-h5 flex justify-between gap-[.2em] items-center cursor-pointer py-button-y px-button-x text-left hover:bg-olive"
                   >

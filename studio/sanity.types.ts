@@ -770,6 +770,7 @@ export type Event = {
     sitePage?: PageReference
     externalLink?: string
   }
+  btnText?: string
 }
 
 export type Settings = {

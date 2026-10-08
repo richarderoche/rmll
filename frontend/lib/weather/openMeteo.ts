@@ -1,11 +1,6 @@
 import {RANCH_LATITUDE, RANCH_LONGITUDE} from '@/lib/weather/constants'
 
-export type WeatherCondition =
-  | 'sunny'
-  | 'partlyCloudy'
-  | 'cloudy'
-  | 'rainy'
-  | 'snowy'
+export type WeatherCondition = 'sunny' | 'partlyCloudy' | 'cloudy' | 'rainy' | 'snowy'
 
 export type RanchWeather = {
   tempF: number
@@ -27,15 +22,7 @@ export function weatherCodeToCondition(code: number): WeatherCondition {
     return 'rainy'
   }
   if ((code >= 71 && code <= 77) || code === 85 || code === 86) return 'snowy'
-  return 'cloudy'
-}
-
-export const weatherConditionLabels: Record<WeatherCondition, string> = {
-  sunny: 'Sunny',
-  partlyCloudy: 'Partly cloudy',
-  cloudy: 'Cloudy',
-  rainy: 'Rainy',
-  snowy: 'Snowy',
+  return 'partlyCloudy'
 }
 
 export async function getRanchWeather(): Promise<RanchWeather | null> {

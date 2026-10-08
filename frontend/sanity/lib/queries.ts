@@ -35,6 +35,7 @@ const portableText = `
 const settingsNewsletterLink = `*[_type == "settings"][0].newsletterLink`
 
 const eventData = `
+  _id,
   title,
   subtitle,
   date,
@@ -54,7 +55,8 @@ const eventData = `
       linkType == "sitePage" => sitePage->slug.current,
       linkType == "externalLink" => externalLink,
     ),
-  }
+  },
+  btnText,
 `
 
 const pbButton = `
