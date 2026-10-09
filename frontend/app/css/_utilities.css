@@ -8,6 +8,13 @@
   text-underline-offset: 0.15em;
 }
 
+@utility nice-underline-dotted {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.15em;
+}
+
 @utility nice-underline-stealth {
   text-decoration: underline;
   text-decoration-thickness: 1px;

@@ -5,16 +5,17 @@ import gsap from 'gsap'
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
 import {Suspense, useCallback, useEffect, useMemo, useRef, useState} from 'react'
 
+import EventCard, {type EventCardEvent} from '@/components/events/EventCard'
 import type {PbEventsFeedSection} from '@/types'
 
-import Button from '../shared/Button'
 import type {SelectOption} from '../shared/Select'
 import SelectComponent from '../shared/Select'
+import SiteGrid from '../shared/SiteGrid'
 import SiteWidth from '../shared/SiteWidth'
 
 gsap.registerPlugin(useGSAP)
 
-type PbEvent = NonNullable<NonNullable<PbEventsFeedSection['events']>[number]>
+type PbEvent = EventCardEvent
 
 /** Query keys for shareable event feed filters (`?eventLocation=…&eventType=…`). */
 const EVENT_LOCATION_PARAM = 'eventLocation'
@@ -176,55 +177,58 @@ function SectionEventsFeedInner({section}: {section: PbEventsFeedSection}) {
 
   return (
     <SiteWidth className="py-gut-50">
-      <div>
-        <div className="ts-h2">{title}</div>
-        <div>
-          <SelectComponent
-            colorClasses="bg-sage-900 text-bg"
-            label="Location"
-            value={optionForSlug(locationSlug, allLocations)}
-            onValueChange={handleLocationChange}
-            options={allLocations}
-            includeAllOption
-          />
-          <SelectComponent
-            colorClasses="bg-sage-800 text-bg"
-            label="Event Type"
-            value={optionForSlug(tagSlug, allTags)}
-            onValueChange={handleTagChange}
-            options={allTags}
-            includeAllOption
-          />
+      <SiteGrid className="items-center gap-y-gut-66 md:px-gut-33">
+        <div className="col-span-12 md:col-span-5 lg:col-span-6">
+          <span className="ts-h1 md:hidden">{title}</span>
+          <span className="ts-h2 max-md:hidden">{title}</span>
         </div>
-      </div>
-      <div ref={feedRef} className="flex flex-col gap-gut-50">
+        <div className="col-span-12 md:col-span-7 lg:col-span-6 grid grid-cols-2 gap-gut">
+          <div>
+            <SelectComponent
+              colorClasses="bg-sage-900 text-bg"
+              label="Location"
+              value={optionForSlug(locationSlug, allLocations)}
+              onValueChange={handleLocationChange}
+              options={allLocations}
+              includeAllOption
+            />
+          </div>
+          <div>
+            <SelectComponent
+              colorClasses="bg-sage-800 text-bg"
+              label="Event Type"
+              value={optionForSlug(tagSlug, allTags)}
+              onValueChange={handleTagChange}
+              options={allTags}
+              includeAllOption
+            />
+          </div>
+        </div>
+      </SiteGrid>
+      <div ref={feedRef} className="flex flex-col mt-gut md:mt-gut-75 max-md:gap-gut-50">
         {displayEvents.map((event) => (
           <EventCard key={event._id} event={event} />
         ))}
       </div>
       {hiddenCount > 0 && (
-        <div className="flex flex-col items-center gap-gut-50 pt-gut-50">
-          <p className="ts-h5">
-            {hiddenCount} {hiddenCount === 1 ? 'event' : 'events'} not shown
-          </p>
-          <Button
-            text="Show More"
-            onClick={() => setVisibleCount((count) => count + pageSize)}
-            width="fit"
-          />
+        <div className="flex items-baseline gap-gut mt-gut justify-between md:grid md:grid-cols-12 md:px-gut-33">
+          <div className="md:col-span-2 lg:col-span-3">
+            <p className="ts-h6">
+              + {hiddenCount} More {hiddenCount === 1 ? 'event' : 'events'}
+            </p>
+          </div>
+          <div className="md:col-span-9">
+            <button
+              type="button"
+              className="ts-h4 nice-underline text-sage-700 hover:nice-underline-dotted hover:text-sage-900"
+              onClick={() => setVisibleCount((count) => count + pageSize)}
+            >
+              Show More
+            </button>
+          </div>
         </div>
       )}
     </SiteWidth>
-  )
-}
-
-function EventCard({event}: {event: PbEvent}) {
-  const {title, date, _id} = event
-  return (
-    <div data-event-id={_id} className="bg-white p-4 rounded-lg shadow-md">
-      <h3 className="text-lg font-bold">{title}</h3>
-      <p className="text-sm text-gray-500">{formatDate(date)}</p>
-    </div>
   )
 }
 
@@ -252,25 +256,29 @@ function filterSlugFromParam(param: string | null, options: SelectOption[]): str
   return options.some((option) => option.value === param) ? param : null
 }
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString('en-US', {
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
-
 function getSelectOptions(events: PbEvent[], key: 'locations' | 'tags'): SelectOption[] {
-  const seen = new Set<string>()
-  const options: SelectOption[] = []
+  const counts = new Map<string, number>()
+  const labels = new Map<string, string>()
 
   for (const event of events) {
+    const slugsOnEvent = new Set<string>()
+
     for (const item of event[key] ?? []) {
-      if (!item?.slug || item.title == null || seen.has(item.slug)) continue
-      seen.add(item.slug)
-      options.push({value: item.slug, label: item.title})
+      if (!item?.slug || item.title == null) continue
+      labels.set(item.slug, item.title)
+      slugsOnEvent.add(item.slug)
+    }
+
+    for (const slug of slugsOnEvent) {
+      counts.set(slug, (counts.get(slug) ?? 0) + 1)
     }
   }
 
-  return options
+  return [...counts.keys()]
+    .map((value) => ({value, label: labels.get(value)!}))
+    .sort((a, b) => {
+      const byCount = (counts.get(b.value) ?? 0) - (counts.get(a.value) ?? 0)
+      if (byCount !== 0) return byCount
+      return a.label.localeCompare(b.label)
+    })
 }

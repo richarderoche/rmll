@@ -47,7 +47,7 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
 /* Paragraphs */
 
 .ts-p-lg {
-  @apply font-serif leading-145 ts-size-18/24 lg:ts-size-22/36;
+  @apply font-serif leading-135 ts-size-18/24 lg:ts-size-22/36;
 }
 
 .ts-p-md {
@@ -64,5 +64,5 @@ Example: ts-size-24/36 → font-size = var(--gut) × (24÷36)
 
 /* Misc */
 .inline-link {
-  @apply nice-underline transition-opacity hover:opacity-50;
+  @apply nice-underline hover:nice-underline-dotted hover:text-sage-700;
 }

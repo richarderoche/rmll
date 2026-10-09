@@ -75,11 +75,12 @@ export default function SelectComponent({
           <Select.Positioner className="outline-hidden select-none" alignItemWithTrigger={false}>
             <Select.Popup
               className={cn(
-                'max-h-[min(18rem,40vh)] min-w-(--anchor-width) overflow-auto',
+                'max-h-[min(11rem,40vh)] min-w-(--anchor-width) overflow-auto',
                 'transition-all origin-top duration-400 ease-gleasing',
                 'data-ending-style:translate-y-none data-ending-style:opacity-1 data-starting-style:-translate-y-button-y data-starting-style:opacity-0',
                 colorClasses,
               )}
+              data-lenis-prevent
             >
               <Select.List>
                 {listItems.map(({label, value}) => (
