@@ -48,14 +48,21 @@ function EventCardContent({event, hasLink}: {event: EventCardEvent; hasLink: boo
           </p>
           <div className="md:col-span-6 lg:col-span-5 flex flex-row gap-gut-25">
             {locations &&
-              locations.map((location) => Tag(location.title || location.slug, 'border'))}
+              locations.map((location) => (
+                <Tag
+                  key={location.slug}
+                  text={location.title || location.slug}
+                  className="border"
+                />
+              ))}
             {tags &&
-              tags.map((tag) =>
-                Tag(
-                  tag.title || tag.slug,
-                  'border border-bg-subtle bg-bg-subtle group-hover:bg-sage-100 group-hover:border-sage-100 transition-colors ease-gleasing duration-400',
-                ),
-              )}
+              tags.map((tag) => (
+                <Tag
+                  key={tag.slug}
+                  text={tag.title || tag.slug}
+                  className="border border-bg-subtle bg-bg-subtle group-hover:bg-sage-100 group-hover:border-sage-100 transition-colors ease-gleasing duration-400"
+                />
+              ))}
           </div>
         </div>
         <div className="grid grid-cols-8 lg:grid-cols-9 gap-gut-50 md:gap-gut">
@@ -124,7 +131,7 @@ function EventCardContent({event, hasLink}: {event: EventCardEvent; hasLink: boo
   )
 }
 
-function Tag(text: string, className: string) {
+function Tag({text, className}: {text: string; className: string}) {
   return (
     <div className={cn('ts-h6 corner w-fit px-[0.5em] py-[0.3em]', className)}>
       <span>{text}</span>
