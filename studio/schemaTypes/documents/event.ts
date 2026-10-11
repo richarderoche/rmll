@@ -61,7 +61,7 @@ export default defineType({
         hotspot: {
           previews: [
             {title: '1:1', aspectRatio: 1},
-            {title: '16:9', aspectRatio: 1.7777777778},
+            {title: '2:1', aspectRatio: 2},
           ],
         },
       },

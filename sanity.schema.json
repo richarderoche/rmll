@@ -2537,6 +2537,21 @@
               "type": "inline",
               "name": "pbEventsFeed"
             }
+          },
+          {
+            "type": "object",
+            "attributes": {
+              "_key": {
+                "type": "objectAttribute",
+                "value": {
+                  "type": "string"
+                }
+              }
+            },
+            "rest": {
+              "type": "inline",
+              "name": "pbEventsCarousel"
+            }
           }
         ]
       }
@@ -3105,6 +3120,76 @@
           "type": "objectAttribute",
           "value": {
             "type": "number"
+          },
+          "optional": true
+        }
+      }
+    }
+  },
+  {
+    "name": "pbEventsCarousel",
+    "type": "type",
+    "value": {
+      "type": "object",
+      "attributes": {
+        "_type": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string",
+            "value": "pbEventsCarousel"
+          }
+        },
+        "sectionSettings": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "pbSectionSettings"
+          },
+          "optional": true
+        },
+        "title": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
+          },
+          "optional": true
+        },
+        "listingType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "upcoming"
+              },
+              {
+                "type": "string",
+                "value": "manual"
+              }
+            ]
+          },
+          "optional": false
+        },
+        "events": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "array",
+            "of": {
+              "type": "object",
+              "attributes": {
+                "_key": {
+                  "type": "objectAttribute",
+                  "value": {
+                    "type": "string"
+                  }
+                }
+              },
+              "rest": {
+                "type": "inline",
+                "name": "event.reference"
+              }
+            }
           },
           "optional": true
         }

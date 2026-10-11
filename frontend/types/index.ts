@@ -35,4 +35,6 @@ export type PbLatestNewsSection = Extract<PageBuilderSection, {_type: 'pbLatestN
 
 export type PbEventsFeedSection = Extract<PageBuilderSection, {_type: 'pbEventsFeed'}>
 
+export type PbEventsCarouselSection = Extract<PageBuilderSection, {_type: 'pbEventsCarousel'}>
+
 export type PageBuilderData = PagesBySlugQueryResult | HomePageQueryResult | undefined

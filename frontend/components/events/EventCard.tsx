@@ -70,7 +70,7 @@ function EventCardContent({event, hasLink}: {event: EventCardEvent; hasLink: boo
             <div className="md:hidden col-span-3">
               <ImageBasic
                 image={thumbnailMain}
-                alt={thumbnailMain.alt || 'Main Image'}
+                alt={thumbnailMain.alt || title}
                 ratio={1.5}
                 sizes="25vw"
                 maxDimension={300}
@@ -118,7 +118,7 @@ function EventCardContent({event, hasLink}: {event: EventCardEvent; hasLink: boo
           <div className="max-md:hidden">
             <ImageBasic
               image={thumbnailMain}
-              alt={thumbnailMain.alt || 'Main Image'}
+              alt={thumbnailMain.alt || title}
               ratio={16 / 9}
               sizes={imgSizesFormat(28, null, 21)}
               maxDimension={600}
@@ -131,7 +131,7 @@ function EventCardContent({event, hasLink}: {event: EventCardEvent; hasLink: boo
   )
 }
 
-function Tag({text, className}: {text: string; className: string}) {
+export function Tag({text, className}: {text: string; className: string}) {
   return (
     <div className={cn('ts-h6 corner w-fit px-[0.5em] py-[0.3em]', className)}>
       <span>{text}</span>
@@ -139,7 +139,7 @@ function Tag({text, className}: {text: string; className: string}) {
   )
 }
 
-function formatDate(date: string) {
+export function formatDate(date: string) {
   const parsed = new Date(date)
   return {
     long: parsed.toLocaleDateString('en-US', {

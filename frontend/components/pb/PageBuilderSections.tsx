@@ -1,13 +1,14 @@
 'use client'
 
 import {PbGridDouble, PbGridMulti, PbGridSingle, PbSections, PbTitleSection} from '@/sanity.types'
-import type {PbEventsFeedSection, PbLatestNewsSection} from '@/types'
+import type {PbEventsCarouselSection, PbEventsFeedSection, PbLatestNewsSection} from '@/types'
 import {Suspense, type ReactNode} from 'react'
 import {
   SanityPathSegment,
   SanityVisualEditingPath,
   useSanityDataAttribute,
 } from './SanityVisualEditingContext'
+import SectionEventsCarousel from './SectionEventsCarousel'
 import SectionEventsFeed from './SectionEventsFeed'
 import SectionGridDouble from './SectionGridDouble'
 import SectionGridMulti from './SectionGridMulti'
@@ -50,6 +51,9 @@ const sectionRegistry = {
   },
   pbEventsFeed: {
     render: (section) => <SectionEventsFeed section={section as PbEventsFeedSection} />,
+  },
+  pbEventsCarousel: {
+    render: (section) => <SectionEventsCarousel section={section as PbEventsCarouselSection} />,
   },
   // pbCarousel: {
   //   render: (section) => <SectionCarousel section={section} />,

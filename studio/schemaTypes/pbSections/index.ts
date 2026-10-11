@@ -11,5 +11,6 @@ export default defineType({
     {type: 'pbGridDouble'},
     {type: 'pbLatestNews'},
     {type: 'pbEventsFeed'},
+    {type: 'pbEventsCarousel'},
   ],
 })

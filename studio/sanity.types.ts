@@ -337,6 +337,9 @@ export type PbSections = Array<
   | ({
       _key: string
     } & PbEventsFeed)
+  | ({
+      _key: string
+    } & PbEventsCarousel)
 >
 
 export type PbLatestNews = {
@@ -405,6 +408,18 @@ export type PbEventsFeed = {
     } & EventReference
   >
   showMoreQty?: number
+}
+
+export type PbEventsCarousel = {
+  _type: 'pbEventsCarousel'
+  sectionSettings?: PbSectionSettings
+  title?: string
+  listingType: 'upcoming' | 'manual'
+  events?: Array<
+    {
+      _key: string
+    } & EventReference
+  >
 }
 
 export type PbColSettings = {
@@ -969,6 +984,7 @@ export type AllSanitySchemaTypes =
   | PbGridMulti
   | EventReference
   | PbEventsFeed
+  | PbEventsCarousel
   | PbColSettings
   | PbBlockVideoEmbed
   | PbBlockText

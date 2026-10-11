@@ -30,6 +30,7 @@ import pbBlockVideoEmbed from './pbBlocks/pbBlockVideoEmbed'
 import pbSections from './pbSections'
 import column from './pbSections/column'
 import pbColSettings from './pbSections/pbColSettings'
+import pbEventsCarousel from './pbSections/pbEventsCarousel'
 import pbEventsFeed from './pbSections/pbEventsFeed'
 import pbGridDouble from './pbSections/pbGridDouble'
 import pbGridMulti from './pbSections/pbGridMulti'
@@ -71,6 +72,7 @@ export const schemaTypes = [
   pbBlockText,
   pbBlockVideoEmbed,
   pbColSettings,
+  pbEventsCarousel,
   pbEventsFeed,
   pbGridMulti,
   pbGridSingle,

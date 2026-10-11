@@ -150,6 +150,22 @@ const pb = `
         []
       )
     },
+    _type == "pbEventsCarousel" => {
+      ...,
+      "events": select(
+        listingType == "manual" => events[defined(@)]->{
+          ${eventData}
+        },
+        listingType == "upcoming" => *[
+          _type == "event" &&
+          defined(date) &&
+          dateTime(date) >= dateTime(now())
+        ] | order(date asc)[0...5]{
+          ${eventData}
+        },
+        []
+      )
+    },
     _type == "pbLatestNews" => {
       ...,
       "newsletter": *[

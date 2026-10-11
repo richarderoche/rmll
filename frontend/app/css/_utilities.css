@@ -84,3 +84,14 @@ Example: pl-col-1/12, pl-col-2/6, pl-col-3 (defaults to 12 columns).
     content: '\201D';
   }
 }
+
+@utility visually-hidden {
+  border: 0;
+  padding: 0;
+  clip: rect(0 0 0 0);
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  position: absolute;
+}
