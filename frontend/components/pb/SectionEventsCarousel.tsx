@@ -4,7 +4,9 @@ import {cn} from '@/lib/utils'
 import type {PbEventsCarouselSection} from '@/types'
 import {EmblaOptionsType} from 'embla-carousel'
 import Accessibility from 'embla-carousel-accessibility'
+import Autoplay from 'embla-carousel-autoplay'
 import useEmblaCarousel from 'embla-carousel-react'
+import {useEffect} from 'react'
 import {useAccessibility} from '../events/EventsCarouselAccessibility'
 import {DotButton, useDotButton} from '../events/EventsCarouselDotButton'
 import EventSlide, {EventSlideType} from '../events/EventSlide'
@@ -25,11 +27,20 @@ const SectionEventsCarousel = ({section}: {section: PbEventsCarouselSection}) =>
       announceChanges: true,
       rootNode: (emblaRoot) => emblaRoot.parentElement,
     }),
+    Autoplay({
+      delay: 4000,
+    }),
   ])
 
   const {selectedIndex, scrollSnaps, onDotButtonClick} = useDotButton(emblaApi)
 
   useAccessibility(emblaApi)
+
+  useEffect(() => {
+    if (emblaApi) {
+      emblaApi.plugins().autoplay?.play()
+    }
+  }, [emblaApi])
 
   return (
     <SiteWidth>

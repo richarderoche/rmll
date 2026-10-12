@@ -13,7 +13,7 @@ export default function EventSlide({event}: {event: EventSlideType}) {
   const href = hasLink && (link?.linkType === 'sitePage' ? `/${link?.path}` : link?.path)
 
   return (
-    <div className="md:grid md:grid-cols-12 bg-sage-900 select-none cursor-grab">
+    <div className="md:grid md:grid-cols-12 bg-sage-900 select-none cursor-grab active:cursor-grabbing">
       {thumbnailMain && (
         <div className="md:hidden">
           <ImageBasic
