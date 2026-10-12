@@ -31,7 +31,7 @@ export default function EventSlide({event}: {event: EventSlideType}) {
             image={thumbnailMain}
             alt={thumbnailMain.alt || title}
             ratio={1}
-            sizes={imgSizesFormat(31, null, 31)}
+            sizes="31vw"
             maxDimension={1000}
           />
         </div>
@@ -73,8 +73,8 @@ export default function EventSlide({event}: {event: EventSlideType}) {
               <ImageBasic
                 image={thumbnailBook}
                 alt={thumbnailBook.alt || 'Book Cover'}
-                sizes="65px"
-                maxDimension={120}
+                sizes="7vw"
+                maxDimension={200}
               />
             </div>
           )}
@@ -87,8 +87,8 @@ export default function EventSlide({event}: {event: EventSlideType}) {
                     <ImageBasic
                       image={thumbnailBook}
                       alt={thumbnailBook.alt || 'Book Cover'}
-                      sizes="65px"
-                      maxDimension={120}
+                      sizes={imgSizesFormat(8, 4, null)}
+                      maxDimension={80}
                     />
                   </div>
                 )}
