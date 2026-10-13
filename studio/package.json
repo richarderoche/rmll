@@ -8,7 +8,9 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "predev": "npm run sanity:typegen",
-    "dev": "sanity dev",
+    "dev": "run-p schema:extract:watch studio:dev",
+    "studio:dev": "sanity dev",
+    "schema:extract:watch": "sanity schema extract --enforce-required-fields --force --path ../sanity.schema.json --watch --watch-patterns schemaTypes",
     "sanity:typegen": "sanity schema extract --enforce-required-fields --force --path ../sanity.schema.json && sanity typegen generate",
     "start": "sanity start",
     "type-check": "tsc --noEmit"

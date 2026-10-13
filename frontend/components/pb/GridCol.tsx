@@ -1,7 +1,7 @@
 import {cn, getAlignClasses, getGridClasses, getTrueSizes} from '@/lib/utils'
 import {PbColSettings, PbGridMulti} from '@/sanity.types'
 
-import {PbBlocksQueryResult} from '@/types'
+import {PbColBlocks} from '@/types'
 import {AccordionSection} from '../shared/AccordionSection'
 import Card from '../shared/Card'
 import Revealer from '../shared/Revealer'
@@ -41,7 +41,7 @@ export default function GridCol({col, outerSettings, cardMode = false, blockWidt
 
   const colBlocks = (
     <PbBlocks
-      columnBlocks={pbBlocks as PbBlocksQueryResult}
+      columnBlocks={pbBlocks as PbColBlocks}
       trueSizes={trueSizes}
       spaceBetweenBlocks={spaceBetweenBlocks || 'gap-gut'}
       blockWidths={blockWidths}

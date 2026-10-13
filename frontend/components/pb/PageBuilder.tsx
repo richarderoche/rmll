@@ -1,19 +1,18 @@
-import { PbSections } from '@/sanity.types'
-import { studioUrl } from '@/sanity/lib/api'
-import { PageBuilderData } from '@/types'
+import {HomePageQueryResult, PagesBySlugQueryResult, PbSections} from '@/sanity.types'
+import {studioUrl} from '@/sanity/lib/api'
 import PageBuilderSections from './PageBuilderSections'
-import { SanityVisualEditingProvider } from './SanityVisualEditingContext'
+import {SanityVisualEditingProvider} from './SanityVisualEditingContext'
 
-export interface PageBuilderProps {
-  data: PageBuilderData
-  firstPbSectionKey: string
-}
+export type PbPageData = PagesBySlugQueryResult | HomePageQueryResult | undefined
 
 export default function PageBuilder({
   data,
   firstPbSectionKey,
-}: PageBuilderProps) {
-  const { pbSections } = data ?? {}
+}: {
+  data: PbPageData
+  firstPbSectionKey: string
+}) {
+  const {pbSections} = data ?? {}
   const documentId = data?._id ?? null
   const documentType = data?._type ?? null
   if (!pbSections || pbSections.length === 0) return null

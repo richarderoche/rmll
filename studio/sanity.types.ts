@@ -437,6 +437,7 @@ export type PbCarousel = {
   _type: 'pbCarousel'
   sectionSettings?: PbSectionSettings
   sectionName?: string
+  testWatch?: string
   slides?: Array<{
     slideWidthDesktop: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
     yAlignment: 'self-start' | 'self-center' | 'self-end'

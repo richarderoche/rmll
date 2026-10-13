@@ -9,7 +9,7 @@ import {studioUrl} from '@/sanity/lib/api'
 import {sanityFetch} from '@/sanity/lib/live'
 import {newsletterBySlugQuery, slugsByTypeQuery} from '@/sanity/lib/queries'
 import {urlForOpenGraphImage} from '@/sanity/lib/utils'
-import {PbBlocksQueryResult} from '@/types'
+import {PbColBlocks} from '@/types'
 import type {Metadata, ResolvingMetadata} from 'next'
 import {createDataAttribute} from 'next-sanity'
 import {draftMode} from 'next/headers'
@@ -105,7 +105,7 @@ export default async function NewsletterSlugRoute(props: PageProps<'/newsletters
                 baseUrl={studioUrl}
               >
                 <PbBlocks
-                  columnBlocks={bodyContent as PbBlocksQueryResult}
+                  columnBlocks={bodyContent as PbColBlocks}
                   blocksFieldName="bodyContent"
                   trueSizes={trueSizes}
                   spaceBetweenBlocks={'gap-gut'}

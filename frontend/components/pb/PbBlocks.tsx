@@ -3,7 +3,7 @@
 import {screenVisibilityClassName} from '@/lib/screenVisibility'
 import {cn} from '@/lib/utils'
 import type {PbBlockDivider, PbBlockImage} from '@/sanity.types'
-import {PbBlocksQueryResult} from '@/types'
+import {PbColBlock, PbColBlocks} from '@/types'
 import dynamic from 'next/dynamic'
 import {Fragment, Suspense, type ComponentType} from 'react'
 // import static components for common or lightweight components
@@ -22,7 +22,7 @@ const BlockMarquee = dynamic(() => import('./BlockMarquee'))
 
 type BlockRegistryEntry = {
   Component: ComponentType<{
-    block: PbBlocksQueryResult[number]
+    block: PbColBlock
     trueSizes?: string
   }>
   dynamic?: boolean
@@ -58,11 +58,11 @@ const blockRegistry: Record<string, BlockRegistryEntry> = {
 type BlockRenderProps = {
   blockKey: string
   dataSanity: string | undefined
-  block: PbBlocksQueryResult[number]
+  block: PbColBlock
   trueSizes: string
 }
 
-function blockWrapClassName(block: PbBlocksQueryResult[number], wrapClassName?: string) {
+function blockWrapClassName(block: PbColBlock, wrapClassName?: string) {
   let visibility: string | undefined
 
   if (block._type === 'pbBlockDivider') {
@@ -114,7 +114,7 @@ function renderBlock(entry: BlockRegistryEntry, props: BlockRenderProps) {
 }
 
 export interface PbBlocksProps {
-  columnBlocks: PbBlocksQueryResult
+  columnBlocks: PbColBlocks
   trueSizes: string
   spaceBetweenBlocks: string
   /** Sanity field name for this block array (default: column `pbBlocks`). */

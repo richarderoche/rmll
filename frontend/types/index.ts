@@ -2,7 +2,8 @@
 // Only reusable types should be here
 // Put one-off types in the component file
 
-import {HomePageQueryResult, PagesBySlugQueryResult} from '@/sanity.types'
+import {PagesBySlugQueryResult} from '@/sanity.types'
+import type {FilterByType, Get} from '@sanity/codegen'
 
 export interface NavPage {
   type: string
@@ -19,24 +20,16 @@ export interface NavItem {
   anchorLink?: string | null
 }
 
-// extract pbGridMulti from the pbGridSection union for the pbBlocks query result below
-type PbGridSection = Extract<
-  NonNullable<NonNullable<PagesBySlugQueryResult>['pbSections']>[number],
-  {_type: 'pbGridMulti'}
->
-export type PbBlocksQueryResult = NonNullable<
-  NonNullable<PbGridSection['columns']>[number]['pbBlocks']
->
+export type PbSection = Get<PagesBySlugQueryResult, 'pbSections', number>
 
-type PageBuilderSection = NonNullable<NonNullable<PagesBySlugQueryResult>['pbSections']>[number]
+export type PbGridMultiSection = FilterByType<PbSection, 'pbGridMulti'>
+export type PbGridSingleSection = FilterByType<PbSection, 'pbGridSingle'>
+export type PbGridDoubleSection = FilterByType<PbSection, 'pbGridDouble'>
+export type PbTitleSectionSection = FilterByType<PbSection, 'pbTitleSection'>
+export type PbLatestNewsSection = FilterByType<PbSection, 'pbLatestNews'>
+export type PbEventsFeedSection = FilterByType<PbSection, 'pbEventsFeed'>
+export type PbEventsCarouselSection = FilterByType<PbSection, 'pbEventsCarousel'>
+export type PbCarouselSection = FilterByType<PbSection, 'pbCarousel'>
 
-/** `pbLatestNews` section from page builder GROQ (includes resolved `newsletter`). */
-export type PbLatestNewsSection = Extract<PageBuilderSection, {_type: 'pbLatestNews'}>
-
-export type PbEventsFeedSection = Extract<PageBuilderSection, {_type: 'pbEventsFeed'}>
-
-export type PbEventsCarouselSection = Extract<PageBuilderSection, {_type: 'pbEventsCarousel'}>
-
-export type PbCarouselSection = Extract<PageBuilderSection, {_type: 'pbCarousel'}>
-
-export type PageBuilderData = PagesBySlugQueryResult | HomePageQueryResult | undefined
+export type PbColBlocks = Get<PbGridMultiSection, 'columns', number, 'pbBlocks'>
+export type PbColBlock = Get<PbGridMultiSection, 'columns', number, 'pbBlocks', number>

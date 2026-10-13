@@ -1,11 +1,12 @@
 'use client'
 
-import {NavItem, PbBlocksQueryResult} from '@/types'
+import {NavItem, PbColBlock} from '@/types'
+import type {FilterByType, Get} from '@sanity/codegen'
 import Button from '../shared/Button'
 
-export type BlockButtonsType = Extract<PbBlocksQueryResult[number], {_type: 'pbBlockButtons'}>
+export type BlockButtonsType = FilterByType<PbColBlock, 'pbBlockButtons'>
 
-type BlockButtonFromQuery = NonNullable<BlockButtonsType['buttons']>[number]
+type BlockButtonFromQuery = Get<BlockButtonsType, 'buttons', number>
 
 export type BlockButtonType = Omit<BlockButtonFromQuery, '_key'> & {
   _key?: string

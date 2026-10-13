@@ -1,6 +1,6 @@
+import {PbPageData} from '@/components/pb/PageBuilder'
 import {SITE_MAX_WIDTH} from '@/components/shared/SiteWidth'
 import type {PbColSettings, Size, Start} from '@/sanity.types'
-import {PageBuilderData} from '@/types'
 import {type ClassValue, clsx} from 'clsx'
 
 // ClassName helper
@@ -121,7 +121,7 @@ export function imgSizesFormat(smWidth: number, mdWidth?: number | null, lgWidth
   return `${rest}`
 }
 
-export function getFirstSectionInfo(data: PageBuilderData) {
+export function getFirstSectionInfo(data: PbPageData) {
   if (!data) return {firstIsHero: false, firstPbSectionKey: ''}
   const firstPbSection = data?.pbSections?.find(
     (section) => section.sectionSettings?.enableSection !== false,

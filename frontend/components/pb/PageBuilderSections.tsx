@@ -6,6 +6,7 @@ import type {
   PbEventsCarouselSection,
   PbEventsFeedSection,
   PbLatestNewsSection,
+  PbSection,
 } from '@/types'
 import {Suspense, type ReactNode} from 'react'
 import {
@@ -22,10 +23,8 @@ import SectionGridSingle from './SectionGridSingle'
 import SectionLatestNews from './SectionLatestNews'
 import SectionTitleHero from './SectionTitleHero'
 
-type Section = NonNullable<PbSections>[number]
-
 type SectionRegistryEntry = {
-  render: (section: Section, context: {sectionKey: string; isFirst: boolean}) => ReactNode
+  render: (section: PbSection, context: {sectionKey: string; isFirst: boolean}) => ReactNode
   dynamic?: boolean
 }
 
@@ -67,7 +66,7 @@ const sectionRegistry = {
 
 function renderSection(
   entry: SectionRegistryEntry,
-  section: Section,
+  section: PbSection,
   context: {sectionKey: string; isFirst: boolean},
 ) {
   const content = entry.render(section, context)
@@ -113,7 +112,7 @@ export default function PageBuilderSections({
               }}
             >
               <SanityVisualEditingPath path={[...sectionPath]}>
-                {renderSection(entry, section, {
+                {renderSection(entry, section as PbSection, {
                   sectionKey: _key,
                   isFirst: _key === firstPbSectionKey,
                 })}
