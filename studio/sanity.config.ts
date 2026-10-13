@@ -1,21 +1,20 @@
-import { dashboardTool } from '@sanity/dashboard'
-import { visionTool } from '@sanity/vision'
-import { find, without } from 'lodash'
-import { defineConfig } from 'sanity'
-import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel'
-import { presentationTool } from 'sanity/presentation'
-import { structureTool } from 'sanity/structure'
-import { IconStudio } from './lib/customIcons'
-import { noteField } from './plugins/note-field'
-import { schemaTypes, singletonSchemaTypes } from './schemaTypes'
-import { pageStructure } from './structure'
+import {dashboardTool} from '@sanity/dashboard'
+import {visionTool} from '@sanity/vision'
+import {find, without} from 'lodash'
+import {defineConfig} from 'sanity'
+import {vercelWidget} from 'sanity-plugin-dashboard-widget-vercel'
+import {presentationTool} from 'sanity/presentation'
+import {structureTool} from 'sanity/structure'
+import {IconStudio} from './lib/customIcons'
+import {noteField} from './plugins/note-field'
+import {schemaTypes, singletonSchemaTypes} from './schemaTypes'
+import {pageStructure} from './structure'
 
 //import { defaultConfig, muxInput } from 'sanity-plugin-mux-input'
 
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || 'your-projectID'
 const dataset = process.env.SANITY_STUDIO_DATASET || 'production'
-const SANITY_STUDIO_PREVIEW_URL =
-  process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000'
+const SANITY_STUDIO_PREVIEW_URL = process.env.SANITY_STUDIO_PREVIEW_URL || 'http://localhost:3000'
 
 /*
 // Max defaults, can be overridden in field options
@@ -44,6 +43,14 @@ export default defineConfig({
     enabled: false,
   },
 
+  form: {
+    arrays: {
+      collapseItems: {
+        enabled: false,
+      },
+    },
+  },
+
   plugins: [
     // The order determines the order in the studio menu
     structureTool({
@@ -52,7 +59,7 @@ export default defineConfig({
     presentationTool({
       previewUrl: {
         origin: SANITY_STUDIO_PREVIEW_URL,
-        previewMode: { enable: '/api/draft-mode/enable' },
+        previewMode: {enable: '/api/draft-mode/enable'},
       },
     }),
     //muxInput(muxConfig),
@@ -64,7 +71,7 @@ export default defineConfig({
   ],
 
   tools: (prev: any) => {
-    const dashboardTool = find(prev, { name: 'dashboard' })
+    const dashboardTool = find(prev, {name: 'dashboard'})
     const toolsWithoutDashboard = without(prev, dashboardTool)
 
     return [

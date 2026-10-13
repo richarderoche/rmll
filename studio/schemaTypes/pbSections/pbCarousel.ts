@@ -1,4 +1,4 @@
-import {AlignHorizontalJustifyEnd} from 'lucide-react'
+import {AlignHorizontalJustifyEnd, CaseSensitive} from 'lucide-react'
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {getTypeTitles} from '../../lib/utils'
 import {sectionNameField} from '../fields'
@@ -82,15 +82,22 @@ export default defineType({
             select: {
               slideWidthDesktop: 'slideWidthDesktop',
               yAlignment: 'yAlignment',
-              slideBlocks: 'slideBlocks',
+              type0: 'slideBlocks.0._type',
+              type1: 'slideBlocks.1._type',
+              type2: 'slideBlocks.2._type',
+              image0: 'slideBlocks.0.image',
+              image1: 'slideBlocks.1.image',
+              image2: 'slideBlocks.2.image',
             },
-            prepare({slideWidthDesktop, yAlignment, slideBlocks}) {
-              const types = slideBlocks ? slideBlocks.map((block: any) => block._type) : []
+            prepare({slideWidthDesktop, yAlignment, type0, type1, type2, image0, image1, image2}) {
+              const types = [type0, type1, type2].filter(Boolean)
               const blockList = getTypeTitles(types)
               const alignTitle = vList.find((o) => o.value === yAlignment)?.title
+              const media = image0 || image1 || image2
               return {
                 title: `Slide (Width: ${slideWidthDesktop}/12, Align: ${alignTitle})`,
                 subtitle: `Blocks: ${blockList || 'None'}`,
+                media: media || CaseSensitive,
               }
             },
           },

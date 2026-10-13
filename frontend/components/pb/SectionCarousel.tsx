@@ -21,7 +21,7 @@ export default function SectionCarousel({section}: {section: PbCarouselSection})
   const {slides} = section
   const {path: sectionPath} = useSanityDataAttribute()
   const options: EmblaOptionsType = {
-    loop: false,
+    loop: true,
     align: 'start',
     breakpoints: {
       '(prefers-reduced-motion: reduce)': {duration: 0},
@@ -52,7 +52,7 @@ export default function SectionCarousel({section}: {section: PbCarouselSection})
             {slides?.map((slide, index) => (
               <div
                 key={slide._key}
-                className={`embla__slide grow-0 shrink-0 basis-10/12 md:basis-${slide.slideWidthDesktop > 6 ? 8 : 5}/12 lg:basis-${slide.slideWidthDesktop}/12 min-w-0 pl-gut`}
+                className={`embla__slide grow-0 shrink-0 basis-10/12 md:basis-${slide.slideWidthDesktop > 5 ? 9 : 6}/12 lg:basis-${slide.slideWidthDesktop}/12 min-w-0 pl-gut`}
               >
                 <SlideContent slide={slide} isActive={index === selectedIndex} />
               </div>
@@ -89,7 +89,7 @@ function SlideContent({slide, isActive}: {slide: PbCarouselSlide; isActive: bool
   return (
     <div
       className={cn(
-        'h-full flex flex-col gap-gut-66',
+        'h-full flex flex-col gap-gut-50',
         yAlignment === 'self-start' && 'justify-start',
         yAlignment === 'self-center' && 'justify-center',
         yAlignment === 'self-end' && 'justify-end',
