@@ -333,6 +333,9 @@ export type PbSections = Array<
     } & PbGridDouble)
   | ({
       _key: string
+    } & PbCarousel)
+  | ({
+      _key: string
     } & PbLatestNews)
   | ({
       _key: string
@@ -428,6 +431,28 @@ export type PbColSettings = {
   start?: Start
   accordionMode?: boolean
   accordionTitle?: string
+}
+
+export type PbCarousel = {
+  _type: 'pbCarousel'
+  sectionSettings?: PbSectionSettings
+  sectionName?: string
+  slides?: Array<{
+    slideWidthDesktop: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
+    yAlignment: 'self-start' | 'self-center' | 'self-end'
+    slideBlocks?: Array<
+      | ({
+          _key: string
+        } & PbBlockText)
+      | ({
+          _key: string
+        } & ImageBasic)
+      | ({
+          _key: string
+        } & PbBlockQuote)
+    >
+    _key: string
+  }>
 }
 
 export type PbBlockVideoEmbed = {
@@ -628,6 +653,19 @@ export type NavExternal = {
   _type: 'navExternal'
   title?: string
   url?: string
+}
+
+export type ImageBasic = {
+  _type: 'imageBasic'
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  imageCrop?: 0 | 1 | 0.6666666667 | 0.75 | 0.8 | 1.3333333333 | 1.5 | 1.7777777778 | 2.5
 }
 
 export type Column = {
@@ -986,6 +1024,7 @@ export type AllSanitySchemaTypes =
   | PbEventsFeed
   | PbEventsCarousel
   | PbColSettings
+  | PbCarousel
   | PbBlockVideoEmbed
   | PbBlockText
   | PbBlockRichText
@@ -1001,6 +1040,7 @@ export type AllSanitySchemaTypes =
   | NavPage
   | NavLinks
   | NavExternal
+  | ImageBasic
   | Column
   | Button
   | Redirect
@@ -1037,6 +1077,28 @@ export type HomePageQueryResult = {
   _rev: string
   title: string
   pbSections: Array<
+    | {
+        _key: string
+        _type: 'pbCarousel'
+        sectionSettings?: PbSectionSettings
+        sectionName?: string
+        slides?: Array<{
+          slideWidthDesktop: 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+          yAlignment: 'self-center' | 'self-end' | 'self-start'
+          slideBlocks?: Array<
+            | ({
+                _key: string
+              } & ImageBasic)
+            | ({
+                _key: string
+              } & PbBlockQuote)
+            | ({
+                _key: string
+              } & PbBlockText)
+          >
+          _key: string
+        }>
+      }
     | {
         _key: string
         _type: 'pbEventsCarousel'
@@ -2414,6 +2476,28 @@ export type PagesBySlugQueryResult = {
   title: string
   slug: string
   pbSections: Array<
+    | {
+        _key: string
+        _type: 'pbCarousel'
+        sectionSettings?: PbSectionSettings
+        sectionName?: string
+        slides?: Array<{
+          slideWidthDesktop: 10 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+          yAlignment: 'self-center' | 'self-end' | 'self-start'
+          slideBlocks?: Array<
+            | ({
+                _key: string
+              } & ImageBasic)
+            | ({
+                _key: string
+              } & PbBlockQuote)
+            | ({
+                _key: string
+              } & PbBlockText)
+          >
+          _key: string
+        }>
+      }
     | {
         _key: string
         _type: 'pbEventsCarousel'

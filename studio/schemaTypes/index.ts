@@ -5,6 +5,7 @@ import newsletter from './documents/newsletter'
 import page from './documents/page'
 import redirect from './documents/redirect'
 import button from './objects/button'
+import imageBasic from './objects/imageBasic'
 import navExternal from './objects/navExternal'
 import navLinks from './objects/navLinks'
 import navPage from './objects/navPage'
@@ -29,6 +30,7 @@ import pbBlockText from './pbBlocks/pbBlockText'
 import pbBlockVideoEmbed from './pbBlocks/pbBlockVideoEmbed'
 import pbSections from './pbSections'
 import column from './pbSections/column'
+import pbCarousel from './pbSections/pbCarousel'
 import pbColSettings from './pbSections/pbColSettings'
 import pbEventsCarousel from './pbSections/pbEventsCarousel'
 import pbEventsFeed from './pbSections/pbEventsFeed'
@@ -57,6 +59,7 @@ export const schemaTypes = [
   // Objects
   button,
   column,
+  imageBasic,
   navExternal,
   navLinks,
   navPage,
@@ -71,6 +74,7 @@ export const schemaTypes = [
   pbBlockRichText,
   pbBlockText,
   pbBlockVideoEmbed,
+  pbCarousel,
   pbColSettings,
   pbEventsCarousel,
   pbEventsFeed,

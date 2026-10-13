@@ -97,3 +97,14 @@ button {
 .paused-by-button [data-marqy] > [data-marqy-inner] > [data-marqy-content] {
   animation-play-state: paused;
 }
+
+.embla__dots {
+  @apply flex gap-8 xl:gap-10;
+}
+
+.embla__dot {
+  @apply size-10 xl:size-12 rounded-full border-sage-800 border;
+  &.current {
+    @apply bg-sage-800;
+  }
+}

@@ -28,7 +28,7 @@ const SectionEventsCarousel = ({section}: {section: PbEventsCarouselSection}) =>
       rootNode: (emblaRoot) => emblaRoot.parentElement,
     }),
     Autoplay({
-      delay: 4000,
+      delay: 5000,
     }),
   ])
 
@@ -46,7 +46,7 @@ const SectionEventsCarousel = ({section}: {section: PbEventsCarouselSection}) =>
     <SiteWidth>
       <div className="embla">
         <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-          <div className="embla__container flex -ml-gut touch-pan-y touch-pinch-zoom">
+          <div className="embla__container flex -ml-gut touch-pan-y touch-pinch-zoom select-none cursor-grab active:cursor-grabbing">
             {events?.map((event: EventSlideType) => (
               <div
                 key={event._id}
@@ -61,16 +61,12 @@ const SectionEventsCarousel = ({section}: {section: PbEventsCarouselSection}) =>
         <div className="embla__controls flex gap-gut justify-between items-center mt-gut-50">
           {title && <p className="ts-h6">{title}</p>}
           {scrollSnaps.length > 1 && (
-            <div className="embla__dots flex justify-end gap-8 xl:gap-10">
+            <div className="embla__dots justify-end">
               {scrollSnaps.map((_, index) => (
                 <DotButton
                   key={index}
                   onClick={() => onDotButtonClick(index)}
-                  className={cn(
-                    'embla__dot',
-                    'size-10 xl:size-12 rounded-full border-sage-800 border',
-                    index === selectedIndex && 'bg-sage-800',
-                  )}
+                  className={cn('embla__dot', index === selectedIndex && 'current')}
                 />
               ))}
             </div>

@@ -84,7 +84,7 @@ export default async function RootLayout({children}: LayoutProps<'/'>) {
         <GSAP />
         <div className="flex min-h-screen flex-col justify-start ts-p-md isolate">
           <Navbar settings={settings} />
-          <main className="grow" id="main-content">
+          <main className="grow w-full overflow-x-hidden" id="main-content">
             {children}
           </main>
           <Footer settings={settings} weather={<WeatherAtRanch />} />

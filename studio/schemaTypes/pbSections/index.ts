@@ -9,6 +9,7 @@ export default defineType({
     {type: 'pbGridMulti'},
     {type: 'pbGridSingle'},
     {type: 'pbGridDouble'},
+    {type: 'pbCarousel'},
     {type: 'pbLatestNews'},
     {type: 'pbEventsFeed'},
     {type: 'pbEventsCarousel'},

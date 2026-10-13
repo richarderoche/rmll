@@ -53,6 +53,8 @@ export const getTypeTitles = (types: string[]) => {
         return 'Copy to Clipboard'
       case 'pbBlockQuote':
         return 'Quote'
+      case 'imageBasic':
+        return 'Image'
       default:
         return null
     }

@@ -1,13 +1,19 @@
 'use client'
 
 import {PbGridDouble, PbGridMulti, PbGridSingle, PbSections, PbTitleSection} from '@/sanity.types'
-import type {PbEventsCarouselSection, PbEventsFeedSection, PbLatestNewsSection} from '@/types'
+import type {
+  PbCarouselSection,
+  PbEventsCarouselSection,
+  PbEventsFeedSection,
+  PbLatestNewsSection,
+} from '@/types'
 import {Suspense, type ReactNode} from 'react'
 import {
   SanityPathSegment,
   SanityVisualEditingPath,
   useSanityDataAttribute,
 } from './SanityVisualEditingContext'
+import SectionCarousel from './SectionCarousel'
 import SectionEventsCarousel from './SectionEventsCarousel'
 import SectionEventsFeed from './SectionEventsFeed'
 import SectionGridDouble from './SectionGridDouble'
@@ -15,7 +21,6 @@ import SectionGridMulti from './SectionGridMulti'
 import SectionGridSingle from './SectionGridSingle'
 import SectionLatestNews from './SectionLatestNews'
 import SectionTitleHero from './SectionTitleHero'
-// import dynamic from 'next/dynamic' — uncomment when adding dynamic sections
 
 type Section = NonNullable<PbSections>[number]
 
@@ -55,10 +60,9 @@ const sectionRegistry = {
   pbEventsCarousel: {
     render: (section) => <SectionEventsCarousel section={section as PbEventsCarouselSection} />,
   },
-  // pbCarousel: {
-  //   render: (section) => <SectionCarousel section={section} />,
-  //   dynamic: true,
-  // },
+  pbCarousel: {
+    render: (section) => <SectionCarousel section={section as PbCarouselSection} />,
+  },
 } satisfies Record<string, SectionRegistryEntry>
 
 function renderSection(
