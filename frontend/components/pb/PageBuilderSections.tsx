@@ -60,7 +60,9 @@ const sectionRegistry = {
     render: (section) => <SectionEventsCarousel section={section as PbEventsCarouselSection} />,
   },
   pbCarousel: {
-    render: (section) => <SectionCarousel section={section as PbCarouselSection} />,
+    render: (section, {isFirst}) => (
+      <SectionCarousel section={section as PbCarouselSection} isFirst={isFirst} />
+    ),
   },
 } satisfies Record<string, SectionRegistryEntry>
 

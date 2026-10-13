@@ -1,9 +1,10 @@
 'use client'
 import {cn} from '@/lib/utils'
 import {PbCarouselSection} from '@/types'
-import {EmblaOptionsType} from 'embla-carousel'
+import {EmblaCarouselType, EmblaOptionsType} from 'embla-carousel'
 import Accessibility from 'embla-carousel-accessibility'
 import useEmblaCarousel from 'embla-carousel-react'
+import {useEffect, useState} from 'react'
 import {Image as SanityImageType} from 'sanity'
 import {useAccessibility} from '../events/EventsCarouselAccessibility'
 import {DotButton, useDotButton} from '../events/EventsCarouselDotButton'
@@ -17,12 +18,36 @@ import {useSanityDataAttribute} from './SanityVisualEditingContext'
 
 type PbCarouselSlide = NonNullable<PbCarouselSection['slides']>[number]
 
-export default function SectionCarousel({section}: {section: PbCarouselSection}) {
+function useSlidesInView(emblaApi: EmblaCarouselType | undefined) {
+  const [slidesInView, setSlidesInView] = useState<number[]>([])
+
+  useEffect(() => {
+    if (!emblaApi) return
+
+    const updateSlidesInView = () => {
+      setSlidesInView(emblaApi.slidesInView())
+    }
+
+    updateSlidesInView()
+    emblaApi.on('slidesinview', updateSlidesInView).on('reinit', updateSlidesInView)
+  }, [emblaApi])
+
+  return slidesInView
+}
+
+export default function SectionCarousel({
+  section,
+  isFirst,
+}: {
+  section: PbCarouselSection
+  isFirst: boolean
+}) {
   const {slides} = section
   const {path: sectionPath} = useSanityDataAttribute()
   const options: EmblaOptionsType = {
     loop: true,
     align: 'start',
+    inViewThreshold: 1,
     breakpoints: {
       '(prefers-reduced-motion: reduce)': {duration: 0},
     },
@@ -36,6 +61,7 @@ export default function SectionCarousel({section}: {section: PbCarouselSection})
   ])
 
   const {selectedIndex, scrollSnaps, onDotButtonClick} = useDotButton(emblaApi)
+  const slidesInView = useSlidesInView(emblaApi)
 
   useAccessibility(emblaApi)
 
@@ -54,7 +80,11 @@ export default function SectionCarousel({section}: {section: PbCarouselSection})
                 key={slide._key}
                 className={`embla__slide grow-0 shrink-0 basis-10/12 md:basis-${slide.slideWidthDesktop > 5 ? 9 : 6}/12 lg:basis-${slide.slideWidthDesktop}/12 min-w-0 pl-gut`}
               >
-                <SlideContent slide={slide} isActive={index === selectedIndex} />
+                <SlideContent
+                  slide={slide}
+                  isActive={slidesInView.includes(index) || index === selectedIndex}
+                  priority={isFirst && index < 3}
+                />
               </div>
             ))}
           </div>
@@ -84,7 +114,15 @@ export default function SectionCarousel({section}: {section: PbCarouselSection})
   )
 }
 
-function SlideContent({slide, isActive}: {slide: PbCarouselSlide; isActive: boolean}) {
+function SlideContent({
+  slide,
+  isActive,
+  priority,
+}: {
+  slide: PbCarouselSlide
+  isActive: boolean
+  priority: boolean
+}) {
   const {yAlignment, slideBlocks} = slide
   return (
     <div
@@ -107,6 +145,7 @@ function SlideContent({slide, isActive}: {slide: PbCarouselSlide; isActive: bool
                 sizes="100vw"
                 ratio={block.imageCrop || 0}
                 maxDimension={1000}
+                priority={priority}
                 className={cn(
                   'transition-all duration-300',
                   isActive && 'brightness-110 contrast-110',
