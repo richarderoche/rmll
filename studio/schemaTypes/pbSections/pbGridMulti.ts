@@ -1,17 +1,13 @@
-import { IconLayoutBoardSplit } from '@tabler/icons-react'
-import { defineField, defineType } from 'sanity'
-import {
-  getGridSettings,
-  getRowWidthTitle,
-  getTypeTitles,
-} from '../../lib/utils'
-import { rowWidthField, sectionNameField } from '../fields'
-import { columnFields } from './column'
+import {IconLayoutBoardSplit} from '@tabler/icons-react'
+import {defineField, defineType} from 'sanity'
+import {getGridSettings, getRowWidthTitle, getTypeTitles} from '../../lib/utils'
+import {rowWidthField, sectionNameField} from '../fields'
+import {columnFields} from './column'
 
 const vList = [
-  { title: 'Top', value: 'self-start' },
-  { title: 'Middle', value: 'self-center' },
-  { title: 'Bottom', value: 'self-end' },
+  {title: 'Top', value: 'self-start'},
+  {title: 'Middle', value: 'self-center'},
+  {title: 'Bottom', value: 'self-end'},
 ]
 
 export default defineType({
@@ -43,13 +39,13 @@ export default defineType({
               name: 'columnSettings',
               type: 'pbColSettings',
               description: 'Relative to the row width in steps of 1/12th',
-              options: { collapsible: true, collapsed: false },
+              options: {collapsible: true, collapsed: false},
             },
             {
               title: 'Vertical Alignment',
               name: 'yAlignment',
               type: 'object',
-              options: { columns: 3, collapsible: true, collapsed: true },
+              options: {columns: 3, collapsible: true, collapsed: true},
               fields: [
                 {
                   title: 'Mobile',
@@ -68,10 +64,7 @@ export default defineType({
                   initialValue: 'inherit',
                   validation: (Rule) => Rule.required(),
                   options: {
-                    list: [
-                      { title: 'Inherit Mobile', value: 'inherit' },
-                      ...vList,
-                    ],
+                    list: [{title: 'Inherit Mobile', value: 'inherit'}, ...vList],
                   },
                 },
                 {
@@ -81,10 +74,7 @@ export default defineType({
                   initialValue: 'inherit',
                   validation: (Rule) => Rule.required(),
                   options: {
-                    list: [
-                      { title: 'Inherit Tablet', value: 'inherit' },
-                      ...vList,
-                    ],
+                    list: [{title: 'Inherit Tablet', value: 'inherit'}, ...vList],
                   },
                 },
               ],
@@ -96,11 +86,9 @@ export default defineType({
               columnSettings: 'columnSettings',
               columnBlocks: 'pbBlocks',
             },
-            prepare({ columnSettings, columnBlocks }) {
+            prepare({columnSettings, columnBlocks}) {
               const gridSettings = getGridSettings(columnSettings)
-              const types = columnBlocks
-                ? columnBlocks.map((block: any) => block._type)
-                : []
+              const types = columnBlocks ? columnBlocks.map((block: any) => block._type) : []
               const blockList = getTypeTitles(types)
               return {
                 title: `Column: ${gridSettings}`,
@@ -117,10 +105,10 @@ export default defineType({
       sectionName: 'sectionName',
       rowWidth: 'rowWidth',
     },
-    prepare({ sectionName, rowWidth }) {
+    prepare({sectionName, rowWidth}) {
       const rowWidthTitle = getRowWidthTitle(rowWidth)
       return {
-        title: sectionName ? `Multicolumn: ${sectionName}` : 'Multicolumn Grid',
+        title: sectionName ? `Grid Multi: ${sectionName}` : 'Grid: Multi',
         subtitle: `${rowWidthTitle} Width`,
         media: IconLayoutBoardSplit,
       }

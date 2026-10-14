@@ -49,7 +49,7 @@ export default defineType({
       title: 'Balance Lines?',
       name: 'balanceLines',
       type: 'boolean',
-      initialValue: true,
+      initialValue: false,
     }),
     defineField({
       name: 'textContent',

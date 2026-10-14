@@ -143,7 +143,6 @@ export default function Footer({settings, weather}: FooterProps) {
                   <Button
                     text={footerPopup?.title || 'More Info'}
                     onClick={() => setShowPopup(!showPopup)}
-                    width="full"
                   />
                 </div>
               </div>

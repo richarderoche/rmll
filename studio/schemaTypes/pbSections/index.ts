@@ -8,7 +8,6 @@ export default defineType({
     {type: 'pbTitleSection'},
     {type: 'pbGridMulti'},
     {type: 'pbGridSingle'},
-    {type: 'pbGridDouble'},
     {type: 'pbCarousel'},
     {type: 'pbLatestNews'},
     {type: 'pbEventsFeed'},

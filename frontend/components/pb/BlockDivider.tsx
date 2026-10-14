@@ -12,6 +12,7 @@ export default function BlockDivider({
       showDividerLine={block.showDividerLine}
       size={block.size}
       sizeBelow={block.sizeBelow}
+      stretchToFill={block.stretchToFill}
     />
   )
 }

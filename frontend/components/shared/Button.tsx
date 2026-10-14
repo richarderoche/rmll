@@ -22,7 +22,7 @@ export default function Button(props: ButtonProps) {
     path,
     navItem,
     style = 'fill',
-    width = 'fit',
+    width = 'full',
     className,
     download,
     onClick,

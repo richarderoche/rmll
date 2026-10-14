@@ -66,12 +66,15 @@ function blockWrapClassName(block: PbColBlock, wrapClassName?: string) {
   let visibility: string | undefined
 
   if (block._type === 'pbBlockDivider') {
-    const {showOnMobile, showOnTablet, showOnDesktop} = block as PbBlockDivider
+    const {stretchToFill, showOnMobile, showOnTablet, showOnDesktop} = block as PbBlockDivider
     visibility = screenVisibilityClassName(
       showOnMobile ?? true,
       showOnTablet ?? true,
       showOnDesktop ?? true,
     )
+    if (stretchToFill) {
+      return cn(visibility, 'grow shrink-0', wrapClassName)
+    }
   } else if (block._type === 'pbBlockImage') {
     const {screenVisibility} = block as PbBlockImage
     const {showOnMobile, showOnTablet, showOnDesktop} = screenVisibility || {}
@@ -119,11 +122,6 @@ export interface PbBlocksProps {
   spaceBetweenBlocks: string
   /** Sanity field name for this block array (default: column `pbBlocks`). */
   blocksFieldName?: string
-  blockWidths?: {
-    mobile?: string
-    tablet?: string
-    desktop?: string
-  }
 }
 
 export default function PbBlocks({
@@ -131,23 +129,10 @@ export default function PbBlocks({
   trueSizes,
   spaceBetweenBlocks,
   blocksFieldName = 'pbBlocks',
-  blockWidths = {
-    mobile: 'grid-cols-1',
-    tablet: 'md:grid-cols-1',
-    desktop: 'lg:grid-cols-1',
-  },
 }: PbBlocksProps) {
   const {getDataAttribute} = useSanityDataAttribute()
   return (
-    <div
-      className={cn(
-        'column-blocks grid h-full content-start',
-        blockWidths.mobile,
-        blockWidths.tablet,
-        blockWidths.desktop,
-        spaceBetweenBlocks,
-      )}
-    >
+    <div className={cn('flex flex-col h-full', spaceBetweenBlocks)}>
       {columnBlocks?.map((block) => {
         const {_key, _type} = block
         const entry = blockRegistry[_type as keyof typeof blockRegistry]

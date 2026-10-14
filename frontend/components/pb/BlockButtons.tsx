@@ -26,12 +26,12 @@ export default function BlockButtons({block}: {block: BlockButtonsType}) {
 }
 
 export function BlockButton({btn}: {btn: BlockButtonType}) {
-  const {linkType, sitePage, externalLink, fileLink, style} = btn
+  const {linkType, sitePage, externalLink, fileLink, style, width = 'full'} = btn
   if (linkType === 'sitePage' && sitePage) {
-    return <Button navItem={sitePage as NavItem} style={style} />
+    return <Button navItem={sitePage as NavItem} style={style} width={width} />
   }
   if ((linkType === 'externalLink' || linkType === 'subscribe') && externalLink) {
-    return <Button navItem={externalLink as NavItem} style={style} />
+    return <Button navItem={externalLink as NavItem} style={style} width={width} />
   }
   if (linkType === 'file') {
     return (
@@ -40,6 +40,7 @@ export function BlockButton({btn}: {btn: BlockButtonType}) {
         text={fileLink?.buttonText || 'Download'}
         download
         style={style}
+        width={width}
       />
     )
   }

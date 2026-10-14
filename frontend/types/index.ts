@@ -24,7 +24,6 @@ export type PbSection = Get<PagesBySlugQueryResult, 'pbSections', number>
 
 export type PbGridMultiSection = FilterByType<PbSection, 'pbGridMulti'>
 export type PbGridSingleSection = FilterByType<PbSection, 'pbGridSingle'>
-export type PbGridDoubleSection = FilterByType<PbSection, 'pbGridDouble'>
 export type PbTitleSectionSection = FilterByType<PbSection, 'pbTitleSection'>
 export type PbLatestNewsSection = FilterByType<PbSection, 'pbLatestNews'>
 export type PbEventsFeedSection = FilterByType<PbSection, 'pbEventsFeed'>

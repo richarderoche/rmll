@@ -125,7 +125,7 @@ function EventCardContent({event, hasLink}: {event: EventCardEvent; hasLink: boo
             />
           </div>
         )}
-        {hasLink && <Button text={btnText || 'View Event'} width="full" />}
+        {hasLink && <Button text={btnText || 'View Event'} />}
       </div>
     </div>
   )

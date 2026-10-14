@@ -34,7 +34,6 @@ import pbCarousel from './pbSections/pbCarousel'
 import pbColSettings from './pbSections/pbColSettings'
 import pbEventsCarousel from './pbSections/pbEventsCarousel'
 import pbEventsFeed from './pbSections/pbEventsFeed'
-import pbGridDouble from './pbSections/pbGridDouble'
 import pbGridMulti from './pbSections/pbGridMulti'
 import pbGridSingle from './pbSections/pbGridSingle'
 import pbLatestNews from './pbSections/pbLatestNews'
@@ -80,7 +79,6 @@ export const schemaTypes = [
   pbEventsFeed,
   pbGridMulti,
   pbGridSingle,
-  pbGridDouble,
   pbLatestNews,
   pbSections,
   pbSectionSettings,

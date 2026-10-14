@@ -55,12 +55,6 @@ export type PbBlockMarqueeSettings = {
   imageSize: number
 }
 
-export type BlockWidths = {
-  mobile?: 'grid-cols-1' | 'grid-cols-2' | 'grid-cols-3' | 'grid-cols-4'
-  tablet?: 'md:grid-cols-1' | 'md:grid-cols-2' | 'md:grid-cols-3' | 'md:grid-cols-4'
-  desktop?: 'lg:grid-cols-1' | 'lg:grid-cols-2' | 'lg:grid-cols-3' | 'lg:grid-cols-4'
-}
-
 export type SanityFileAssetReference = {
   _ref: string
   _type: 'reference'
@@ -330,9 +324,6 @@ export type PbSections = Array<
     } & PbGridSingle)
   | ({
       _key: string
-    } & PbGridDouble)
-  | ({
-      _key: string
     } & PbCarousel)
   | ({
       _key: string
@@ -351,17 +342,6 @@ export type PbLatestNews = {
   priority?: boolean
 }
 
-export type PbGridDouble = {
-  _type: 'pbGridDouble'
-  sectionSettings?: PbSectionSettings
-  sectionName?: string
-  rowWidth?: 12 | 10 | 8 | 6
-  columnProportions?: '50-50' | '60-40' | '40-60'
-  yAlignment?: 'items-start' | 'items-center' | 'items-end'
-  columnOne?: Column
-  columnTwo?: Column
-}
-
 export type PbGridSingle = {
   _type: 'pbGridSingle'
   sectionSettings?: PbSectionSettings
@@ -372,7 +352,6 @@ export type PbGridSingle = {
   pbBlocks?: PbBlocks
   spaceBetweenBlocks?:
     'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150' | 'gap-gut-200'
-  blockWidths?: BlockWidths
 }
 
 export type PbGridMulti = {
@@ -388,7 +367,6 @@ export type PbGridMulti = {
     pbBlocks?: PbBlocks
     spaceBetweenBlocks?:
       'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150' | 'gap-gut-200'
-    blockWidths?: BlockWidths
     _key: string
   }>
 }
@@ -437,7 +415,6 @@ export type PbCarousel = {
   _type: 'pbCarousel'
   sectionSettings?: PbSectionSettings
   sectionName?: string
-  testWatch?: string
   slides?: Array<{
     slideWidthDesktop: 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
     yAlignment: 'self-start' | 'self-center' | 'self-end'
@@ -551,6 +528,7 @@ export type PbBlockMarquee = {
 
 export type PbBlockDivider = {
   _type: 'pbBlockDivider'
+  stretchToFill?: boolean
   showDividerLine?: boolean
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
   sizeBelow?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10
@@ -676,7 +654,6 @@ export type Column = {
   pbBlocks?: PbBlocks
   spaceBetweenBlocks?:
     'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150' | 'gap-gut-200'
-  blockWidths?: BlockWidths
 }
 
 export type Button = {
@@ -688,6 +665,7 @@ export type Button = {
   subscribeNote?: Note
   subscribeText?: string
   style?: 'fill' | 'outline' | 'underline'
+  width?: 'full' | 'fit'
 }
 
 export type Redirect = {
@@ -997,7 +975,6 @@ export type AllSanitySchemaTypes =
   | FileLink
   | QuoteCredit
   | PbBlockMarqueeSettings
-  | BlockWidths
   | SanityFileAssetReference
   | FileLinkFile
   | YAlignment
@@ -1018,7 +995,6 @@ export type AllSanitySchemaTypes =
   | PbSectionSettings
   | PbSections
   | PbLatestNews
-  | PbGridDouble
   | PbGridSingle
   | PbGridMulti
   | EventReference

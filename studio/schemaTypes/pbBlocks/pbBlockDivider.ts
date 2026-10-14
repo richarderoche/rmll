@@ -8,11 +8,19 @@ export default defineType({
   icon: AlignVerticalSpaceAround,
   fields: [
     defineField({
+      title: 'Strech to Fill?',
+      name: 'stretchToFill',
+      type: 'boolean',
+      initialValue: false,
+    }),
+    defineField({
       title: 'Show Divider Line?',
       name: 'showDividerLine',
       type: 'boolean',
       initialValue: true,
+      hidden: ({parent}) => parent?.stretchToFill,
     }),
+
     defineField({
       title: 'Spacing (Above Line)',
       name: 'size',
@@ -21,6 +29,7 @@ export default defineType({
       options: {
         list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       },
+      hidden: ({parent}) => parent?.stretchToFill,
     }),
     defineField({
       title: 'Spacing (Below Line)',
@@ -30,7 +39,7 @@ export default defineType({
       options: {
         list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       },
-      hidden: ({parent}) => !parent?.showDividerLine,
+      hidden: ({parent}) => !parent?.showDividerLine || parent?.stretchToFill,
     }),
     defineField({
       title: 'Mobile Visibility',
@@ -53,6 +62,7 @@ export default defineType({
   ],
   preview: {
     select: {
+      stretchToFill: 'stretchToFill',
       showOnMobile: 'showOnMobile',
       showOnTablet: 'showOnTablet',
       showOnDesktop: 'showOnDesktop',
@@ -60,14 +70,23 @@ export default defineType({
       size: 'size',
       sizeBelow: 'sizeBelow',
     },
-    prepare({showOnMobile, showOnTablet, showOnDesktop, showDividerLine, size = 0, sizeBelow = 0}) {
+    prepare({
+      stretchToFill,
+      showOnMobile,
+      showOnTablet,
+      showOnDesktop,
+      showDividerLine,
+      size = 0,
+      sizeBelow = 0,
+    }) {
       const shownOn = []
       if (showOnMobile) shownOn.push('Mobile')
       if (showOnTablet) shownOn.push('Tablet')
       if (showOnDesktop) shownOn.push('Desktop')
       const titleLabel = showDividerLine ? 'Divider: ' : 'Spacer: '
+      const title = titleLabel + '(Above: ' + size + ' / Below: ' + sizeBelow + ')'
       return {
-        title: titleLabel + '(Above: ' + size + ' / Below: ' + sizeBelow + ')',
+        title: stretchToFill ? 'Spacer: Stretch' : title,
         subtitle: 'Shown on: ' + shownOn.join(', '),
         media: AlignVerticalSpaceAround,
       }

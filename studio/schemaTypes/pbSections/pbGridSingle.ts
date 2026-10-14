@@ -1,8 +1,8 @@
-import { IconLayoutRows } from '@tabler/icons-react'
-import { defineField, defineType } from 'sanity'
-import { getRowWidthTitle, getTypeTitles } from '../../lib/utils'
-import { rowWidthField, sectionNameField } from '../fields'
-import { columnFields } from './column'
+import {IconLayoutRows} from '@tabler/icons-react'
+import {defineField, defineType} from 'sanity'
+import {getRowWidthTitle, getTypeTitles} from '../../lib/utils'
+import {rowWidthField, sectionNameField} from '../fields'
+import {columnFields} from './column'
 
 export default defineType({
   title: 'Grid: Single Column',
@@ -25,14 +25,12 @@ export default defineType({
       rowWidth: 'rowWidth',
       blocks: 'pbBlocks',
     },
-    prepare({ sectionName, rowWidth, blocks }) {
+    prepare({sectionName, rowWidth, blocks}) {
       const rowWidthTitle = getRowWidthTitle(rowWidth)
       const blockList = blocks ? blocks.map((block: any) => block._type) : []
       const blockTitles = getTypeTitles(blockList)
       return {
-        title: sectionName
-          ? `Single Column: ${sectionName}`
-          : 'Single Column Section',
+        title: sectionName ? `Grid Single: ${sectionName}` : 'Grid: Single',
         subtitle: `${rowWidthTitle} Width / Blocks: ${blockTitles || 'None'}`,
         media: IconLayoutRows,
       }

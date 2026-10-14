@@ -1,18 +1,23 @@
 import {cn} from '@/lib/utils'
 
 export interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
+  stretchToFill?: boolean
   showDividerLine?: boolean
   size?: number
   sizeBelow?: number
 }
 
 export default function Divider({
+  stretchToFill = false,
   showDividerLine = true,
   size = 0,
   sizeBelow = 0,
   className,
   ...props
 }: DividerProps) {
+  if (stretchToFill) {
+    return <div className="w-full min-h-1" {...props} />
+  }
   return (
     <div
       style={{

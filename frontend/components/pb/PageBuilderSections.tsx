@@ -1,6 +1,6 @@
 'use client'
 
-import {PbGridDouble, PbGridMulti, PbGridSingle, PbSections, PbTitleSection} from '@/sanity.types'
+import {PbGridMulti, PbGridSingle, PbSections, PbTitleSection} from '@/sanity.types'
 import type {
   PbCarouselSection,
   PbEventsCarouselSection,
@@ -17,7 +17,6 @@ import {
 import SectionCarousel from './SectionCarousel'
 import SectionEventsCarousel from './SectionEventsCarousel'
 import SectionEventsFeed from './SectionEventsFeed'
-import SectionGridDouble from './SectionGridDouble'
 import SectionGridMulti from './SectionGridMulti'
 import SectionGridSingle from './SectionGridSingle'
 import SectionLatestNews from './SectionLatestNews'
@@ -38,11 +37,6 @@ const sectionRegistry = {
   pbGridSingle: {
     render: (section, {sectionKey}) => (
       <SectionGridSingle section={section as PbGridSingle} sectionKey={sectionKey} />
-    ),
-  },
-  pbGridDouble: {
-    render: (section, {sectionKey}) => (
-      <SectionGridDouble section={section as PbGridDouble} sectionKey={sectionKey} />
     ),
   },
   pbTitleSection: {

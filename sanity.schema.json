@@ -538,90 +538,6 @@
   },
   {
     "type": "type",
-    "name": "blockWidths",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "mobile": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "grid-cols-1"
-              },
-              {
-                "type": "string",
-                "value": "grid-cols-2"
-              },
-              {
-                "type": "string",
-                "value": "grid-cols-3"
-              },
-              {
-                "type": "string",
-                "value": "grid-cols-4"
-              }
-            ]
-          },
-          "optional": true
-        },
-        "tablet": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "md:grid-cols-1"
-              },
-              {
-                "type": "string",
-                "value": "md:grid-cols-2"
-              },
-              {
-                "type": "string",
-                "value": "md:grid-cols-3"
-              },
-              {
-                "type": "string",
-                "value": "md:grid-cols-4"
-              }
-            ]
-          },
-          "optional": true
-        },
-        "desktop": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "lg:grid-cols-1"
-              },
-              {
-                "type": "string",
-                "value": "lg:grid-cols-2"
-              },
-              {
-                "type": "string",
-                "value": "lg:grid-cols-3"
-              },
-              {
-                "type": "string",
-                "value": "lg:grid-cols-4"
-              }
-            ]
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
-    "type": "type",
     "name": "sanity.fileAsset.reference",
     "value": {
       "type": "object",
@@ -2505,21 +2421,6 @@
             },
             "rest": {
               "type": "inline",
-              "name": "pbGridDouble"
-            }
-          },
-          {
-            "type": "object",
-            "attributes": {
-              "_key": {
-                "type": "objectAttribute",
-                "value": {
-                  "type": "string"
-                }
-              }
-            },
-            "rest": {
-              "type": "inline",
               "name": "pbCarousel"
             }
           },
@@ -2597,120 +2498,6 @@
           "type": "objectAttribute",
           "value": {
             "type": "boolean"
-          },
-          "optional": true
-        }
-      }
-    }
-  },
-  {
-    "name": "pbGridDouble",
-    "type": "type",
-    "value": {
-      "type": "object",
-      "attributes": {
-        "_type": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string",
-            "value": "pbGridDouble"
-          }
-        },
-        "sectionSettings": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "pbSectionSettings"
-          },
-          "optional": true
-        },
-        "sectionName": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "string"
-          },
-          "optional": true
-        },
-        "rowWidth": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "number",
-                "value": 12
-              },
-              {
-                "type": "number",
-                "value": 10
-              },
-              {
-                "type": "number",
-                "value": 8
-              },
-              {
-                "type": "number",
-                "value": 6
-              }
-            ]
-          },
-          "optional": true
-        },
-        "columnProportions": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "50-50"
-              },
-              {
-                "type": "string",
-                "value": "60-40"
-              },
-              {
-                "type": "string",
-                "value": "40-60"
-              }
-            ]
-          },
-          "optional": true
-        },
-        "yAlignment": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "union",
-            "of": [
-              {
-                "type": "string",
-                "value": "items-start"
-              },
-              {
-                "type": "string",
-                "value": "items-center"
-              },
-              {
-                "type": "string",
-                "value": "items-end"
-              }
-            ]
-          },
-          "optional": true
-        },
-        "columnOne": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "column"
-          },
-          "optional": true
-        },
-        "columnTwo": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "column"
           },
           "optional": true
         }
@@ -2834,20 +2621,8 @@
               {
                 "type": "string",
                 "value": "gap-gut-150"
-              },
-              {
-                "type": "string",
-                "value": "gap-gut-200"
               }
             ]
-          },
-          "optional": true
-        },
-        "blockWidths": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "blockWidths"
           },
           "optional": true
         }
@@ -2994,20 +2769,8 @@
                       {
                         "type": "string",
                         "value": "gap-gut-150"
-                      },
-                      {
-                        "type": "string",
-                        "value": "gap-gut-200"
                       }
                     ]
-                  },
-                  "optional": true
-                },
-                "blockWidths": {
-                  "type": "objectAttribute",
-                  "value": {
-                    "type": "inline",
-                    "name": "blockWidths"
                   },
                   "optional": true
                 }
@@ -4029,6 +3792,13 @@
             "value": "pbBlockDivider"
           }
         },
+        "stretchToFill": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "boolean"
+          },
+          "optional": true
+        },
         "showDividerLine": {
           "type": "objectAttribute",
           "value": {
@@ -4907,20 +4677,8 @@
               {
                 "type": "string",
                 "value": "gap-gut-150"
-              },
-              {
-                "type": "string",
-                "value": "gap-gut-200"
               }
             ]
-          },
-          "optional": true
-        },
-        "blockWidths": {
-          "type": "objectAttribute",
-          "value": {
-            "type": "inline",
-            "name": "blockWidths"
           },
           "optional": true
         }
@@ -5020,6 +4778,23 @@
               {
                 "type": "string",
                 "value": "underline"
+              }
+            ]
+          },
+          "optional": true
+        },
+        "width": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "full"
+              },
+              {
+                "type": "string",
+                "value": "fit"
               }
             ]
           },

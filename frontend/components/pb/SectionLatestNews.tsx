@@ -32,7 +32,7 @@ export default function SectionLatestNews({section}: {section: PbLatestNewsSecti
             {teaserText && (
               <div className="ts-body-serif md:line-clamp-2 lg:line-clamp-6">{teaserText}</div>
             )}
-            <Button path={resolveHref('newsletter', slug)} text="Read The Latest" width="full" />
+            <Button path={resolveHref('newsletter', slug)} text="Read The Latest" />
           </div>
         </div>
       </div>

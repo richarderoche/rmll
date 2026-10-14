@@ -100,7 +100,7 @@ export default function EventSlide({event}: {event: EventSlideType}) {
           </div>
         </div>
 
-        {href && <Button path={href} text={btnText || 'Learn More'} width="full" />}
+        {href && <Button path={href} text={btnText || 'Learn More'} />}
       </div>
     </div>
   )

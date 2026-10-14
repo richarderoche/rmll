@@ -12,7 +12,7 @@ export default function SectionGridSingle({
   section: PbGridSingle
   sectionKey: string
 }) {
-  const {rowWidth, pbBlocks, cardMode, revealEffect, spaceBetweenBlocks, blockWidths} = section
+  const {rowWidth, pbBlocks, cardMode, revealEffect, spaceBetweenBlocks} = section
   // Skip if no blocks yet
   if (!pbBlocks || pbBlocks.length === 0) {
     return null
@@ -31,7 +31,6 @@ export default function SectionGridSingle({
               pbBlocks,
               revealEffect,
               spaceBetweenBlocks,
-              blockWidths,
             }}
             outerSettings={outerSettings}
             cardMode={cardMode}

@@ -112,21 +112,6 @@ const pb = `
         ${pbBlocks}
       }
     },
-    _type == "pbGridDouble" => {
-      ...,
-      columnOne {
-        ...,
-        pbBlocks[]{
-          ${pbBlocks}
-        }
-      },
-      columnTwo {
-        ...,
-        pbBlocks[]{
-          ${pbBlocks}
-        }
-      }
-    },
     _type == "pbEventsFeed" => {
       ...,
       "events": select(

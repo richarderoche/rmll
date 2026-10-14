@@ -21,7 +21,7 @@ export default function NewsletterSidebar({
 
   return (
     <>
-      {subscribeUrl && <Button path={subscribeUrl} text="Subscribe" style="fill" width="full" />}
+      {subscribeUrl && <Button path={subscribeUrl} text="Subscribe" style="fill" />}
       {editions && editions.length > 1 && (
         <SelectComponent
           colorClasses="bg-bg-subtle"

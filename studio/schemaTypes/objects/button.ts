@@ -90,6 +90,18 @@ export default defineType({
         list: ['fill', 'outline', 'underline'],
       },
     }),
+    defineField({
+      title: 'Button Width',
+      name: 'width',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Fill Column', value: 'full'},
+          {title: 'Fit Content', value: 'fit'},
+        ],
+      },
+      initialValue: 'full',
+    }),
   ],
   validation: (Rule) =>
     Rule.custom((block) => {

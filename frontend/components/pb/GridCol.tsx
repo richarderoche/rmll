@@ -13,14 +13,9 @@ export interface GridColProps {
   outerSettings: PbColSettings
   cardMode?: boolean
   sticky?: boolean
-  blockWidths?: {
-    mobile?: string
-    tablet?: string
-    desktop?: string
-  }
 }
 
-export default function GridCol({col, outerSettings, cardMode = false, blockWidths}: GridColProps) {
+export default function GridCol({col, outerSettings, cardMode = false}: GridColProps) {
   const {_key, columnSettings, pbBlocks, yAlignment, revealEffect, spaceBetweenBlocks} = col
   const {getDataAttribute} = useSanityDataAttribute()
 
@@ -44,7 +39,6 @@ export default function GridCol({col, outerSettings, cardMode = false, blockWidt
       columnBlocks={pbBlocks as PbColBlocks}
       trueSizes={trueSizes}
       spaceBetweenBlocks={spaceBetweenBlocks || 'gap-gut'}
-      blockWidths={blockWidths}
     />
   )
 
