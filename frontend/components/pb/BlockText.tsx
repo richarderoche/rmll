@@ -10,7 +10,7 @@ export default function BlockText({block}: {block: PbBlockText}) {
         block.textStyle || 'ts-p-md',
         block.color,
         block.balanceLines ? 'text-balance' : 'text-pretty',
-        'whitespace-pre-line',
+        'whitespace-pre-line max-w-max-ch',
       )}
     >
       {block.textContent || ''}

@@ -101,6 +101,7 @@ export default defineType({
         ],
       },
       initialValue: 'full',
+      hidden: ({parent}) => parent?.style === 'underline',
     }),
   ],
   validation: (Rule) =>

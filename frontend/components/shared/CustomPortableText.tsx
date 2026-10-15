@@ -41,7 +41,7 @@ export function CustomPortableText({
         return <h6 className="ts-h5">{children}</h6>
       },
       'h6': ({children}) => {
-        return <h6 className="ts-h6">{children}</h6>
+        return <h6 className="ts-h6 text-sage-800">{children}</h6>
       },
       'p-lg': ({children}) => {
         return <p className="ts-p-lg">{children}</p>
@@ -93,8 +93,9 @@ export function CustomPortableText({
         )
       },
     },
-    listItem: ({children}) => {
-      return <li>{children}</li>
+    listItem: ({children, value}) => {
+      const style = value?.style ?? undefined
+      return <li className={`ts-${style} text-balance`}>{children}</li>
     },
     types: {
       pbBlockImage: ({value}) => <BlockImage block={value as PbBlockImage} trueSizes={trueSizes} />,

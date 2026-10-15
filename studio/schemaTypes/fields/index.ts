@@ -65,7 +65,7 @@ export const spaceBetweenBlocksField = {
   options: {
     list: [
       {title: 'None', value: 'gap-0'},
-      {title: 'Tight', value: 'gap-gut-25'},
+      {title: 'Tight', value: 'gap-gut-33'},
       {title: 'Default', value: 'gap-gut-50'},
       {title: 'Loose', value: 'gap-gut'},
       {title: 'Looser', value: 'gap-gut-150'},

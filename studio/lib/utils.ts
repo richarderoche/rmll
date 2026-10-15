@@ -43,8 +43,8 @@ export const getTypeTitles = (types: string[]) => {
         return 'Video Embed'
       case 'pbBlockDivider':
         return 'Divider/Spacer'
-      case 'pbBlockButton':
-        return 'Button'
+      case 'pbBlockButtons':
+        return 'Buttons'
       case 'pbBlockMarquee':
         return 'Marquee'
       case 'pbBlockPress':

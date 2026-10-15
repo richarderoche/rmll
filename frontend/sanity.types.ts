@@ -350,7 +350,7 @@ export type PbGridSingle = {
   cardMode?: boolean
   revealEffect?: 'none' | 'stagger' | 'fade-up' | 'fade-right'
   pbBlocks?: PbBlocks
-  spaceBetweenBlocks?: 'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
+  spaceBetweenBlocks?: 'gap-0' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
 }
 
 export type PbGridMulti = {
@@ -364,7 +364,7 @@ export type PbGridMulti = {
     cardMode?: boolean
     revealEffect?: 'none' | 'stagger' | 'fade-up' | 'fade-right'
     pbBlocks?: PbBlocks
-    spaceBetweenBlocks?: 'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
+    spaceBetweenBlocks?: 'gap-0' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
     _key: string
   }>
 }
@@ -650,7 +650,7 @@ export type Column = {
   cardMode?: boolean
   revealEffect?: 'none' | 'stagger' | 'fade-up' | 'fade-right'
   pbBlocks?: PbBlocks
-  spaceBetweenBlocks?: 'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
+  spaceBetweenBlocks?: 'gap-0' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
 }
 
 export type Button = {
@@ -1474,7 +1474,7 @@ export type HomePageQueryResult = {
                 videoAspectRatio?: VideoAspectRatio
               }
           > | null
-          spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut'
+          spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut'
           _key: string
         }> | null
       }
@@ -1785,7 +1785,7 @@ export type HomePageQueryResult = {
               videoAspectRatio?: VideoAspectRatio
             }
         > | null
-        spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut'
+        spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut'
       }
     | {
         _key: string
@@ -2262,7 +2262,7 @@ export type PagesBySlugQueryResult = {
                 videoAspectRatio?: VideoAspectRatio
               }
           > | null
-          spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut'
+          spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut'
           _key: string
         }> | null
       }
@@ -2573,7 +2573,7 @@ export type PagesBySlugQueryResult = {
               videoAspectRatio?: VideoAspectRatio
             }
         > | null
-        spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut'
+        spaceBetweenBlocks?: 'gap-0' | 'gap-gut-150' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut'
       }
     | {
         _key: string

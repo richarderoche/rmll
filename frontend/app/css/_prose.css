@@ -4,8 +4,8 @@
   --tw-prose-lead: currentColor;
   --tw-prose-links: currentColor;
   --tw-prose-bold: currentColor;
-  --tw-prose-counters: var(--color-olive);
-  --tw-prose-bullets: var(--color-olive);
+  --tw-prose-counters: currentColor;
+  --tw-prose-bullets: currentColor;
   --tw-prose-hr: currentColor;
   --tw-prose-quotes: currentColor;
   --tw-prose-quote-borders: currentColor;
@@ -38,8 +38,28 @@
     @apply min-h-[.1px];
   }
 
-  li::marker {
-    @apply text-olive;
+  ul,
+  ol {
+    margin-top: 0;
+    padding-inline-start: 0;
+  }
+
+  li {
+    margin-inline-start: 1em;
+    padding-inline-start: 0.2em;
+
+    &:first-child {
+      margin-top: 0.5em;
+    }
+
+    p {
+      margin: 0;
+      @apply text-balance;
+    }
+  }
+
+  ol li {
+    margin-inline-start: 1.15em;
   }
 
   &.text-balance {

@@ -132,7 +132,7 @@ export default function PbBlocks({
 }: PbBlocksProps) {
   const {getDataAttribute} = useSanityDataAttribute()
   return (
-    <div className={cn('flex flex-col h-full', spaceBetweenBlocks)}>
+    <div className={cn('column-blocks flex flex-col h-full', spaceBetweenBlocks)}>
       {columnBlocks?.map((block) => {
         const {_key, _type} = block
         const entry = blockRegistry[_type as keyof typeof blockRegistry]

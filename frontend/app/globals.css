@@ -75,7 +75,7 @@
   --spacing-button-x: 0.9em;
   --spacing-button-y: 0.7em;
   --spacing-outdent: -0.03125em;
-  --spacing-max-ch: 55ch;
+  --spacing-max-ch: 65ch;
   --spacing-header: calc(var(--gut) * 2);
 
   --radius-xs: 2px;
