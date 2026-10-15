@@ -89,6 +89,7 @@ export default defineType({
       options: {
         list: ['fill', 'outline', 'underline'],
       },
+      initialValue: 'fill',
     }),
     defineField({
       title: 'Button Width',

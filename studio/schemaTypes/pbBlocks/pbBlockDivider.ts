@@ -25,7 +25,7 @@ export default defineType({
       title: 'Spacing (Above Line)',
       name: 'size',
       type: 'number',
-      initialValue: 2,
+      initialValue: 1,
       options: {
         list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       },
@@ -35,7 +35,7 @@ export default defineType({
       title: 'Spacing (Below Line)',
       name: 'sizeBelow',
       type: 'number',
-      initialValue: 2,
+      initialValue: 1,
       options: {
         list: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       },
@@ -84,7 +84,10 @@ export default defineType({
       if (showOnTablet) shownOn.push('Tablet')
       if (showOnDesktop) shownOn.push('Desktop')
       const titleLabel = showDividerLine ? 'Divider: ' : 'Spacer: '
-      const title = titleLabel + '(Above: ' + size + ' / Below: ' + sizeBelow + ')'
+      const spacing = showDividerLine
+        ? `(Above: ${size} / Below: ${sizeBelow})`
+        : `(Space: ${size})`
+      const title = titleLabel + spacing
       return {
         title: stretchToFill ? 'Spacer: Stretch' : title,
         subtitle: 'Shown on: ' + shownOn.join(', '),
