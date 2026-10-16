@@ -9,7 +9,6 @@ import {Image as SanityImageType} from 'sanity'
 import {useAccessibility} from '../events/EventsCarouselAccessibility'
 import {DotButton, useDotButton} from '../events/EventsCarouselDotButton'
 import ImageBasic from '../shared/ImageBasic'
-import SiteGrid from '../shared/SiteGrid'
 import SiteWidth from '../shared/SiteWidth'
 import ToneOverlays from '../shared/ToneOverlays'
 import BlockQuote from './BlockQuote'
@@ -161,20 +160,6 @@ function SlideContent({
           ) : null}
         </div>
       ))}
-    </div>
-  )
-}
-
-function GridDebug() {
-  return (
-    <div className="absolute inset-0 pointer-events-none">
-      <SiteWidth className="h-full">
-        <SiteGrid className="h-full">
-          {Array.from({length: 12}, (_, index) => index + 1).map((col) => (
-            <div key={col} className="bg-red-500/7 h-full w-full min-h-1"></div>
-          ))}
-        </SiteGrid>
-      </SiteWidth>
     </div>
   )
 }

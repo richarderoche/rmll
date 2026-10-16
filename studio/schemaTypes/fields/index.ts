@@ -1,3 +1,10 @@
+export const enableHeroField = {
+  title: 'Enable Hero',
+  name: 'enableHero',
+  type: 'boolean',
+  initialValue: false,
+}
+
 export const imgAltField = {
   title: 'Alt text',
   name: 'alt',

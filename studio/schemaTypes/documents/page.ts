@@ -1,6 +1,7 @@
 import StackCompactIcon from '@sanity/icons/StackCompact'
 import {File, Files} from 'lucide-react'
 import {defineField, defineType} from 'sanity'
+import {enableHeroField} from '../fields'
 
 export default defineType({
   type: 'document',
@@ -22,6 +23,13 @@ export default defineType({
         source: 'title',
       },
       validation: (rule) => rule.required(),
+    }),
+    defineField(enableHeroField),
+    defineField({
+      title: 'Hero',
+      name: 'hero',
+      type: 'pageHero',
+      hidden: ({parent}) => !parent?.enableHero,
     }),
     defineField({
       title: 'Page Builder',

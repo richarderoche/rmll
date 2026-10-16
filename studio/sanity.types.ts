@@ -350,8 +350,7 @@ export type PbGridSingle = {
   cardMode?: boolean
   revealEffect?: 'none' | 'stagger' | 'fade-up' | 'fade-right'
   pbBlocks?: PbBlocks
-  spaceBetweenBlocks?:
-    'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150' | 'gap-gut-200'
+  spaceBetweenBlocks?: 'gap-0' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
 }
 
 export type PbGridMulti = {
@@ -365,8 +364,7 @@ export type PbGridMulti = {
     cardMode?: boolean
     revealEffect?: 'none' | 'stagger' | 'fade-up' | 'fade-right'
     pbBlocks?: PbBlocks
-    spaceBetweenBlocks?:
-      'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150' | 'gap-gut-200'
+    spaceBetweenBlocks?: 'gap-0' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
     _key: string
   }>
 }
@@ -652,8 +650,7 @@ export type Column = {
   cardMode?: boolean
   revealEffect?: 'none' | 'stagger' | 'fade-up' | 'fade-right'
   pbBlocks?: PbBlocks
-  spaceBetweenBlocks?:
-    'gap-0' | 'gap-gut-25' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150' | 'gap-gut-200'
+  spaceBetweenBlocks?: 'gap-0' | 'gap-gut-33' | 'gap-gut-50' | 'gap-gut' | 'gap-gut-150'
 }
 
 export type Button = {

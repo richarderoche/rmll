@@ -1,7 +1,8 @@
 import PageBuilder from '@/components/pb/PageBuilder'
+import PageHero from '@/components/shared/PageHero'
 import PageWrapper from '@/components/shared/PageWrapper'
 import {getFirstSectionInfo} from '@/lib/utils'
-import {PagesBySlugQueryResult} from '@/sanity.types'
+import {PageHero as PageHeroType, PagesBySlugQueryResult} from '@/sanity.types'
 import {sanityFetch} from '@/sanity/lib/live'
 import {pagesBySlugQuery, slugsByTypeQuery} from '@/sanity/lib/queries'
 import {urlForOpenGraphImage} from '@/sanity/lib/utils'
@@ -64,10 +65,11 @@ export default async function PageSlugRoute(props: PageProps<'/[slug]'>) {
     notFound()
   }
 
-  const {firstIsHero, firstPbSectionKey} = getFirstSectionInfo(data)
+  const {firstPbSectionKey} = getFirstSectionInfo(data)
 
   return (
-    <PageWrapper className={firstIsHero ? '' : 'pt-section'}>
+    <PageWrapper>
+      <PageHero enableHero={data?.enableHero ?? false} hero={data?.hero as PageHeroType} />
       <PageBuilder data={data} firstPbSectionKey={firstPbSectionKey ?? ''} />
     </PageWrapper>
   )

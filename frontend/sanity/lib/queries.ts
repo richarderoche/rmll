@@ -4,7 +4,10 @@ import {defineQuery} from 'next-sanity'
 const seo = `
   "seoTitle": seo.seoTitle,
   "description": seo.description,
-  "ogImage": seo.image,
+  "ogImage": select(
+    defined(seo.image.asset) => seo.image,
+    enableHero => hero.image
+  ),
   "noIndex": seo.hideFromSearchEngines
 `
 

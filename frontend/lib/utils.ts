@@ -122,13 +122,10 @@ export function imgSizesFormat(smWidth: number, mdWidth?: number | null, lgWidth
 }
 
 export function getFirstSectionInfo(data: PbPageData) {
-  if (!data) return {firstIsHero: false, firstPbSectionKey: ''}
+  if (!data) return {firstPbSectionKey: ''}
   const firstPbSection = data?.pbSections?.find(
     (section) => section.sectionSettings?.enableSection !== false,
   )
   const firstPbSectionKey = firstPbSection?._key
-  const firstPbSectionType = firstPbSection?._type
-  const firstIsHero =
-    firstPbSectionType === 'pbTitleSection' && firstPbSection?.titleMode === 'hero'
-  return {firstIsHero, firstPbSectionKey}
+  return {firstPbSectionKey}
 }

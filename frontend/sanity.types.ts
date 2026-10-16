@@ -287,23 +287,6 @@ export type PtBasic = Array<{
   _key: string
 }>
 
-export type PbTitleSection = {
-  _type: 'pbTitleSection'
-  sectionSettings?: PbSectionSettings
-  titleMode?: 'text' | 'hero'
-  rowWidth?: 12 | 10 | 8 | 6
-  title?: string
-  subtitle?: string
-  image?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
-}
-
 export type PbSectionSettings = {
   _type: 'pbSectionSettings'
   enableSection?: boolean
@@ -313,9 +296,6 @@ export type PbSectionSettings = {
 }
 
 export type PbSections = Array<
-  | ({
-      _key: string
-    } & PbTitleSection)
   | ({
       _key: string
     } & PbGridMulti)
@@ -600,6 +580,18 @@ export type PbBlockImage = {
   screenVisibility?: ScreenVisibility
 }
 
+export type PageHero = {
+  _type: 'pageHero'
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+}
+
 export type HomeReference = {
   _ref: string
   _type: 'reference'
@@ -852,6 +844,8 @@ export type Home = {
   _updatedAt: string
   _rev: string
   title: string
+  enableHero?: boolean
+  hero?: PageHero
   pbSections?: PbSections
 }
 
@@ -863,6 +857,8 @@ export type Page = {
   _rev: string
   title: string
   slug: Slug
+  enableHero?: boolean
+  hero?: PageHero
   pbSections?: PbSections
   seo?: Seo
 }
@@ -988,7 +984,6 @@ export type AllSanitySchemaTypes =
   | PtBody
   | NewsletterReference
   | PtBasic
-  | PbTitleSection
   | PbSectionSettings
   | PbSections
   | PbLatestNews
@@ -1010,6 +1005,7 @@ export type AllSanitySchemaTypes =
   | PbBlocks
   | PbBlockButtons
   | PbBlockImage
+  | PageHero
   | HomeReference
   | NavPage
   | NavLinks
@@ -1050,6 +1046,8 @@ export type HomePageQueryResult = {
   _updatedAt: string
   _rev: string
   title: string
+  enableHero?: boolean
+  hero?: PageHero
   pbSections: Array<
     | {
         _key: string
@@ -1806,23 +1804,6 @@ export type HomePageQueryResult = {
           }
           teaserText: string | null
         } | null
-      }
-    | {
-        _key: string
-        _type: 'pbTitleSection'
-        sectionSettings?: PbSectionSettings
-        titleMode?: 'hero' | 'text'
-        rowWidth?: 10 | 12 | 6 | 8
-        title?: string
-        subtitle?: string
-        image?: {
-          asset?: SanityImageAssetReference
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          alt?: string
-          _type: 'image'
-        }
       }
   > | null
 } | null
@@ -1838,6 +1819,8 @@ export type PagesBySlugQueryResult = {
   _rev: string
   title: string
   slug: string
+  enableHero?: boolean
+  hero?: PageHero
   pbSections: Array<
     | {
         _key: string
@@ -2594,23 +2577,6 @@ export type PagesBySlugQueryResult = {
           }
           teaserText: string | null
         } | null
-      }
-    | {
-        _key: string
-        _type: 'pbTitleSection'
-        sectionSettings?: PbSectionSettings
-        titleMode?: 'hero' | 'text'
-        rowWidth?: 10 | 12 | 6 | 8
-        title?: string
-        subtitle?: string
-        image?: {
-          asset?: SanityImageAssetReference
-          media?: unknown
-          hotspot?: SanityImageHotspot
-          crop?: SanityImageCrop
-          alt?: string
-          _type: 'image'
-        }
       }
   > | null
   seo?: Seo

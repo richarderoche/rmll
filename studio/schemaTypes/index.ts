@@ -9,6 +9,7 @@ import imageBasic from './objects/imageBasic'
 import navExternal from './objects/navExternal'
 import navLinks from './objects/navLinks'
 import navPage from './objects/navPage'
+import pageHero from './objects/pageHero'
 import ptBasic from './objects/ptBasic'
 import ptBody from './objects/ptBody'
 import ptDivider from './objects/ptDivider'
@@ -38,7 +39,6 @@ import pbGridMulti from './pbSections/pbGridMulti'
 import pbGridSingle from './pbSections/pbGridSingle'
 import pbLatestNews from './pbSections/pbLatestNews'
 import pbSectionSettings from './pbSections/pbSectionSettings'
-import pbTitleSection from './pbSections/pbTitle'
 import home from './singletons/home'
 import settings from './singletons/settings'
 
@@ -62,6 +62,7 @@ export const schemaTypes = [
   navExternal,
   navLinks,
   navPage,
+  pageHero,
   pbBlockImage,
   pbBlockButtons,
   pbBlocks,
@@ -82,7 +83,6 @@ export const schemaTypes = [
   pbLatestNews,
   pbSections,
   pbSectionSettings,
-  pbTitleSection,
   ptBasic,
   ptBody,
   ptDivider,

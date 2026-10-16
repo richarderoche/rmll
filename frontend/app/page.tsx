@@ -1,8 +1,8 @@
 import PageBuilder from '@/components/pb/PageBuilder'
+import PageHero from '@/components/shared/PageHero'
 import PageWrapper from '@/components/shared/PageWrapper'
-import StyleGuide from '@/components/shared/StyleGuide'
 import {getFirstSectionInfo} from '@/lib/utils'
-import {HomePageQueryResult} from '@/sanity.types'
+import {HomePageQueryResult, PageHero as PageHeroType} from '@/sanity.types'
 import {sanityFetch} from '@/sanity/lib/live'
 import {homePageQuery} from '@/sanity/lib/queries'
 import {notFound} from 'next/navigation'
@@ -16,12 +16,11 @@ export default async function IndexRoute() {
     notFound()
   }
 
-  const {firstIsHero, firstPbSectionKey} = getFirstSectionInfo(data)
-  const showStyleGuide = true
+  const {firstPbSectionKey} = getFirstSectionInfo(data)
 
   return (
-    <PageWrapper className={firstIsHero ? '' : 'pt-header'}>
-      {showStyleGuide && <StyleGuide />}
+    <PageWrapper>
+      <PageHero enableHero={data?.enableHero ?? false} hero={data?.hero as PageHeroType} />
       <PageBuilder data={data} firstPbSectionKey={firstPbSectionKey ?? ''} />
     </PageWrapper>
   )

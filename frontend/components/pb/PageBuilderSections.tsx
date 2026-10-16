@@ -1,6 +1,6 @@
 'use client'
 
-import {PbGridMulti, PbGridSingle, PbSections, PbTitleSection} from '@/sanity.types'
+import {PbGridMulti, PbGridSingle, PbSections} from '@/sanity.types'
 import type {
   PbCarouselSection,
   PbEventsCarouselSection,
@@ -20,7 +20,6 @@ import SectionEventsFeed from './SectionEventsFeed'
 import SectionGridMulti from './SectionGridMulti'
 import SectionGridSingle from './SectionGridSingle'
 import SectionLatestNews from './SectionLatestNews'
-import SectionTitleHero from './SectionTitleHero'
 
 type SectionRegistryEntry = {
   render: (section: PbSection, context: {sectionKey: string; isFirst: boolean}) => ReactNode
@@ -37,11 +36,6 @@ const sectionRegistry = {
   pbGridSingle: {
     render: (section, {sectionKey}) => (
       <SectionGridSingle section={section as PbGridSingle} sectionKey={sectionKey} />
-    ),
-  },
-  pbTitleSection: {
-    render: (section, {isFirst}) => (
-      <SectionTitleHero section={section as PbTitleSection} isFirst={isFirst} />
     ),
   },
   pbLatestNews: {
@@ -80,7 +74,7 @@ export default function PageBuilderSections({
   if (!pbSections?.length) return null
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col pt-section">
       {pbSections.map((section) => {
         const {_key, sectionSettings} = section
         const {enableSection = true, sectionId, marginTop, marginBottom} = sectionSettings || {}

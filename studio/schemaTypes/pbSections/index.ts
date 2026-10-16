@@ -5,7 +5,6 @@ export default defineType({
   name: 'pbSections',
   type: 'array',
   of: [
-    {type: 'pbTitleSection'},
     {type: 'pbGridMulti'},
     {type: 'pbGridSingle'},
     {type: 'pbCarousel'},
