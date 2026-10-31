@@ -287,23 +287,6 @@ export type PtBasic = Array<{
   _key: string
 }>
 
-export type PbTitleSection = {
-  _type: 'pbTitleSection'
-  sectionSettings?: PbSectionSettings
-  titleMode?: 'text' | 'hero'
-  rowWidth?: 12 | 10 | 8 | 6
-  title?: string
-  subtitle?: string
-  image?: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
-}
-
 export type PbSectionSettings = {
   _type: 'pbSectionSettings'
   enableSection?: boolean
@@ -313,9 +296,6 @@ export type PbSectionSettings = {
 }
 
 export type PbSections = Array<
-  | ({
-      _key: string
-    } & PbTitleSection)
   | ({
       _key: string
     } & PbGridMulti)
@@ -455,6 +435,47 @@ export type PbBlockText = {
   balanceLines?: boolean
   textContent?: string
 }
+
+export type PbBlockTeam = {
+  _type: 'pbBlockTeam'
+  sectionSettings?: PbSectionSettings
+  sectionName?: string
+  columnsNote?: Note
+  columnsTablet: 1 | 2
+  columnsDesktop: 1 | 2 | 3
+  teamMembers?: Array<{
+    image?: {
+      asset?: SanityImageAssetReference
+      media?: unknown
+      hotspot?: SanityImageHotspot
+      crop?: SanityImageCrop
+      _type: 'image'
+    }
+    name?: string
+    role?: string
+    bio?: string
+    _type: 'teamMember'
+    _key: string
+  }>
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
+}
+
+export type Note = string
 
 export type PbBlockRichText = {
   _type: 'pbBlockRichText'
@@ -600,6 +621,18 @@ export type PbBlockImage = {
   screenVisibility?: ScreenVisibility
 }
 
+export type PageHero = {
+  _type: 'pageHero'
+  image?: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+}
+
 export type HomeReference = {
   _ref: string
   _type: 'reference'
@@ -677,8 +710,6 @@ export type Redirect = {
   permanent?: boolean
 }
 
-export type Note = string
-
 export type Newsletter = {
   _id: string
   _type: 'newsletter'
@@ -700,22 +731,6 @@ export type Newsletter = {
   teaserText?: string
   bodyContent?: PbBlocks
   seo?: Seo
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
 }
 
 export type Slug = {
@@ -852,6 +867,8 @@ export type Home = {
   _updatedAt: string
   _rev: string
   title: string
+  enableHero?: boolean
+  hero?: PageHero
   pbSections?: PbSections
 }
 
@@ -863,6 +880,8 @@ export type Page = {
   _rev: string
   title: string
   slug: Slug
+  enableHero?: boolean
+  hero?: PageHero
   pbSections?: PbSections
   seo?: Seo
 }
@@ -988,7 +1007,6 @@ export type AllSanitySchemaTypes =
   | PtBody
   | NewsletterReference
   | PtBasic
-  | PbTitleSection
   | PbSectionSettings
   | PbSections
   | PbLatestNews
@@ -1001,6 +1019,10 @@ export type AllSanitySchemaTypes =
   | PbCarousel
   | PbBlockVideoEmbed
   | PbBlockText
+  | PbBlockTeam
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Note
   | PbBlockRichText
   | PbBlockQuote
   | PbBlockPress
@@ -1010,6 +1032,7 @@ export type AllSanitySchemaTypes =
   | PbBlocks
   | PbBlockButtons
   | PbBlockImage
+  | PageHero
   | HomeReference
   | NavPage
   | NavLinks
@@ -1018,10 +1041,7 @@ export type AllSanitySchemaTypes =
   | Column
   | Button
   | Redirect
-  | Note
   | Newsletter
-  | SanityImageCrop
-  | SanityImageHotspot
   | Slug
   | EventLocation
   | EventTag

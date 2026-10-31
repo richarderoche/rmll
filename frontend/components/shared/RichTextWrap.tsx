@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import {cn} from '@/lib/utils'
 
 export default function RichTextWrap({
   children,
@@ -8,8 +8,8 @@ export default function RichTextWrap({
   return (
     <div
       className={cn(
-        'prose prose-siteColor prose-li:my-0 prose-headings:mt-[.8em] prose-headings:first:mt-0',
-        className
+        'prose prose-siteColor prose-p:my-[.8em] prose-p:first:mt-0 prose-p:last:mb-0  prose-headings:mt-[.8em] prose-headings:first:mt-0 prose-li:my-0',
+        className,
       )}
       {...rest}
     >

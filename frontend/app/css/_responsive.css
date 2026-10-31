@@ -59,14 +59,7 @@ If these change, make sure to update the respective values in the type styles.
 /* 1920px */
 @media (min-width: 120rem) {
   :root {
-    --gut: 3rem; /* 48px */
-  }
-}
-
-/* 2240px */
-@media (min-width: 140rem) {
-  :root {
-    --gut: 3.5rem; /* 56px */
+    --gut: 2.75rem; /* 48px */
   }
 }
 

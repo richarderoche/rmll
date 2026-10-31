@@ -19,6 +19,7 @@ import {useSanityDataAttribute} from './SanityVisualEditingContext'
 const BlockRichText = dynamic(() => import('./BlockRichText'))
 const BlockVideoEmbed = dynamic(() => import('./BlockVideoEmbed'))
 const BlockMarquee = dynamic(() => import('./BlockMarquee'))
+const BlockTeam = dynamic(() => import('./BlockTeam'))
 
 type BlockRegistryEntry = {
   Component: ComponentType<{
@@ -53,6 +54,7 @@ const blockRegistry: Record<string, BlockRegistryEntry> = {
   pbBlockMarquee: {Component: asType(BlockMarquee), dynamic: true},
   pbBlockPress: {Component: asType(BlockPress)},
   pbBlockQuote: {Component: asType(BlockQuote)},
+  pbBlockTeam: {Component: asType(BlockTeam)},
 }
 
 type BlockRenderProps = {

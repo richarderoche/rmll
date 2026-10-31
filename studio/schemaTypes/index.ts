@@ -27,6 +27,7 @@ import pbBlockMarquee from './pbBlocks/pbBlockMarquee'
 import pbBlockPress from './pbBlocks/pbBlockPress'
 import pbBlockQuote from './pbBlocks/pbBlockQuote'
 import pbBlockRichText from './pbBlocks/pbBlockRichText'
+import pbBlockTeam from './pbBlocks/pbBlockTeam'
 import pbBlockText from './pbBlocks/pbBlockText'
 import pbBlockVideoEmbed from './pbBlocks/pbBlockVideoEmbed'
 import pbSections from './pbSections'
@@ -72,6 +73,7 @@ export const schemaTypes = [
   pbBlockPress,
   pbBlockQuote,
   pbBlockRichText,
+  pbBlockTeam,
   pbBlockText,
   pbBlockVideoEmbed,
   pbCarousel,

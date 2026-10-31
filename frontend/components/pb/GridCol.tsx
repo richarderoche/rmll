@@ -3,7 +3,6 @@ import {PbColSettings, PbGridMulti} from '@/sanity.types'
 
 import {PbColBlocks} from '@/types'
 import {AccordionSection} from '../shared/AccordionSection'
-import Card from '../shared/Card'
 import Revealer from '../shared/Revealer'
 import PbBlocks from './PbBlocks'
 import {useSanityDataAttribute} from './SanityVisualEditingContext'
@@ -11,11 +10,10 @@ import {useSanityDataAttribute} from './SanityVisualEditingContext'
 export interface GridColProps {
   col: NonNullable<PbGridMulti['columns']>[number]
   outerSettings: PbColSettings
-  cardMode?: boolean
   sticky?: boolean
 }
 
-export default function GridCol({col, outerSettings, cardMode = false}: GridColProps) {
+export default function GridCol({col, outerSettings}: GridColProps) {
   const {_key, columnSettings, pbBlocks, yAlignment, revealEffect, spaceBetweenBlocks} = col
   const {getDataAttribute} = useSanityDataAttribute()
 
@@ -42,14 +40,13 @@ export default function GridCol({col, outerSettings, cardMode = false}: GridColP
     />
   )
 
-  const colInner = cardMode ? <Card>{colBlocks}</Card> : colBlocks
   const content =
     accordionMode && pbBlocks.length > 0 ? (
       <AccordionSection accordionTitle={accordionTitle} innerId={innerId}>
-        {colInner}
+        {colBlocks}
       </AccordionSection>
     ) : (
-      colInner
+      colBlocks
     )
 
   if (!hasAnimation) {

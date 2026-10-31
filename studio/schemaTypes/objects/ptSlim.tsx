@@ -9,7 +9,7 @@ export default defineType({
     {
       type: 'block',
       marks: {
-        decorators: [{title: 'Strong', value: 'strong'}],
+        decorators: [],
         annotations: [
           {
             name: 'link',

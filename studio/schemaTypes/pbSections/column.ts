@@ -7,6 +7,7 @@ export const columnFields = [
     name: 'cardMode',
     type: 'boolean',
     initialValue: false,
+    hidden: true,
   }),
   defineField(revealEffectField),
   defineField({
