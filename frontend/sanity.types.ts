@@ -827,7 +827,27 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  headerNav?: NavLinks
+  headerNav?: Array<
+    | {
+        title?: string
+        items?: Array<
+          | ({
+              _key: string
+            } & NavPage)
+          | ({
+              _key: string
+            } & NavExternal)
+        >
+        _type: 'navDropdown'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & NavPage)
+    | ({
+        _key: string
+      } & NavExternal)
+  >
   footerCTAs?: Array<{
     heading?: string
     link?: Button
@@ -3072,7 +3092,7 @@ export type SitemapByTypeQueryResult = Array<
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav[]{      _type == "navDropdown" => {        ...,        items[]{            ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },        },      },      _type != "navDropdown" => {          ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },      },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'settings'
@@ -3080,6 +3100,43 @@ export type SettingsQueryResult = {
   _updatedAt: string
   _rev: string
   headerNav: Array<
+    | {
+        title?: string
+        items: Array<
+          | {
+              _key: string
+              _type: 'navExternal'
+              title?: string
+              url?: string
+              page: null
+            }
+          | {
+              _key: string
+              _type: 'navPage'
+              title?: string
+              page:
+                | {
+                    type: 'home'
+                    slug: null
+                    title: string
+                  }
+                | {
+                    type: 'newsletter'
+                    slug: string
+                    title: string
+                  }
+                | {
+                    type: 'page'
+                    slug: string
+                    title: string
+                  }
+                | null
+              anchorLink?: string
+            }
+        > | null
+        _type: 'navDropdown'
+        _key: string
+      }
     | {
         _key: string
         _type: 'navExternal'
@@ -3300,7 +3357,7 @@ declare global {
     '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n    },\n    "editions": *[\n      _type == "newsletter" &&\n      defined(slug.current)\n    ] | order(publishDate desc){\n      "value": slug.current,\n      "label": edition,\n    },\n    "subscribeUrl": *[_type == "settings"][0].newsletterLink,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == $type]{"slug": slug.current, "updatedAt": _updatedAt}\n': SitemapByTypeQueryResult
-    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav[]{\n      _type == "navDropdown" => {\n        ...,\n        items[]{\n          \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n        },\n      },\n      _type != "navDropdown" => {\n        \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n      },\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
     '\n  *[_type == "settings"][0]{\n    "gtmId": googletagmanagerID,\n    customScripts,\n  }\n': ScriptsQueryResult
   }
 }

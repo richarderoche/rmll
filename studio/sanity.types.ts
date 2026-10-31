@@ -81,6 +81,14 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: 'sanity.imageAsset'
 }
 
+export type TeamMemberImage = {
+  asset?: SanityImageAssetReference
+  media?: unknown // Unable to locate the referenced type "teamMember.image.media" in schema
+  hotspot?: SanityImageHotspot
+  crop?: SanityImageCrop
+  _type: 'image'
+}
+
 export type ImageElementImage = {
   asset?: SanityImageAssetReference
   media?: unknown // Unable to locate the referenced type "imageElement.image.media" in schema
@@ -438,44 +446,19 @@ export type PbBlockText = {
 
 export type PbBlockTeam = {
   _type: 'pbBlockTeam'
-  sectionSettings?: PbSectionSettings
-  sectionName?: string
   columnsNote?: Note
   columnsTablet: 1 | 2
   columnsDesktop: 1 | 2 | 3
+  columnsDesktopXL: 1 | 2 | 3 | 4
   teamMembers?: Array<{
-    image?: {
-      asset?: SanityImageAssetReference
-      media?: unknown
-      hotspot?: SanityImageHotspot
-      crop?: SanityImageCrop
-      _type: 'image'
-    }
+    image?: TeamMemberImage
     name?: string
     role?: string
-    bio?: string
+    bio?: PtSlim
     _type: 'teamMember'
     _key: string
   }>
 }
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
-}
-
-export type Note = string
 
 export type PbBlockRichText = {
   _type: 'pbBlockRichText'
@@ -583,6 +566,9 @@ export type PbBlocks = Array<
   | ({
       _key: string
     } & PbBlockPress)
+  | ({
+      _key: string
+    } & PbBlockTeam)
   | ({
       _key: string
     } & PbBlockMarquee)
@@ -710,6 +696,8 @@ export type Redirect = {
   permanent?: boolean
 }
 
+export type Note = string
+
 export type Newsletter = {
   _id: string
   _type: 'newsletter'
@@ -731,6 +719,22 @@ export type Newsletter = {
   teaserText?: string
   bodyContent?: PbBlocks
   seo?: Seo
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Slug = {
@@ -823,7 +827,27 @@ export type Settings = {
   _createdAt: string
   _updatedAt: string
   _rev: string
-  headerNav?: NavLinks
+  headerNav?: Array<
+    | {
+        title?: string
+        items?: Array<
+          | ({
+              _key: string
+            } & NavPage)
+          | ({
+              _key: string
+            } & NavExternal)
+        >
+        _type: 'navDropdown'
+        _key: string
+      }
+    | ({
+        _key: string
+      } & NavPage)
+    | ({
+        _key: string
+      } & NavExternal)
+  >
   footerCTAs?: Array<{
     heading?: string
     link?: Button
@@ -995,6 +1019,7 @@ export type AllSanitySchemaTypes =
   | FileLinkFile
   | YAlignment
   | SanityImageAssetReference
+  | TeamMemberImage
   | ImageElementImage
   | MarkDefsFileLinkFile
   | SocialLink
@@ -1020,9 +1045,6 @@ export type AllSanitySchemaTypes =
   | PbBlockVideoEmbed
   | PbBlockText
   | PbBlockTeam
-  | SanityImageCrop
-  | SanityImageHotspot
-  | Note
   | PbBlockRichText
   | PbBlockQuote
   | PbBlockPress
@@ -1041,7 +1063,10 @@ export type AllSanitySchemaTypes =
   | Column
   | Button
   | Redirect
+  | Note
   | Newsletter
+  | SanityImageCrop
+  | SanityImageHotspot
   | Slug
   | EventLocation
   | EventTag

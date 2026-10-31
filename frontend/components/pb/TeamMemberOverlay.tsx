@@ -140,7 +140,7 @@ export default function TeamMemberOverlay({
         <div className="flex h-full items-center justify-center">
           <button
             type="button"
-            className="clickaway-backdrop absolute inset-0 bg-sage-900/90 cursor-auto opacity-0"
+            className="clickaway-backdrop absolute inset-0 bg-sage-900/80 cursor-auto opacity-0 backdrop-blur-xs"
             onClick={close}
             aria-label="Close"
           ></button>

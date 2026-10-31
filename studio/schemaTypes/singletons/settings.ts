@@ -1,4 +1,4 @@
-import {LinkIcon, Settings} from 'lucide-react'
+import {ChevronDown, LinkIcon, Settings} from 'lucide-react'
 import {defineField, defineType} from 'sanity'
 import {capitalize, ptToText} from '../../lib/utils'
 import {imgAltField} from '../fields'
@@ -35,8 +35,45 @@ export default defineType({
     defineField({
       name: 'headerNav',
       title: 'Header Navigation',
-      type: 'navLinks',
+      description: 'The rightmost non-dropdown button will be emphasized.',
+      type: 'array',
       group: 'header',
+      of: [
+        {
+          title: 'Dropdown',
+          name: 'navDropdown',
+          type: 'object',
+          icon: ChevronDown,
+          fields: [
+            {
+              name: 'title',
+              title: 'Title',
+              type: 'string',
+            },
+            {
+              name: 'items',
+              title: 'Items',
+              type: 'array',
+              of: [{type: 'navPage'}, {type: 'navExternal'}],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              items: 'items.length',
+            },
+            prepare({title, items = 0}) {
+              return {
+                title: title || 'No Title',
+                subtitle: `Items: ${items}`,
+                media: ChevronDown,
+              }
+            },
+          },
+        },
+        {type: 'navPage'},
+        {type: 'navExternal'},
+      ],
     }),
     defineField({
       name: 'footerCTAs',

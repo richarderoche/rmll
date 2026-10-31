@@ -216,8 +216,16 @@ export const sitemapByTypeQuery = defineQuery(`
 export const settingsQuery = defineQuery(`
   *[_type == "settings"][0]{
     ...,
-    "headerNav": headerNav.navItems[]{
-      ${link},
+    "headerNav": headerNav[]{
+      _type == "navDropdown" => {
+        ...,
+        items[]{
+          ${link},
+        },
+      },
+      _type != "navDropdown" => {
+        ${link},
+      },
     },
     "footerCTAs": footerCTAs[]{
       ...,
