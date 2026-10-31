@@ -35,7 +35,7 @@ export default defineType({
     defineField({
       name: 'headerNav',
       title: 'Header Navigation',
-      description: 'The rightmost non-dropdown button will be emphasized.',
+      description: 'The rightmost item will be emphasized.',
       type: 'array',
       group: 'header',
       of: [

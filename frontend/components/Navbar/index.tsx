@@ -1,13 +1,12 @@
 import {SettingsQueryResult} from '@/sanity.types'
-import type {NavItem} from '@/types'
 import Link from 'next/link'
-import NavLinks from '../shared/NavLinks'
 import SiteWidth from '../shared/SiteWidth'
+import DesktopNav from './DesktopNav'
 import MobileNav from './MobileNav'
 import SkipLink from './SkipLink'
 
 export default async function Navbar({settings}: {settings: SettingsQueryResult}) {
-  const headerNav = settings?.headerNav || ([] as NavItem[])
+  const headerNav = settings?.headerNav ?? []
   const siteTitle = settings?.title || 'Missing Site Title'
 
   return (
@@ -19,17 +18,12 @@ export default async function Navbar({settings}: {settings: SettingsQueryResult}
         </Link>
 
         {headerNav && (
-          <nav role="navigation" className="h-full py-gut-33">
-            {/* Desktop Header Menu */}
-            <NavLinks
-              navItems={headerNav}
-              ulClasses="hidden lg:flex flex-wrap items-center gap-x-1 bg-bg-subtle h-full rounded-full px-em"
-              liClasses="px-em"
-              liActiveClasses="text-sage-700"
-            />
-            {/* Mobile Header Menu */}
-            <MobileNav headerNav={headerNav} />
-          </nav>
+          <>
+            <DesktopNav headerNav={headerNav} />
+            <nav role="navigation" className="h-full py-gut-33 lg:hidden">
+              <MobileNav headerNav={headerNav} />
+            </nav>
+          </>
         )}
       </SiteWidth>
     </header>
