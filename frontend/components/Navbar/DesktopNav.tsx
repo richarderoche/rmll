@@ -46,7 +46,7 @@ export default function DesktopNav({headerNav}: {headerNav: HeaderNavItem[]}) {
                   <ul className="flex w-full flex-col bg-bg-subtle corner mt-4 py-12">
                     {item.items?.map((child) => (
                       <li className="relative z-1 group" key={child._key}>
-                        <div className="absolute top-0 bottom-0 left-3 right-3 bg-sage-700/30 opacity-0 scale-x-80 scale-y-60 group-hover:opacity-100 group-hover:scale-100 transition-all ease-gleasing duration-200 corner -z-1 pointer-events-none motion-reduce:duration-0"></div>
+                        <div className="absolute top-0 bottom-0 left-4 right-4 bg-sage-700/30 opacity-0 scale-x-80 scale-y-60 group-hover:opacity-100 group-hover:scale-100 transition-all ease-gleasing duration-200 corner -z-1 pointer-events-none motion-reduce:duration-0"></div>
                         <NavMenuLink item={child} className="ts-p-xs px-12 py-4" />
                       </li>
                     ))}
