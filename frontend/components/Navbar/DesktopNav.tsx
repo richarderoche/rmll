@@ -12,14 +12,14 @@ type HeaderNavItem = Get<SettingsQueryResult, 'headerNav', number>
 type NavLink = FilterByType<HeaderNavItem, 'navPage' | 'navExternal'>
 
 const itemClass =
-  'px-12 py-8 corner inline-flex leading-none whitespace-nowrap ts-h5 transition-colors duration-300 ease-gleasing'
+  'px-12 py-8 corner inline-flex leading-none whitespace-nowrap ts-h5 transition-all duration-300 ease-gleasing'
 
 export default function DesktopNav({headerNav}: {headerNav: HeaderNavItem[]}) {
   const lastIndex = headerNav.length - 1
 
   return (
-    <NavigationMenu.Root className="max-lg:hidden">
-      <NavigationMenu.List className="flex gap-gut-25">
+    <NavigationMenu.Root className="max-lg:hidden" closeDelay={100}>
+      <NavigationMenu.List className="flex gap-gut-25 relative z-1">
         {headerNav.map((item, index) => {
           if (item._type === 'navDropdown') {
             return (
@@ -43,9 +43,10 @@ export default function DesktopNav({headerNav}: {headerNav: HeaderNavItem[]}) {
                     'data-ending-style:data-activation-direction:transition-none',
                   )}
                 >
-                  <ul className="flex w-full flex-col bg-bg-subtle corner mt-3 py-8">
+                  <ul className="flex w-full flex-col bg-bg-subtle corner mt-4 py-12">
                     {item.items?.map((child) => (
-                      <li className="" key={child._key}>
+                      <li className="relative z-1 group" key={child._key}>
+                        <div className="absolute top-0 bottom-0 left-3 right-3 bg-sage-700/30 opacity-0 scale-x-80 scale-y-60 group-hover:opacity-100 group-hover:scale-100 transition-all ease-gleasing duration-200 corner -z-1 pointer-events-none motion-reduce:duration-0"></div>
                         <NavMenuLink item={child} className="ts-p-xs px-12 py-4" />
                       </li>
                     ))}
@@ -74,6 +75,7 @@ export default function DesktopNav({headerNav}: {headerNav: HeaderNavItem[]}) {
         <NavigationMenu.Positioner
           align="start"
           collisionAvoidance={{align: 'flip'}}
+          positionMethod="fixed"
           className="h-(--positioner-height) w-(--positioner-width) min-w-(--anchor-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-200 ease-gleasing data-instant:transition-none"
         >
           <NavigationMenu.Popup
