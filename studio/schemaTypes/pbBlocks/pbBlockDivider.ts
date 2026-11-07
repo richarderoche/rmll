@@ -8,7 +8,7 @@ export default defineType({
   icon: AlignVerticalSpaceAround,
   fields: [
     defineField({
-      title: 'Stretch to Fill?',
+      title: 'Stretch Height to Fill?',
       name: 'stretchToFill',
       type: 'boolean',
       initialValue: false,

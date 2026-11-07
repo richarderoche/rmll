@@ -7,7 +7,6 @@ export default function IconCopy({...props}: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 18 18"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
       {...props}
     >
       <path d="M7 7h7v7H7z" />

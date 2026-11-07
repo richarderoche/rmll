@@ -7,7 +7,6 @@ export default function IconCaret({...props}: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 18 18"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
       {...props}
     >
       <path d="M14.63 6.75 9 12.38 3.38 6.75" />

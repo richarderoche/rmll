@@ -41,7 +41,7 @@ export default function BlockTeam({block}: {block: PbBlockTeam}) {
           <div className="@container" key={member._key}>
             <div className="flex @max-team:items-center bg-bg-subtle corner @team:py-gut-33 h-full relative @max-team:hover:bg-olive transition-all ease-gleasing duration-400">
               {image && (
-                <div className="w-1/4 @team:w-1/3 min-w-100 @team:pl-gut-33">
+                <div className="w-1/4 @team:w-1/3 min-w-110 @team:pl-gut-33">
                   <ImageBasic
                     image={image}
                     alt={name || ''}
@@ -52,7 +52,7 @@ export default function BlockTeam({block}: {block: PbBlockTeam}) {
                 </div>
               )}
               <div className="flex flex-col gap-3 @team:gap-gut-25 px-gut-50 3xl:px-gut-33 @max-team:py-8">
-                <div className="flex flex-wrap items-baseline gap-x-gut-33">
+                <div className="flex flex-wrap items-baseline gap-x-gut-25">
                   {name && <div className="ts-p-lg">{name}</div>}
                   {role && <div className="ts-p-xs">{role}</div>}
                 </div>

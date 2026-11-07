@@ -160,7 +160,7 @@ export default function TeamMemberOverlay({
                     <IconClose />
                   </button>
                   {image && (
-                    <div className="modal-item w-1/4 max-md:hidden">
+                    <div className="modal-item w-1/4 max-md:hidden pb-gut-75">
                       <ImageBasic
                         image={image}
                         alt={name || ''}
@@ -172,7 +172,7 @@ export default function TeamMemberOverlay({
                   )}
                   <div className="flex flex-col gap-gut-50">
                     <div className="flex flex-wrap items-center md:items-baseline gap-x-gut-33">
-                      <div className="modal-item ts-h4 w-[2em] corner md:hidden mr-gut-25">
+                      <div className="modal-item ts-h4 w-[2.5em] corner md:hidden mr-gut-25">
                         {image && (
                           <ImageBasic
                             image={image}
@@ -183,8 +183,10 @@ export default function TeamMemberOverlay({
                           />
                         )}
                       </div>
-                      {name && <div className="modal-item ts-h4">{name}</div>}
-                      {role && <div className="modal-item ts-h6 text-sage-800">{role}</div>}
+                      <div className="flex max-md:flex-col md:gap-gut-25 items-baseline">
+                        {name && <div className="modal-item ts-h4">{name}</div>}
+                        {role && <div className="modal-item ts-h6 text-sage-800">{role}</div>}
+                      </div>
                     </div>
                     {bio && (
                       <div className="modal-item pb-gut-75 lg:pb-gut">

@@ -6,12 +6,20 @@ export default defineType({
   name: 'pbBlockTeam',
   type: 'object',
   icon: UserGroup,
-  fieldsets: [{title: 'Columns', name: 'columns', options: {columns: 3, collapsible: false}}],
+  fieldsets: [
+    {
+      title: 'People Per Row',
+      description: 'Mobile always 1',
+      name: 'columns',
+      options: {columns: 3, collapsible: false},
+    },
+  ],
   fields: [
     {
       type: 'note',
       name: 'columnsNote',
-      description: 'The number of columns to display on the staff members.',
+      description:
+        'The format of the team member blocks (full vs thumbnails) will automaically be determined based on the available width of the block. Per row settings are subdivisions of the current grid column. E.g. if this block in a 6/12 column on desktop, if you choose 2 per row below, each person will take up 3/12 of the total grid width.',
     },
     defineField({
       title: 'Tablet',

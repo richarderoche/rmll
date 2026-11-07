@@ -74,7 +74,7 @@ export default function PageBuilderSections({
   if (!pbSections?.length) return null
 
   return (
-    <div className="flex flex-col pt-section">
+    <div className="flex flex-col pt-section first:mt-header-2">
       {pbSections.map((section) => {
         const {_key, sectionSettings} = section
         const {enableSection = true, sectionId, marginTop, marginBottom} = sectionSettings || {}

@@ -1,16 +1,16 @@
 'use client'
 
 import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
-import { useLenis } from 'lenis/react'
-import { useEffect, useLayoutEffect } from 'react'
+import {ScrollTrigger} from 'gsap/all'
+import {useLenis} from 'lenis/react'
+import {useEffect, useLayoutEffect} from 'react'
 
 export function GSAPscrollTrigger() {
   useLayoutEffect(() => {
     gsap.registerPlugin(ScrollTrigger)
     ScrollTrigger.clearScrollMemory('manual')
     ScrollTrigger.defaults({
-      markers: process.env.NODE_ENV === 'development',
+      markers: false,
     })
   }, [])
 

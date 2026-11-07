@@ -7,7 +7,6 @@ export default function IconCheck({...props}: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 18 18"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
       {...props}
     >
       <path d="m2.81 10.13 3.94 3.93 9-9" />
