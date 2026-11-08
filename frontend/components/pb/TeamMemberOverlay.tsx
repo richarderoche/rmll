@@ -7,7 +7,7 @@ import {useGSAP} from '@gsap/react'
 import {Get} from '@sanity/codegen'
 import {FocusTrap} from 'focus-trap-react'
 import gsap from 'gsap'
-import {useEffect, useRef} from 'react'
+import {useEffect, useEffectEvent, useRef} from 'react'
 import IconClose from '../icons/IconClose'
 import {CustomPortableText} from '../shared/CustomPortableText'
 import ImageBasic from '../shared/ImageBasic'
@@ -38,7 +38,6 @@ export default function TeamMemberOverlay({
   const rootRef = useRef<HTMLDivElement>(null)
   const closingRef = useRef(false)
   const exitTimelineRef = useRef<gsap.core.Timeline | null>(null)
-  const closeRef = useRef<() => void>(() => {})
 
   useGSAP(
     () => {
@@ -110,13 +109,15 @@ export default function TeamMemberOverlay({
       })
   }
 
-  closeRef.current = close
+  const onEscape = useEffectEvent(() => {
+    close()
+  })
 
   useEffect(() => {
     setPauseLenis(true)
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeRef.current()
+      if (event.key === 'Escape') onEscape()
     }
 
     document.addEventListener('keydown', handleKeyDown)
@@ -191,7 +192,7 @@ export default function TeamMemberOverlay({
                     {bio && (
                       <div className="modal-item pb-gut-75 lg:pb-gut">
                         <RichTextWrap className="ts-p-sm">
-                          <CustomPortableText value={bio as any} />
+                          <CustomPortableText value={bio} />
                         </RichTextWrap>
                       </div>
                     )}

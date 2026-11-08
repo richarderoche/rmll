@@ -13,7 +13,7 @@ import SiteWidth from '../shared/SiteWidth'
 import ToneOverlays from '../shared/ToneOverlays'
 import BlockQuote from './BlockQuote'
 import BlockText from './BlockText'
-import {useSanityDataAttribute} from './SanityVisualEditingContext'
+import {SanityVisualEditingPath, useSanityDataAttribute} from './SanityVisualEditingContext'
 
 type PbCarouselSlide = NonNullable<PbCarouselSection['slides']>[number]
 
@@ -43,6 +43,7 @@ export default function SectionCarousel({
 }) {
   const {slides} = section
   const {path: sectionPath} = useSanityDataAttribute()
+
   const options: EmblaOptionsType = {
     loop: true,
     align: 'start',
@@ -75,16 +76,16 @@ export default function SectionCarousel({
         <div className="embla__viewport" ref={emblaRef}>
           <div className="embla__container flex -ml-gut touch-pan-y touch-pinch-zoom select-none cursor-grab active:cursor-grabbing">
             {slides?.map((slide, index) => (
-              <div
+              <SanityVisualEditingPath
                 key={slide._key}
-                className={`embla__slide grow-0 shrink-0 basis-10/12 md:basis-${slide.slideWidthDesktop > 5 ? 9 : 6}/12 lg:basis-${slide.slideWidthDesktop}/12 min-w-0 pl-gut`}
+                path={[...sectionPath, 'slides', {_key: slide._key}]}
               >
-                <SlideContent
+                <CarouselSlide
                   slide={slide}
                   isActive={slidesInView.includes(index) || index === selectedIndex}
                   priority={isFirst && index < 3}
                 />
-              </div>
+              </SanityVisualEditingPath>
             ))}
           </div>
         </div>
@@ -113,7 +114,7 @@ export default function SectionCarousel({
   )
 }
 
-function SlideContent({
+function CarouselSlide({
   slide,
   isActive,
   priority,
@@ -122,44 +123,52 @@ function SlideContent({
   isActive: boolean
   priority: boolean
 }) {
-  const {yAlignment, slideBlocks} = slide
+  const {getDataAttribute} = useSanityDataAttribute()
+  const {yAlignment, slideBlocks, slideWidthDesktop} = slide
+
   return (
     <div
-      className={cn(
-        'h-full flex flex-col gap-gut-50',
-        yAlignment === 'self-start' && 'justify-start',
-        yAlignment === 'self-center' && 'justify-center',
-        yAlignment === 'self-end' && 'justify-end',
-      )}
+      data-sanity={getDataAttribute()}
+      data-sanity-drag-disable
+      className={`embla__slide grow-0 shrink-0 basis-10/12 md:basis-${slideWidthDesktop > 5 ? 9 : 6}/12 lg:basis-${slideWidthDesktop}/12 min-w-0 pl-gut`}
     >
-      {slideBlocks?.map((block) => (
-        <div key={block._key}>
-          {block._type === 'pbBlockText' ? (
-            <BlockText block={block} />
-          ) : block._type === 'imageBasic' ? (
-            <div className="relative group">
-              <ImageBasic
-                image={block.image as SanityImageType}
-                alt={block.image?.alt || ''}
-                sizes="100vw"
-                ratio={block.imageCrop || 0}
-                maxDimension={1000}
-                priority={priority}
-                className={cn(
-                  'transition-all duration-300',
-                  isActive && 'brightness-110 contrast-110',
-                )}
-              />
-              <ToneOverlays
-                colorTone="green"
-                className={cn('transition-opacity duration-300', isActive && 'opacity-0')}
-              />
-            </div>
-          ) : block._type === 'pbBlockQuote' ? (
-            <BlockQuote block={block} />
-          ) : null}
-        </div>
-      ))}
+      <div
+        className={cn(
+          'h-full flex flex-col gap-gut-50',
+          yAlignment === 'self-start' && 'justify-start',
+          yAlignment === 'self-center' && 'justify-center',
+          yAlignment === 'self-end' && 'justify-end',
+        )}
+      >
+        {slideBlocks?.map((block) => (
+          <div key={block._key}>
+            {block._type === 'pbBlockText' ? (
+              <BlockText block={block} />
+            ) : block._type === 'imageBasic' ? (
+              <div className="relative group">
+                <ImageBasic
+                  image={block.image as SanityImageType}
+                  alt={block.image?.alt || ''}
+                  sizes="100vw"
+                  ratio={block.imageCrop || 0}
+                  maxDimension={1000}
+                  priority={priority}
+                  className={cn(
+                    'transition-all duration-300',
+                    isActive && 'brightness-110 contrast-110',
+                  )}
+                />
+                <ToneOverlays
+                  colorTone="green"
+                  className={cn('transition-opacity duration-300', isActive && 'opacity-0')}
+                />
+              </div>
+            ) : block._type === 'pbBlockQuote' ? (
+              <BlockQuote block={block} />
+            ) : null}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

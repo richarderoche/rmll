@@ -30,7 +30,7 @@ export default function NavLinks(props: NavLinkProps) {
           const isActive = pathname === href
 
           return (
-            <li key={_key} className={cn(liClasses, isActive && liActiveClasses)}>
+            <li key={_key ?? i} className={cn(liClasses, isActive && liActiveClasses)}>
               {i > 0 && sep && <Sep />}
               <Link
                 href={href || '/'}

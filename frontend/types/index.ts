@@ -12,10 +12,10 @@ export interface NavPage {
 }
 
 export interface NavItem {
-  _key: string
-  _type: string
-  url?: string
-  title?: string
+  _key?: string
+  _type?: string
+  url?: string | null
+  title?: string | null
   page?: NavPage | null
   anchorLink?: string | null
 }

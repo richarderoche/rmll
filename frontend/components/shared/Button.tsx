@@ -33,7 +33,7 @@ export default function Button(props: ButtonProps) {
 
   if (navItem) {
     const {page, title, url, anchorLink} = navItem
-    href = page ? resolveHref(page.type, page.slug, anchorLink) : url
+    href = page ? resolveHref(page.type, page.slug, anchorLink) : (url ?? undefined)
     buttonText = title || page?.title || ''
   } else {
     href = path || ''

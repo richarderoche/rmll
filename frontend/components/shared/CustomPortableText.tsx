@@ -1,5 +1,9 @@
 import {getFileAsset} from '@sanity/asset-utils'
-import {PortableText, type PortableTextBlock, type PortableTextComponents} from 'next-sanity'
+import {
+  PortableText,
+  type PortableTextComponents,
+  type PortableTextProps,
+} from 'next-sanity'
 import Link from 'next/link'
 
 import BlockImage from '@/components/pb/BlockImage'
@@ -14,7 +18,7 @@ export function CustomPortableText({
   value,
   trueSizes = defaultInlineImageSizes,
 }: {
-  value: PortableTextBlock[]
+  value: NonNullable<PortableTextProps['value']>
   trueSizes?: string
 }) {
   const components: PortableTextComponents = {

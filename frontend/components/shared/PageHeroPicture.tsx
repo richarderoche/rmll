@@ -29,6 +29,7 @@ export default function PageHeroPicture({image}: {image: PageHeroImage}) {
   return (
     <picture>
       {HERO_SOURCES.map(({media, width, height}) => (
+        // eslint-disable-next-line jsx-a11y/alt-text -- renders <source>, not <img>
         <Image
           key={media}
           as="source"

@@ -113,12 +113,14 @@ export function imgSizesFormat(smWidth: number, mdWidth?: number | null, lgWidth
   }
 
   const topVw = tiers[0].vw
+  const maxWidthPx = SITE_MAX_WIDTH * (topVw / 100)
+  const maxTier = `(min-width: ${SITE_MAX_WIDTH}px) ${maxWidthPx}px`
 
   const rest = tiers
     .map((t) => (t.min != null ? `(min-width: ${t.min}px) ${t.vw}vw` : `${t.vw}vw`))
     .join(', ')
 
-  return `${rest}`
+  return `${maxTier}, ${rest}`
 }
 
 export function getFirstSectionInfo(data: PbPageData) {

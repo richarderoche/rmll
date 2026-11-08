@@ -32,7 +32,7 @@ export default function BlockTeam({block}: {block: PbBlockTeam}) {
       {teamMembers.map((member) => {
         const {image, name, role, bio} = member
 
-        const bioText = toPlainText(bio as any)
+        const bioText = bio ? toPlainText(bio) : ''
         const bioTruncated = bioText.length > 250 ? bioText.slice(0, 250) + '...' : bioText
 
         if (!name && !bio) return null
@@ -60,7 +60,7 @@ export default function BlockTeam({block}: {block: PbBlockTeam}) {
                   <div>
                     <p className="ts-p-xs line-clamp-2 @team:hidden">{bioTruncated}</p>
                     <RichTextWrap className="ts-p-xs @max-team:hidden">
-                      <CustomPortableText value={bio as any} />
+                      <CustomPortableText value={bio} />
                     </RichTextWrap>
                     <button
                       className="@team:hidden absolute inset-0"

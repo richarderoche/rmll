@@ -1,5 +1,5 @@
 import {EmblaCarouselType} from 'embla-carousel'
-import {ComponentPropsWithRef, useCallback, useEffect, useState} from 'react'
+import {ComponentPropsWithRef, useCallback, useSyncExternalStore} from 'react'
 
 type UseDotButtonType = {
   selectedIndex: number
@@ -7,10 +7,9 @@ type UseDotButtonType = {
   onDotButtonClick: (index: number) => void
 }
 
-export const useDotButton = (emblaApi: EmblaCarouselType | undefined): UseDotButtonType => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
-  const [scrollSnaps, setScrollSnaps] = useState<number[]>([])
+const EMPTY_SNAPS: number[] = []
 
+export const useDotButton = (emblaApi: EmblaCarouselType | undefined): UseDotButtonType => {
   const onDotButtonClick = useCallback(
     (index: number) => {
       if (!emblaApi) return
@@ -19,22 +18,31 @@ export const useDotButton = (emblaApi: EmblaCarouselType | undefined): UseDotBut
     [emblaApi],
   )
 
-  const onInit = useCallback((emblaApi: EmblaCarouselType) => {
-    setScrollSnaps(emblaApi.snapList())
-  }, [])
+  const subscribe = useCallback(
+    (onStoreChange: () => void) => {
+      if (!emblaApi) return () => {}
+      emblaApi.on('reinit', onStoreChange).on('select', onStoreChange)
+      return () => {
+        emblaApi.off('reinit', onStoreChange).off('select', onStoreChange)
+      }
+    },
+    [emblaApi],
+  )
 
-  const onSelect = useCallback((emblaApi: EmblaCarouselType) => {
-    setSelectedIndex(emblaApi.selectedSnap())
-  }, [])
+  const selectedIndex = useSyncExternalStore(
+    subscribe,
+    () => emblaApi?.selectedSnap() ?? 0,
+    () => 0,
+  )
 
-  useEffect(() => {
-    if (!emblaApi) return
+  const snapCount = useSyncExternalStore(
+    subscribe,
+    () => emblaApi?.snapList().length ?? 0,
+    () => 0,
+  )
 
-    onInit(emblaApi)
-    onSelect(emblaApi)
-
-    emblaApi.on('reinit', onInit).on('reinit', onSelect).on('select', onSelect)
-  }, [emblaApi, onInit, onSelect])
+  const scrollSnaps =
+    snapCount === 0 ? EMPTY_SNAPS : Array.from({length: snapCount}, (_, index) => index)
 
   return {
     selectedIndex,

@@ -4,7 +4,6 @@ import SocialIcon from '@/components/shared/SocialIcon'
 import {cn, imgSizesFormat} from '@/lib/utils'
 import '@/public/rmll-logo-badge.svg'
 import type {SettingsQueryResult} from '@/sanity.types'
-import {PortableTextBlock} from 'next-sanity'
 import Image from 'next/image'
 import {type ReactNode, useState} from 'react'
 import {BlockButton, BlockButtonType} from './pb/BlockButtons'
@@ -113,7 +112,7 @@ export default function Footer({settings, weather}: FooterProps) {
                 <div className="w-full shrink-0 lg:w-1/2 pr-gut">
                   {footerPopup?.content && (
                     <RichTextWrap className="ts-p-xs pb-gut">
-                      <CustomPortableText value={footerPopup.content as PortableTextBlock[]} />
+                      <CustomPortableText value={footerPopup.content} />
                     </RichTextWrap>
                   )}
                   <div className="relative h-0 w-full pb-[25%]" />

@@ -3,7 +3,7 @@
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
-import {Suspense, useCallback, useEffect, useMemo, useRef, useState} from 'react'
+import {Suspense, useCallback, useMemo, useRef, useState} from 'react'
 
 import EventCard, {type EventCardEvent} from '@/components/events/EventCard'
 import type {PbEventsFeedSection} from '@/types'
@@ -32,9 +32,16 @@ export default function SectionEventsFeed({section}: {section: PbEventsFeedSecti
 function SectionEventsFeedInner({section}: {section: PbEventsFeedSection}) {
   const {title, events, showMoreQty} = section
   const pageSize = showMoreQty ?? 5
-  const hasEvents = events && events.length > 0
-  const allLocations = hasEvents ? getSelectOptions(events, 'locations') : []
-  const allTags = hasEvents ? getSelectOptions(events, 'tags') : []
+  const hasEvents = Boolean(events?.length)
+
+  const allLocations = useMemo(
+    () => (events?.length ? getSelectOptions(events, 'locations') : []),
+    [events],
+  )
+  const allTags = useMemo(
+    () => (events?.length ? getSelectOptions(events, 'tags') : []),
+    [events],
+  )
 
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -49,7 +56,9 @@ function SectionEventsFeedInner({section}: {section: PbEventsFeedSection}) {
     [searchParams, allTags],
   )
 
-  const [visibleCount, setVisibleCount] = useState(pageSize)
+  const filterKey = `${locationSlug ?? ''}|${tagSlug ?? ''}|${pageSize}`
+  const [visibleState, setVisibleState] = useState({filterKey, count: pageSize})
+  const visibleCount = visibleState.filterKey === filterKey ? visibleState.count : pageSize
 
   const replaceFilterParams = useCallback(
     (updates: {location?: string | null; type?: string | null}) => {
@@ -72,8 +81,8 @@ function SectionEventsFeedInner({section}: {section: PbEventsFeedSection}) {
 
   const filteredEvents = useMemo(
     () =>
-      hasEvents ? events.filter((event) => eventMatchesFilters(event, locationSlug, tagSlug)) : [],
-    [events, hasEvents, locationSlug, tagSlug],
+      events?.filter((event) => eventMatchesFilters(event, locationSlug, tagSlug)) ?? [],
+    [events, locationSlug, tagSlug],
   )
 
   const targetEvents = useMemo(
@@ -88,18 +97,12 @@ function SectionEventsFeedInner({section}: {section: PbEventsFeedSection}) {
   const syncTokenRef = useRef(0)
   const prevDisplayIdsRef = useRef<string[]>([])
 
-  useEffect(() => {
-    setVisibleCount(pageSize)
-  }, [locationSlug, tagSlug, pageSize])
-
   const handleLocationChange = (slug: string | null) => {
     replaceFilterParams({location: slug})
-    setVisibleCount(pageSize)
   }
 
   const handleTagChange = (slug: string | null) => {
     replaceFilterParams({type: slug})
-    setVisibleCount(pageSize)
   }
 
   useGSAP(
@@ -221,7 +224,9 @@ function SectionEventsFeedInner({section}: {section: PbEventsFeedSection}) {
             <button
               type="button"
               className="ts-h4 nice-underline text-sage-700 hover:nice-underline-dotted hover:text-sage-900"
-              onClick={() => setVisibleCount((count) => count + pageSize)}
+              onClick={() =>
+                setVisibleState({filterKey, count: visibleCount + pageSize})
+              }
             >
               Show More
             </button>

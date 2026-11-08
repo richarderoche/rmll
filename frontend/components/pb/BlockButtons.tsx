@@ -1,6 +1,6 @@
 'use client'
 
-import {NavItem, PbColBlock} from '@/types'
+import {PbColBlock} from '@/types'
 import type {FilterByType, Get} from '@sanity/codegen'
 import Button from '../shared/Button'
 
@@ -28,13 +28,13 @@ export default function BlockButtons({block}: {block: BlockButtonsType}) {
 export function BlockButton({btn}: {btn: BlockButtonType}) {
   const {linkType, sitePage, externalLink, fileLink, style, width = 'full'} = btn
   if (linkType === 'sitePage' && sitePage) {
-    return <Button navItem={sitePage as NavItem} style={style} width={width} />
+    return <Button navItem={sitePage} style={style} width={width} />
   }
   if (
     (linkType === 'externalLink' || linkType === 'donate' || linkType === 'subscribe') &&
     externalLink
   ) {
-    return <Button navItem={externalLink as NavItem} style={style} width={width} />
+    return <Button navItem={externalLink} style={style} width={width} />
   }
   if (linkType === 'file') {
     return (
