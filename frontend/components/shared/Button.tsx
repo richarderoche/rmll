@@ -48,7 +48,7 @@ export default function Button(props: ButtonProps) {
     style === 'fill' && 'bg-olive border-olive',
     style === 'outline' && 'bg-bg',
     style === 'underline' && 'ts-h5 inline-link',
-    width === 'full' ? 'w-full' : 'w-fit',
+    width === 'full' && style !== 'underline' ? 'w-full' : 'w-fit',
     className,
   )
 

@@ -183,6 +183,13 @@ export default defineType({
       group: 'footer',
     }),
     defineField({
+      name: 'donateLink',
+      title: 'Donate Link',
+      type: 'string',
+      group: 'misc',
+      description: 'The full URL to the donate page. Used for "Donate" button.',
+    }),
+    defineField({
       name: 'newsletterLink',
       title: 'Newsletter Link',
       type: 'string',

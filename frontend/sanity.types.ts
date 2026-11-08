@@ -648,7 +648,10 @@ export type NavLinks = {
 export type NavExternal = {
   _type: 'navExternal'
   title?: string
+  linkType?: 'url' | 'donate' | 'subscribe'
   url?: string
+  donateNote?: Note
+  subscribeNote?: Note
 }
 
 export type ImageBasic = {
@@ -674,10 +677,12 @@ export type Column = {
 
 export type Button = {
   _type: 'button'
-  linkType?: 'sitePage' | 'externalLink' | 'file' | 'subscribe'
+  linkType?: 'sitePage' | 'externalLink' | 'file' | 'donate' | 'subscribe'
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
+  donateNote?: Note
+  donateText?: string
   subscribeNote?: Note
   subscribeText?: string
   style?: 'fill' | 'outline' | 'underline'
@@ -871,6 +876,7 @@ export type Settings = {
     } & SocialLink
   >
   footerNav?: NavLinks
+  donateLink?: string
   newsletterLink?: string
   title?: string
   seo?: Seo
@@ -1087,7 +1093,7 @@ export type AllSanitySchemaTypes =
 
 // Source: sanity/lib/queries.ts
 // Variable: homePageQuery
-// Query: *[_type == "home"][0]{    ...,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbEventsFeed" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "past" => *[          _type == "event" &&          defined(date) &&          dateTime(date) < dateTime(now())        ] | order(date desc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbEventsCarousel" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc)[0...5]{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },  }
+// Query: *[_type == "home"][0]{    ...,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "donate" => {    "externalLink": {      ...,      "title": coalesce(donateText, "Donate"),      "url": *[_type == "settings"][0].donateLink    }  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "donate" => {    "externalLink": {      ...,      "title": coalesce(donateText, "Donate"),      "url": *[_type == "settings"][0].donateLink    }  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbEventsFeed" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "past" => *[          _type == "event" &&          defined(date) &&          dateTime(date) < dateTime(now())        ] | order(date desc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbEventsCarousel" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc)[0...5]{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },  }
 export type HomePageQueryResult = {
   _id: string
   _type: 'home'
@@ -1230,7 +1236,7 @@ export type HomePageQueryResult = {
                   | {
                       _key: string
                       _type: 'button'
-                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                       sitePage: {
                         _type: 'navPage'
                         title?: string
@@ -1252,14 +1258,72 @@ export type HomePageQueryResult = {
                             }
                           | null
                         anchorLink?: string
+                        url: null
                       } | null
                       externalLink: {
                         _key: string
                         _type: 'button'
-                        linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                        linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                         sitePage?: NavPage
                         externalLink?: NavExternal
                         fileLink?: FileLink
+                        donateNote?: Note
+                        donateText?: string
+                        subscribeNote?: Note
+                        subscribeText?: string
+                        style?: 'fill' | 'outline' | 'underline'
+                        width?: 'fit' | 'full'
+                        title: string | 'Donate'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      donateNote?: Note
+                      donateText?: string
+                      subscribeNote?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                      width?: 'fit' | 'full'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'newsletter'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                        url: null
+                      } | null
+                      externalLink: {
+                        _key: string
+                        _type: 'button'
+                        linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                        sitePage?: NavPage
+                        externalLink?: NavExternal
+                        fileLink?: FileLink
+                        donateNote?: Note
+                        donateText?: string
                         subscribeNote?: Note
                         subscribeText?: string
                         style?: 'fill' | 'outline' | 'underline'
@@ -1272,6 +1336,8 @@ export type HomePageQueryResult = {
                         buttonText?: string
                         url: string | null
                       } | null
+                      donateNote?: Note
+                      donateText?: string
                       subscribeNote?: Note
                       subscribeText?: string
                       style?: 'fill' | 'outline' | 'underline'
@@ -1280,7 +1346,7 @@ export type HomePageQueryResult = {
                   | {
                       _key: string
                       _type: 'button'
-                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                       sitePage: {
                         _type: 'navPage'
                         title?: string
@@ -1302,11 +1368,15 @@ export type HomePageQueryResult = {
                             }
                           | null
                         anchorLink?: string
+                        url: null
                       } | null
                       externalLink: {
                         _type: 'navExternal'
                         title?: string
-                        url?: string
+                        linkType?: 'donate' | 'subscribe' | 'url'
+                        url: string | null
+                        donateNote?: Note
+                        subscribeNote?: Note
                         page: null
                       } | null
                       fileLink: {
@@ -1314,6 +1384,8 @@ export type HomePageQueryResult = {
                         buttonText?: string
                         url: string | null
                       } | null
+                      donateNote?: Note
+                      donateText?: string
                       subscribeNote?: Note
                       subscribeText?: string
                       style?: 'fill' | 'outline' | 'underline'
@@ -1557,7 +1629,7 @@ export type HomePageQueryResult = {
                 | {
                     _key: string
                     _type: 'button'
-                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                     sitePage: {
                       _type: 'navPage'
                       title?: string
@@ -1579,14 +1651,72 @@ export type HomePageQueryResult = {
                           }
                         | null
                       anchorLink?: string
+                      url: null
                     } | null
                     externalLink: {
                       _key: string
                       _type: 'button'
-                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                       sitePage?: NavPage
                       externalLink?: NavExternal
                       fileLink?: FileLink
+                      donateNote?: Note
+                      donateText?: string
+                      subscribeNote?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                      width?: 'fit' | 'full'
+                      title: string | 'Donate'
+                      url: string | null
+                    }
+                    fileLink: {
+                      file?: FileLinkFile
+                      buttonText?: string
+                      url: string | null
+                    } | null
+                    donateNote?: Note
+                    donateText?: string
+                    subscribeNote?: Note
+                    subscribeText?: string
+                    style?: 'fill' | 'outline' | 'underline'
+                    width?: 'fit' | 'full'
+                  }
+                | {
+                    _key: string
+                    _type: 'button'
+                    linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    sitePage: {
+                      _type: 'navPage'
+                      title?: string
+                      page:
+                        | {
+                            type: 'home'
+                            slug: null
+                            title: string
+                          }
+                        | {
+                            type: 'newsletter'
+                            slug: string
+                            title: string
+                          }
+                        | {
+                            type: 'page'
+                            slug: string
+                            title: string
+                          }
+                        | null
+                      anchorLink?: string
+                      url: null
+                    } | null
+                    externalLink: {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage?: NavPage
+                      externalLink?: NavExternal
+                      fileLink?: FileLink
+                      donateNote?: Note
+                      donateText?: string
                       subscribeNote?: Note
                       subscribeText?: string
                       style?: 'fill' | 'outline' | 'underline'
@@ -1599,6 +1729,8 @@ export type HomePageQueryResult = {
                       buttonText?: string
                       url: string | null
                     } | null
+                    donateNote?: Note
+                    donateText?: string
                     subscribeNote?: Note
                     subscribeText?: string
                     style?: 'fill' | 'outline' | 'underline'
@@ -1607,7 +1739,7 @@ export type HomePageQueryResult = {
                 | {
                     _key: string
                     _type: 'button'
-                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                     sitePage: {
                       _type: 'navPage'
                       title?: string
@@ -1629,11 +1761,15 @@ export type HomePageQueryResult = {
                           }
                         | null
                       anchorLink?: string
+                      url: null
                     } | null
                     externalLink: {
                       _type: 'navExternal'
                       title?: string
-                      url?: string
+                      linkType?: 'donate' | 'subscribe' | 'url'
+                      url: string | null
+                      donateNote?: Note
+                      subscribeNote?: Note
                       page: null
                     } | null
                     fileLink: {
@@ -1641,6 +1777,8 @@ export type HomePageQueryResult = {
                       buttonText?: string
                       url: string | null
                     } | null
+                    donateNote?: Note
+                    donateText?: string
                     subscribeNote?: Note
                     subscribeText?: string
                     style?: 'fill' | 'outline' | 'underline'
@@ -1891,7 +2029,7 @@ export type HomePageQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: pagesBySlugQuery
-// Query: *[_type == "page" && slug.current == $slug][0] {    ...,    "slug": slug.current,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbEventsFeed" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "past" => *[          _type == "event" &&          defined(date) &&          dateTime(date) < dateTime(now())        ] | order(date desc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbEventsCarousel" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc)[0...5]{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "page" && slug.current == $slug][0] {    ...,    "slug": slug.current,      pbSections[]{    ...,    _type == "pbGridMulti" => {      columns[]{        ...,        pbBlocks[]{            ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "donate" => {    "externalLink": {      ...,      "title": coalesce(donateText, "Donate"),      "url": *[_type == "settings"][0].donateLink    }  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },        }      }    },    _type == "pbGridSingle" => {      ...,      pbBlocks[]{          ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "donate" => {    "externalLink": {      ...,      "title": coalesce(donateText, "Donate"),      "url": *[_type == "settings"][0].donateLink    }  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },      }    },    _type == "pbEventsFeed" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "past" => *[          _type == "event" &&          defined(date) &&          dateTime(date) < dateTime(now())        ] | order(date desc){            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbEventsCarousel" => {      ...,      "events": select(        listingType == "manual" => events[defined(@)]->{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        listingType == "upcoming" => *[          _type == "event" &&          defined(date) &&          dateTime(date) >= dateTime(now())        ] | order(date asc)[0...5]{            _id,  title,  subtitle,  date,  thumbnailMain,  thumbnailBook,  locations[]->{    title,    "slug": slug.current,  },  tags[]->{    title,    "slug": slug.current,  },  "link": link {    linkType,    "path": select(      linkType == "sitePage" => sitePage->slug.current,      linkType == "externalLink" => externalLink,    ),  },  btnText,        },        []      )    },    _type == "pbLatestNews" => {      ...,      "newsletter": *[        _type == "newsletter" &&        defined(slug.current)      ] | order(publishDate desc)[0]{        "slug": slug.current,        title,        edition,        coverImage,        teaserText,      }    },  },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
 export type PagesBySlugQueryResult = {
   _id: string
   _type: 'page'
@@ -2035,7 +2173,7 @@ export type PagesBySlugQueryResult = {
                   | {
                       _key: string
                       _type: 'button'
-                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                       sitePage: {
                         _type: 'navPage'
                         title?: string
@@ -2057,14 +2195,72 @@ export type PagesBySlugQueryResult = {
                             }
                           | null
                         anchorLink?: string
+                        url: null
                       } | null
                       externalLink: {
                         _key: string
                         _type: 'button'
-                        linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                        linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                         sitePage?: NavPage
                         externalLink?: NavExternal
                         fileLink?: FileLink
+                        donateNote?: Note
+                        donateText?: string
+                        subscribeNote?: Note
+                        subscribeText?: string
+                        style?: 'fill' | 'outline' | 'underline'
+                        width?: 'fit' | 'full'
+                        title: string | 'Donate'
+                        url: string | null
+                      }
+                      fileLink: {
+                        file?: FileLinkFile
+                        buttonText?: string
+                        url: string | null
+                      } | null
+                      donateNote?: Note
+                      donateText?: string
+                      subscribeNote?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                      width?: 'fit' | 'full'
+                    }
+                  | {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage: {
+                        _type: 'navPage'
+                        title?: string
+                        page:
+                          | {
+                              type: 'home'
+                              slug: null
+                              title: string
+                            }
+                          | {
+                              type: 'newsletter'
+                              slug: string
+                              title: string
+                            }
+                          | {
+                              type: 'page'
+                              slug: string
+                              title: string
+                            }
+                          | null
+                        anchorLink?: string
+                        url: null
+                      } | null
+                      externalLink: {
+                        _key: string
+                        _type: 'button'
+                        linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                        sitePage?: NavPage
+                        externalLink?: NavExternal
+                        fileLink?: FileLink
+                        donateNote?: Note
+                        donateText?: string
                         subscribeNote?: Note
                         subscribeText?: string
                         style?: 'fill' | 'outline' | 'underline'
@@ -2077,6 +2273,8 @@ export type PagesBySlugQueryResult = {
                         buttonText?: string
                         url: string | null
                       } | null
+                      donateNote?: Note
+                      donateText?: string
                       subscribeNote?: Note
                       subscribeText?: string
                       style?: 'fill' | 'outline' | 'underline'
@@ -2085,7 +2283,7 @@ export type PagesBySlugQueryResult = {
                   | {
                       _key: string
                       _type: 'button'
-                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                       sitePage: {
                         _type: 'navPage'
                         title?: string
@@ -2107,11 +2305,15 @@ export type PagesBySlugQueryResult = {
                             }
                           | null
                         anchorLink?: string
+                        url: null
                       } | null
                       externalLink: {
                         _type: 'navExternal'
                         title?: string
-                        url?: string
+                        linkType?: 'donate' | 'subscribe' | 'url'
+                        url: string | null
+                        donateNote?: Note
+                        subscribeNote?: Note
                         page: null
                       } | null
                       fileLink: {
@@ -2119,6 +2321,8 @@ export type PagesBySlugQueryResult = {
                         buttonText?: string
                         url: string | null
                       } | null
+                      donateNote?: Note
+                      donateText?: string
                       subscribeNote?: Note
                       subscribeText?: string
                       style?: 'fill' | 'outline' | 'underline'
@@ -2362,7 +2566,7 @@ export type PagesBySlugQueryResult = {
                 | {
                     _key: string
                     _type: 'button'
-                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                     sitePage: {
                       _type: 'navPage'
                       title?: string
@@ -2384,14 +2588,72 @@ export type PagesBySlugQueryResult = {
                           }
                         | null
                       anchorLink?: string
+                      url: null
                     } | null
                     externalLink: {
                       _key: string
                       _type: 'button'
-                      linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                       sitePage?: NavPage
                       externalLink?: NavExternal
                       fileLink?: FileLink
+                      donateNote?: Note
+                      donateText?: string
+                      subscribeNote?: Note
+                      subscribeText?: string
+                      style?: 'fill' | 'outline' | 'underline'
+                      width?: 'fit' | 'full'
+                      title: string | 'Donate'
+                      url: string | null
+                    }
+                    fileLink: {
+                      file?: FileLinkFile
+                      buttonText?: string
+                      url: string | null
+                    } | null
+                    donateNote?: Note
+                    donateText?: string
+                    subscribeNote?: Note
+                    subscribeText?: string
+                    style?: 'fill' | 'outline' | 'underline'
+                    width?: 'fit' | 'full'
+                  }
+                | {
+                    _key: string
+                    _type: 'button'
+                    linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    sitePage: {
+                      _type: 'navPage'
+                      title?: string
+                      page:
+                        | {
+                            type: 'home'
+                            slug: null
+                            title: string
+                          }
+                        | {
+                            type: 'newsletter'
+                            slug: string
+                            title: string
+                          }
+                        | {
+                            type: 'page'
+                            slug: string
+                            title: string
+                          }
+                        | null
+                      anchorLink?: string
+                      url: null
+                    } | null
+                    externalLink: {
+                      _key: string
+                      _type: 'button'
+                      linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                      sitePage?: NavPage
+                      externalLink?: NavExternal
+                      fileLink?: FileLink
+                      donateNote?: Note
+                      donateText?: string
                       subscribeNote?: Note
                       subscribeText?: string
                       style?: 'fill' | 'outline' | 'underline'
@@ -2404,6 +2666,8 @@ export type PagesBySlugQueryResult = {
                       buttonText?: string
                       url: string | null
                     } | null
+                    donateNote?: Note
+                    donateText?: string
                     subscribeNote?: Note
                     subscribeText?: string
                     style?: 'fill' | 'outline' | 'underline'
@@ -2412,7 +2676,7 @@ export type PagesBySlugQueryResult = {
                 | {
                     _key: string
                     _type: 'button'
-                    linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                    linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                     sitePage: {
                       _type: 'navPage'
                       title?: string
@@ -2434,11 +2698,15 @@ export type PagesBySlugQueryResult = {
                           }
                         | null
                       anchorLink?: string
+                      url: null
                     } | null
                     externalLink: {
                       _type: 'navExternal'
                       title?: string
-                      url?: string
+                      linkType?: 'donate' | 'subscribe' | 'url'
+                      url: string | null
+                      donateNote?: Note
+                      subscribeNote?: Note
                       page: null
                     } | null
                     fileLink: {
@@ -2446,6 +2714,8 @@ export type PagesBySlugQueryResult = {
                       buttonText?: string
                       url: string | null
                     } | null
+                    donateNote?: Note
+                    donateText?: string
                     subscribeNote?: Note
                     subscribeText?: string
                     style?: 'fill' | 'outline' | 'underline'
@@ -2717,7 +2987,7 @@ export type PagesBySlugQueryResult = {
 
 // Source: sanity/lib/queries.ts
 // Variable: newsletterBySlugQuery
-// Query: *[_type == "newsletter" && slug.current == $slug][0] {    ...,    "slug": slug.current,    bodyContent[]{        ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },    },    "editions": *[      _type == "newsletter" &&      defined(slug.current)    ] | order(publishDate desc){      "value": slug.current,      "label": edition,    },    "subscribeUrl": *[_type == "settings"][0].newsletterLink,      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "newsletter" && slug.current == $slug][0] {    ...,    "slug": slug.current,    bodyContent[]{        ...,  _type == "pbBlockRichText" => {    ...,    textContent[]{        ...,  markDefs[]{    ...,    _type == "internalLink" => {      ...,      "slug": reference->slug,      "type": reference->_type    }  }    }  },  _type == "pbBlockButtons" => {    buttons[]{        ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "donate" => {    "externalLink": {      ...,      "title": coalesce(donateText, "Donate"),      "url": *[_type == "settings"][0].donateLink    }  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },    }  },    },    "editions": *[      _type == "newsletter" &&      defined(slug.current)    ] | order(publishDate desc){      "value": slug.current,      "label": edition,    },    "subscribeUrl": *[_type == "settings"][0].newsletterLink,      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
 export type NewsletterBySlugQueryResult = {
   _id: string
   _type: 'newsletter'
@@ -2745,7 +3015,7 @@ export type NewsletterBySlugQueryResult = {
           | {
               _key: string
               _type: 'button'
-              linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+              linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
               sitePage: {
                 _type: 'navPage'
                 title?: string
@@ -2767,14 +3037,72 @@ export type NewsletterBySlugQueryResult = {
                     }
                   | null
                 anchorLink?: string
+                url: null
               } | null
               externalLink: {
                 _key: string
                 _type: 'button'
-                linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
                 sitePage?: NavPage
                 externalLink?: NavExternal
                 fileLink?: FileLink
+                donateNote?: Note
+                donateText?: string
+                subscribeNote?: Note
+                subscribeText?: string
+                style?: 'fill' | 'outline' | 'underline'
+                width?: 'fit' | 'full'
+                title: string | 'Donate'
+                url: string | null
+              }
+              fileLink: {
+                file?: FileLinkFile
+                buttonText?: string
+                url: string | null
+              } | null
+              donateNote?: Note
+              donateText?: string
+              subscribeNote?: Note
+              subscribeText?: string
+              style?: 'fill' | 'outline' | 'underline'
+              width?: 'fit' | 'full'
+            }
+          | {
+              _key: string
+              _type: 'button'
+              linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+              sitePage: {
+                _type: 'navPage'
+                title?: string
+                page:
+                  | {
+                      type: 'home'
+                      slug: null
+                      title: string
+                    }
+                  | {
+                      type: 'newsletter'
+                      slug: string
+                      title: string
+                    }
+                  | {
+                      type: 'page'
+                      slug: string
+                      title: string
+                    }
+                  | null
+                anchorLink?: string
+                url: null
+              } | null
+              externalLink: {
+                _key: string
+                _type: 'button'
+                linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+                sitePage?: NavPage
+                externalLink?: NavExternal
+                fileLink?: FileLink
+                donateNote?: Note
+                donateText?: string
                 subscribeNote?: Note
                 subscribeText?: string
                 style?: 'fill' | 'outline' | 'underline'
@@ -2787,6 +3115,8 @@ export type NewsletterBySlugQueryResult = {
                 buttonText?: string
                 url: string | null
               } | null
+              donateNote?: Note
+              donateText?: string
               subscribeNote?: Note
               subscribeText?: string
               style?: 'fill' | 'outline' | 'underline'
@@ -2795,7 +3125,7 @@ export type NewsletterBySlugQueryResult = {
           | {
               _key: string
               _type: 'button'
-              linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+              linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
               sitePage: {
                 _type: 'navPage'
                 title?: string
@@ -2817,11 +3147,15 @@ export type NewsletterBySlugQueryResult = {
                     }
                   | null
                 anchorLink?: string
+                url: null
               } | null
               externalLink: {
                 _type: 'navExternal'
                 title?: string
-                url?: string
+                linkType?: 'donate' | 'subscribe' | 'url'
+                url: string | null
+                donateNote?: Note
+                subscribeNote?: Note
                 page: null
               } | null
               fileLink: {
@@ -2829,6 +3163,8 @@ export type NewsletterBySlugQueryResult = {
                 buttonText?: string
                 url: string | null
               } | null
+              donateNote?: Note
+              donateText?: string
               subscribeNote?: Note
               subscribeText?: string
               style?: 'fill' | 'outline' | 'underline'
@@ -3092,7 +3428,7 @@ export type SitemapByTypeQueryResult = Array<
 
 // Source: sanity/lib/queries.ts
 // Variable: settingsQuery
-// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav[]{      _type == "navDropdown" => {        ...,        items[]{            ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },        },      },      _type != "navDropdown" => {          ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },      },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
+// Query: *[_type == "settings"][0]{    ...,    "headerNav": headerNav[]{      _type == "navDropdown" => {        ...,        items[]{            ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),        },      },      _type != "navDropdown" => {          ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),      },    },    "footerCTAs": footerCTAs[]{      ...,      link {          ...,  sitePage {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  externalLink {      ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),  },  fileLink {    ...,    "url": file.asset->url,  },  linkType == "donate" => {    "externalLink": {      ...,      "title": coalesce(donateText, "Donate"),      "url": *[_type == "settings"][0].donateLink    }  },  linkType == "subscribe" => {    "externalLink": {      ...,      "title": coalesce(subscribeText, "Subscribe"),      "url": *[_type == "settings"][0].newsletterLink    }  },      },    },    "footerNav": footerNav.navItems[]{        ...,  "page": page->{      "type": _type,  "slug": slug.current,  title,  },  "url": select(    linkType == "url" => url,    linkType == "donate" => *[_type == "settings"][0].donateLink,    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,    url  ),    },      "seoTitle": seo.seoTitle,  "description": seo.description,  "ogImage": select(    defined(seo.image.asset) => seo.image,    enableHero => hero.image  ),  "noIndex": seo.hideFromSearchEngines,  }
 export type SettingsQueryResult = {
   _id: string
   _type: 'settings'
@@ -3107,7 +3443,10 @@ export type SettingsQueryResult = {
               _key: string
               _type: 'navExternal'
               title?: string
-              url?: string
+              linkType?: 'donate' | 'subscribe' | 'url'
+              url: string | null
+              donateNote?: Note
+              subscribeNote?: Note
               page: null
             }
           | {
@@ -3132,6 +3471,7 @@ export type SettingsQueryResult = {
                   }
                 | null
               anchorLink?: string
+              url: null
             }
         > | null
         _type: 'navDropdown'
@@ -3141,7 +3481,10 @@ export type SettingsQueryResult = {
         _key: string
         _type: 'navExternal'
         title?: string
-        url?: string
+        linkType?: 'donate' | 'subscribe' | 'url'
+        url: string | null
+        donateNote?: Note
+        subscribeNote?: Note
         page: null
       }
     | {
@@ -3166,6 +3509,7 @@ export type SettingsQueryResult = {
             }
           | null
         anchorLink?: string
+        url: null
       }
   > | null
   footerCTAs: Array<{
@@ -3173,7 +3517,7 @@ export type SettingsQueryResult = {
     link:
       | {
           _type: 'button'
-          linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+          linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
           sitePage: {
             _type: 'navPage'
             title?: string
@@ -3195,13 +3539,69 @@ export type SettingsQueryResult = {
                 }
               | null
             anchorLink?: string
+            url: null
           } | null
           externalLink: {
             _type: 'button'
-            linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+            linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
             sitePage?: NavPage
             externalLink?: NavExternal
             fileLink?: FileLink
+            donateNote?: Note
+            donateText?: string
+            subscribeNote?: Note
+            subscribeText?: string
+            style?: 'fill' | 'outline' | 'underline'
+            width?: 'fit' | 'full'
+            title: string | 'Donate'
+            url: string | null
+          }
+          fileLink: {
+            file?: FileLinkFile
+            buttonText?: string
+            url: string | null
+          } | null
+          donateNote?: Note
+          donateText?: string
+          subscribeNote?: Note
+          subscribeText?: string
+          style?: 'fill' | 'outline' | 'underline'
+          width?: 'fit' | 'full'
+        }
+      | {
+          _type: 'button'
+          linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+          sitePage: {
+            _type: 'navPage'
+            title?: string
+            page:
+              | {
+                  type: 'home'
+                  slug: null
+                  title: string
+                }
+              | {
+                  type: 'newsletter'
+                  slug: string
+                  title: string
+                }
+              | {
+                  type: 'page'
+                  slug: string
+                  title: string
+                }
+              | null
+            anchorLink?: string
+            url: null
+          } | null
+          externalLink: {
+            _type: 'button'
+            linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+            sitePage?: NavPage
+            externalLink?: NavExternal
+            fileLink?: FileLink
+            donateNote?: Note
+            donateText?: string
             subscribeNote?: Note
             subscribeText?: string
             style?: 'fill' | 'outline' | 'underline'
@@ -3214,6 +3614,8 @@ export type SettingsQueryResult = {
             buttonText?: string
             url: string | null
           } | null
+          donateNote?: Note
+          donateText?: string
           subscribeNote?: Note
           subscribeText?: string
           style?: 'fill' | 'outline' | 'underline'
@@ -3221,7 +3623,7 @@ export type SettingsQueryResult = {
         }
       | {
           _type: 'button'
-          linkType?: 'externalLink' | 'file' | 'sitePage' | 'subscribe'
+          linkType?: 'donate' | 'externalLink' | 'file' | 'sitePage' | 'subscribe'
           sitePage: {
             _type: 'navPage'
             title?: string
@@ -3243,11 +3645,15 @@ export type SettingsQueryResult = {
                 }
               | null
             anchorLink?: string
+            url: null
           } | null
           externalLink: {
             _type: 'navExternal'
             title?: string
-            url?: string
+            linkType?: 'donate' | 'subscribe' | 'url'
+            url: string | null
+            donateNote?: Note
+            subscribeNote?: Note
             page: null
           } | null
           fileLink: {
@@ -3255,6 +3661,8 @@ export type SettingsQueryResult = {
             buttonText?: string
             url: string | null
           } | null
+          donateNote?: Note
+          donateText?: string
           subscribeNote?: Note
           subscribeText?: string
           style?: 'fill' | 'outline' | 'underline'
@@ -3285,7 +3693,10 @@ export type SettingsQueryResult = {
         _key: string
         _type: 'navExternal'
         title?: string
-        url?: string
+        linkType?: 'donate' | 'subscribe' | 'url'
+        url: string | null
+        donateNote?: Note
+        subscribeNote?: Note
         page: null
       }
     | {
@@ -3310,8 +3721,10 @@ export type SettingsQueryResult = {
             }
           | null
         anchorLink?: string
+        url: null
       }
   > | null
+  donateLink?: string
   newsletterLink?: string
   title?: string
   seo?: Seo
@@ -3352,12 +3765,12 @@ export type ScriptsQueryResult = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
-    '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbEventsFeed" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "past" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) < dateTime(now())\n        ] | order(date desc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbEventsCarousel" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc)[0...5]{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n  }\n': HomePageQueryResult
-    '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbEventsFeed" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "past" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) < dateTime(now())\n        ] | order(date desc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbEventsCarousel" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc)[0...5]{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
-    '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n    },\n    "editions": *[\n      _type == "newsletter" &&\n      defined(slug.current)\n    ] | order(publishDate desc){\n      "value": slug.current,\n      "label": edition,\n    },\n    "subscribeUrl": *[_type == "settings"][0].newsletterLink,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
+    '\n  *[_type == "home"][0]{\n    ...,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "donate" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(donateText, "Donate"),\n      "url": *[_type == "settings"][0].donateLink\n    }\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "donate" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(donateText, "Donate"),\n      "url": *[_type == "settings"][0].donateLink\n    }\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbEventsFeed" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "past" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) < dateTime(now())\n        ] | order(date desc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbEventsCarousel" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc)[0...5]{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n  }\n': HomePageQueryResult
+    '\n  *[_type == "page" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    \n  pbSections[]{\n    ...,\n    _type == "pbGridMulti" => {\n      columns[]{\n        ...,\n        pbBlocks[]{\n          \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "donate" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(donateText, "Donate"),\n      "url": *[_type == "settings"][0].donateLink\n    }\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n        }\n      }\n    },\n    _type == "pbGridSingle" => {\n      ...,\n      pbBlocks[]{\n        \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "donate" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(donateText, "Donate"),\n      "url": *[_type == "settings"][0].donateLink\n    }\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n      }\n    },\n    _type == "pbEventsFeed" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "past" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) < dateTime(now())\n        ] | order(date desc){\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbEventsCarousel" => {\n      ...,\n      "events": select(\n        listingType == "manual" => events[defined(@)]->{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        listingType == "upcoming" => *[\n          _type == "event" &&\n          defined(date) &&\n          dateTime(date) >= dateTime(now())\n        ] | order(date asc)[0...5]{\n          \n  _id,\n  title,\n  subtitle,\n  date,\n  thumbnailMain,\n  thumbnailBook,\n  locations[]->{\n    title,\n    "slug": slug.current,\n  },\n  tags[]->{\n    title,\n    "slug": slug.current,\n  },\n  "link": link {\n    linkType,\n    "path": select(\n      linkType == "sitePage" => sitePage->slug.current,\n      linkType == "externalLink" => externalLink,\n    ),\n  },\n  btnText,\n\n        },\n        []\n      )\n    },\n    _type == "pbLatestNews" => {\n      ...,\n      "newsletter": *[\n        _type == "newsletter" &&\n        defined(slug.current)\n      ] | order(publishDate desc)[0]{\n        "slug": slug.current,\n        title,\n        edition,\n        coverImage,\n        teaserText,\n      }\n    },\n  }\n,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': PagesBySlugQueryResult
+    '\n  *[_type == "newsletter" && slug.current == $slug][0] {\n    ...,\n    "slug": slug.current,\n    bodyContent[]{\n      \n  ...,\n  _type == "pbBlockRichText" => {\n    ...,\n    textContent[]{\n      \n  ...,\n  markDefs[]{\n    ...,\n    _type == "internalLink" => {\n      ...,\n      "slug": reference->slug,\n      "type": reference->_type\n    }\n  }\n\n    }\n  },\n  _type == "pbBlockButtons" => {\n    buttons[]{\n      \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "donate" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(donateText, "Donate"),\n      "url": *[_type == "settings"][0].donateLink\n    }\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n    }\n  },\n\n    },\n    "editions": *[\n      _type == "newsletter" &&\n      defined(slug.current)\n    ] | order(publishDate desc){\n      "value": slug.current,\n      "label": edition,\n    },\n    "subscribeUrl": *[_type == "settings"][0].newsletterLink,\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': NewsletterBySlugQueryResult
     '\n  *[_type == $type && defined(slug.current)]{"slug": slug.current}\n': SlugsByTypeQueryResult
     '\n  *[_type == $type]{"slug": slug.current, "updatedAt": _updatedAt}\n': SitemapByTypeQueryResult
-    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav[]{\n      _type == "navDropdown" => {\n        ...,\n        items[]{\n          \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n        },\n      },\n      _type != "navDropdown" => {\n        \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n      },\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  }\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
+    '\n  *[_type == "settings"][0]{\n    ...,\n    "headerNav": headerNav[]{\n      _type == "navDropdown" => {\n        ...,\n        items[]{\n          \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n        },\n      },\n      _type != "navDropdown" => {\n        \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n      },\n    },\n    "footerCTAs": footerCTAs[]{\n      ...,\n      link {\n        \n  ...,\n  sitePage {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  externalLink {\n    \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n  },\n  fileLink {\n    ...,\n    "url": file.asset->url,\n  },\n  linkType == "donate" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(donateText, "Donate"),\n      "url": *[_type == "settings"][0].donateLink\n    }\n  },\n  linkType == "subscribe" => {\n    "externalLink": {\n      ...,\n      "title": coalesce(subscribeText, "Subscribe"),\n      "url": *[_type == "settings"][0].newsletterLink\n    }\n  },\n\n      },\n    },\n    "footerNav": footerNav.navItems[]{\n      \n  ...,\n  "page": page->{\n    \n  "type": _type,\n  "slug": slug.current,\n  title\n,\n  },\n  "url": select(\n    linkType == "url" => url,\n    linkType == "donate" => *[_type == "settings"][0].donateLink,\n    linkType == "subscribe" => *[_type == "settings"][0].newsletterLink,\n    url\n  )\n,\n    },\n    \n  "seoTitle": seo.seoTitle,\n  "description": seo.description,\n  "ogImage": select(\n    defined(seo.image.asset) => seo.image,\n    enableHero => hero.image\n  ),\n  "noIndex": seo.hideFromSearchEngines\n,\n  }\n': SettingsQueryResult
     '\n  *[_type == "settings"][0]{\n    "gtmId": googletagmanagerID,\n    customScripts,\n  }\n': ScriptsQueryResult
   }
 }

@@ -5,6 +5,7 @@ export const BUTTON_TYPE_OPTIONS: {title: string; value: string}[] = [
   {title: 'Internal', value: 'sitePage'},
   {title: 'External', value: 'externalLink'},
   {title: 'File', value: 'file'},
+  {title: 'Donate', value: 'donate'},
   {title: 'Subscribe', value: 'subscribe'},
 ]
 
@@ -66,6 +67,21 @@ export default defineType({
           description: 'Text shown on the button (e.g. "Download PDF")',
         }),
       ],
+    }),
+    defineField({
+      title: 'Donate Button',
+      description:
+        'This creates an external link to the URL set in the Settings "Donate Link" field (if set). Use this so that if you change the donate link, you only need to update the Settings and not all the buttons.',
+      name: 'donateNote',
+      type: 'note',
+      hidden: ({parent}) => parent?.linkType !== 'donate',
+    }),
+    defineField({
+      title: 'Button Text',
+      name: 'donateText',
+      type: 'string',
+      initialValue: 'Donate',
+      hidden: ({parent}) => parent?.linkType !== 'donate',
     }),
     defineField({
       title: 'Subscribe Button',

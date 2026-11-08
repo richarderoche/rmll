@@ -648,7 +648,10 @@ export type NavLinks = {
 export type NavExternal = {
   _type: 'navExternal'
   title?: string
+  linkType?: 'url' | 'donate' | 'subscribe'
   url?: string
+  donateNote?: Note
+  subscribeNote?: Note
 }
 
 export type ImageBasic = {
@@ -674,10 +677,12 @@ export type Column = {
 
 export type Button = {
   _type: 'button'
-  linkType?: 'sitePage' | 'externalLink' | 'file' | 'subscribe'
+  linkType?: 'sitePage' | 'externalLink' | 'file' | 'donate' | 'subscribe'
   sitePage?: NavPage
   externalLink?: NavExternal
   fileLink?: FileLink
+  donateNote?: Note
+  donateText?: string
   subscribeNote?: Note
   subscribeText?: string
   style?: 'fill' | 'outline' | 'underline'
@@ -871,6 +876,7 @@ export type Settings = {
     } & SocialLink
   >
   footerNav?: NavLinks
+  donateLink?: string
   newsletterLink?: string
   title?: string
   seo?: Seo

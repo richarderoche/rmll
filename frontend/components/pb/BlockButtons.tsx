@@ -30,7 +30,10 @@ export function BlockButton({btn}: {btn: BlockButtonType}) {
   if (linkType === 'sitePage' && sitePage) {
     return <Button navItem={sitePage as NavItem} style={style} width={width} />
   }
-  if ((linkType === 'externalLink' || linkType === 'subscribe') && externalLink) {
+  if (
+    (linkType === 'externalLink' || linkType === 'donate' || linkType === 'subscribe') &&
+    externalLink
+  ) {
     return <Button navItem={externalLink as NavItem} style={style} width={width} />
   }
   if (linkType === 'file') {

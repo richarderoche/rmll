@@ -4606,10 +4606,47 @@
           },
           "optional": true
         },
+        "linkType": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "union",
+            "of": [
+              {
+                "type": "string",
+                "value": "url"
+              },
+              {
+                "type": "string",
+                "value": "donate"
+              },
+              {
+                "type": "string",
+                "value": "subscribe"
+              }
+            ]
+          },
+          "optional": true
+        },
         "url": {
           "type": "objectAttribute",
           "value": {
             "type": "string"
+          },
+          "optional": true
+        },
+        "donateNote": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "note"
+          },
+          "optional": true
+        },
+        "subscribeNote": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "note"
           },
           "optional": true
         }
@@ -4848,6 +4885,10 @@
               },
               {
                 "type": "string",
+                "value": "donate"
+              },
+              {
+                "type": "string",
                 "value": "subscribe"
               }
             ]
@@ -4875,6 +4916,21 @@
           "value": {
             "type": "inline",
             "name": "fileLink"
+          },
+          "optional": true
+        },
+        "donateNote": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "inline",
+            "name": "note"
+          },
+          "optional": true
+        },
+        "donateText": {
+          "type": "objectAttribute",
+          "value": {
+            "type": "string"
           },
           "optional": true
         },
@@ -5990,6 +6046,13 @@
         "value": {
           "type": "inline",
           "name": "navLinks"
+        },
+        "optional": true
+      },
+      "donateLink": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
         },
         "optional": true
       },

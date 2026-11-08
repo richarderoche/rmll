@@ -11,6 +11,10 @@ const seo = `
   "noIndex": seo.hideFromSearchEngines
 `
 
+const settingsDonateLink = `*[_type == "settings"][0].donateLink`
+
+const settingsNewsletterLink = `*[_type == "settings"][0].newsletterLink`
+
 const page = `
   "type": _type,
   "slug": slug.current,
@@ -21,7 +25,13 @@ const link = `
   ...,
   "page": page->{
     ${page},
-  }
+  },
+  "url": select(
+    linkType == "url" => url,
+    linkType == "donate" => ${settingsDonateLink},
+    linkType == "subscribe" => ${settingsNewsletterLink},
+    url
+  )
 `
 
 const portableText = `
@@ -35,7 +45,6 @@ const portableText = `
     }
   }
 `
-const settingsNewsletterLink = `*[_type == "settings"][0].newsletterLink`
 
 const eventData = `
   _id,
@@ -73,6 +82,13 @@ const pbButton = `
   fileLink {
     ...,
     "url": file.asset->url,
+  },
+  linkType == "donate" => {
+    "externalLink": {
+      ...,
+      "title": coalesce(donateText, "Donate"),
+      "url": ${settingsDonateLink}
+    }
   },
   linkType == "subscribe" => {
     "externalLink": {
