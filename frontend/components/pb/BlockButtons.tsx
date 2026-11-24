@@ -17,7 +17,7 @@ export default function BlockButtons({block}: {block: BlockButtonsType}) {
   if (buttons.length === 0) return null
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-gut-25">
       {buttons.map((btn, index) => {
         return <BlockButton key={btn._key ?? index} btn={btn} />
       })}

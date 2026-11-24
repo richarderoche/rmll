@@ -103,7 +103,11 @@ export default defineType({
       name: 'style',
       type: 'string',
       options: {
-        list: ['fill', 'outline', 'underline'],
+        list: [
+          {title: 'Solid', value: 'fill'},
+          {title: 'Outline', value: 'outline'},
+          {title: 'Underline', value: 'underline'},
+        ],
       },
       initialValue: 'fill',
     }),
