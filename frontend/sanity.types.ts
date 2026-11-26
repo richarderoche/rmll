@@ -68,6 +68,12 @@ export type FileLinkFile = {
   _type: 'file'
 }
 
+export type MarkDefsFileLinkFile = {
+  asset?: SanityFileAssetReference
+  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  _type: 'file'
+}
+
 export type YAlignment = {
   mobile: 'self-start' | 'self-center' | 'self-end'
   tablet: 'inherit' | 'self-start' | 'self-center' | 'self-end'
@@ -98,9 +104,9 @@ export type ImageElementImage = {
   _type: 'image'
 }
 
-export type MarkDefsFileLinkFile = {
+export type BlockMarkDefsFileLinkFile = {
   asset?: SanityFileAssetReference
-  media?: unknown // Unable to locate the referenced type "file.media" in schema
+  media?: unknown // Unable to locate the referenced type "fileLink.file.media" in schema
   _type: 'file'
 }
 
@@ -222,7 +228,7 @@ export type PtNewsletter = Array<
             _key: string
           }
         | {
-            file?: MarkDefsFileLinkFile
+            file?: BlockMarkDefsFileLinkFile
             _type: 'fileLink'
             _key: string
           }
@@ -281,11 +287,7 @@ export type PtBasic = Array<{
         _key: string
       }
     | {
-        file?: {
-          asset?: SanityFileAssetReference
-          media?: unknown
-          _type: 'file'
-        }
+        file?: MarkDefsFileLinkFile
         _type: 'fileLink'
         _key: string
       }
@@ -617,6 +619,16 @@ export type PageHero = {
     alt?: string
     _type: 'image'
   }
+  headingColor?: 'text-offwhite' | 'text-olive' | 'text-sage-800' | 'text-body'
+  headingSegments?: Array<{
+    text?: string
+    alignment?: 'left' | 'right'
+    indent?: boolean
+    _type: 'segment'
+    _key: string
+  }>
+  introText?: PtBasic
+  filmStrip?: boolean
 }
 
 export type HomeReference = {
@@ -703,51 +715,6 @@ export type Redirect = {
 
 export type Note = string
 
-export type Newsletter = {
-  _id: string
-  _type: 'newsletter'
-  _createdAt: string
-  _updatedAt: string
-  _rev: string
-  edition: string
-  slug: Slug
-  publishDate: string
-  coverImage: {
-    asset?: SanityImageAssetReference
-    media?: unknown
-    hotspot?: SanityImageHotspot
-    crop?: SanityImageCrop
-    alt?: string
-    _type: 'image'
-  }
-  title: string
-  teaserText?: string
-  bodyContent?: PbBlocks
-  seo?: Seo
-}
-
-export type SanityImageCrop = {
-  _type: 'sanity.imageCrop'
-  top: number
-  bottom: number
-  left: number
-  right: number
-}
-
-export type SanityImageHotspot = {
-  _type: 'sanity.imageHotspot'
-  x: number
-  y: number
-  height: number
-  width: number
-}
-
-export type Slug = {
-  _type: 'slug'
-  current: string
-  source?: string
-}
-
 export type EventLocation = {
   _id: string
   _type: 'eventLocation'
@@ -756,6 +723,12 @@ export type EventLocation = {
   _rev: string
   title?: string
   slug: Slug
+}
+
+export type Slug = {
+  _type: 'slug'
+  current: string
+  source?: string
 }
 
 export type EventTag = {
@@ -824,6 +797,22 @@ export type Event = {
     externalLink?: string
   }
   btnText?: string
+}
+
+export type SanityImageCrop = {
+  _type: 'sanity.imageCrop'
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type SanityImageHotspot = {
+  _type: 'sanity.imageHotspot'
+  x: number
+  y: number
+  height: number
+  width: number
 }
 
 export type Settings = {
@@ -913,6 +902,29 @@ export type Page = {
   enableHero?: boolean
   hero?: PageHero
   pbSections?: PbSections
+  seo?: Seo
+}
+
+export type Newsletter = {
+  _id: string
+  _type: 'newsletter'
+  _createdAt: string
+  _updatedAt: string
+  _rev: string
+  edition: string
+  slug: Slug
+  publishDate: string
+  coverImage: {
+    asset?: SanityImageAssetReference
+    media?: unknown
+    hotspot?: SanityImageHotspot
+    crop?: SanityImageCrop
+    alt?: string
+    _type: 'image'
+  }
+  title: string
+  teaserText?: string
+  bodyContent?: PbBlocks
   seo?: Seo
 }
 
@@ -1023,11 +1035,12 @@ export type AllSanitySchemaTypes =
   | PbBlockMarqueeSettings
   | SanityFileAssetReference
   | FileLinkFile
+  | MarkDefsFileLinkFile
   | YAlignment
   | SanityImageAssetReference
   | TeamMemberImage
   | ImageElementImage
-  | MarkDefsFileLinkFile
+  | BlockMarkDefsFileLinkFile
   | SocialLink
   | Seo
   | PageReference
@@ -1070,18 +1083,18 @@ export type AllSanitySchemaTypes =
   | Button
   | Redirect
   | Note
-  | Newsletter
-  | SanityImageCrop
-  | SanityImageHotspot
-  | Slug
   | EventLocation
+  | Slug
   | EventTag
   | EventLocationReference
   | EventTagReference
   | Event
+  | SanityImageCrop
+  | SanityImageHotspot
   | Settings
   | Home
   | Page
+  | Newsletter
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
@@ -1518,7 +1531,7 @@ export type HomePageQueryResult = {
                       listItem?: 'bullet' | 'number'
                       markDefs: Array<
                         | {
-                            file?: MarkDefsFileLinkFile
+                            file?: BlockMarkDefsFileLinkFile
                             _type: 'fileLink'
                             _key: string
                           }
@@ -1911,7 +1924,7 @@ export type HomePageQueryResult = {
                     listItem?: 'bullet' | 'number'
                     markDefs: Array<
                       | {
-                          file?: MarkDefsFileLinkFile
+                          file?: BlockMarkDefsFileLinkFile
                           _type: 'fileLink'
                           _key: string
                         }
@@ -2455,7 +2468,7 @@ export type PagesBySlugQueryResult = {
                       listItem?: 'bullet' | 'number'
                       markDefs: Array<
                         | {
-                            file?: MarkDefsFileLinkFile
+                            file?: BlockMarkDefsFileLinkFile
                             _type: 'fileLink'
                             _key: string
                           }
@@ -2848,7 +2861,7 @@ export type PagesBySlugQueryResult = {
                     listItem?: 'bullet' | 'number'
                     markDefs: Array<
                       | {
-                          file?: MarkDefsFileLinkFile
+                          file?: BlockMarkDefsFileLinkFile
                           _type: 'fileLink'
                           _key: string
                         }
@@ -3296,7 +3309,7 @@ export type NewsletterBySlugQueryResult = {
               listItem?: 'bullet' | 'number'
               markDefs: Array<
                 | {
-                    file?: MarkDefsFileLinkFile
+                    file?: BlockMarkDefsFileLinkFile
                     _type: 'fileLink'
                     _key: string
                   }

@@ -8,9 +8,7 @@ export default defineType({
   title: 'RTE',
   type: 'array',
   of: [
-    {
-      type: 'pbBlockImage',
-    },
+    {type: 'pbBlockImage'},
     {type: 'ptDivider'},
     {
       type: 'block',

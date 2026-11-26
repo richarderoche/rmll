@@ -73,6 +73,8 @@
   --spacing-gut-900: calc(var(--gut) * 9);
   --spacing-gut-1000: calc(var(--gut) * 10);
   --spacing-col: calc((100% - (var(--gut) * 11)) / 12);
+  --spacing-sm-col: calc((100% - (var(--gut) * 5)) / 6);
+  --spacing-col-2: calc(var(--spacing-col) * 2);
   --spacing-section: var(--section-space);
   --spacing-button-x: 0.9em;
   --spacing-button-y: 0.7em;

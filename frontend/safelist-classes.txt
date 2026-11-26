@@ -154,6 +154,8 @@ gap-gut-1000
 // Colors
 text-body
 text-sage-800
+text-olive
+text-offwhite
 
 // Carousel Basis
 md:basis-6/12
