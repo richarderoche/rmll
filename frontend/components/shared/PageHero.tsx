@@ -15,15 +15,23 @@ import SiteWidth from './SiteWidth'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const SCROLL = 1000 // px of scroll for segment + image clip
+const INTRO_OVERLAP = SCROLL / 5
+const INTRO_BOTTOM = 0.2 // intro bottom rests this fraction of the viewport up from the screen bottom
+
 export default function PageHero({enableHero, hero}: {enableHero: boolean; hero: PageHeroType}) {
   const {headingColor, headingSegments, image, introText, filmStrip} = hero || {}
   const hasHeading = headingSegments && headingSegments.length > 0
   const hasIntroText = introText && introText.length > 0
 
   const ref = useRef<HTMLDivElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
   const {width: winW, height: winH} = useWindowSize(250)
   const setPauseLenis = useStore((state) => state.setPauseLenis)
+  const bumpHeroPinEpoch = useStore((state) => state.bumpHeroPinEpoch)
   const [entranceDone, setEntranceDone] = useState(false)
+
+  const useScrollHero = Boolean(winW && winW >= 1024 && !filmStrip)
 
   // Entrance — only rebuilds when hero changes (not on resize)
   useGSAP(
@@ -78,7 +86,7 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
     {scope: ref, revertOnUpdate: true, dependencies: [hero, setPauseLenis]},
   )
 
-  // Scroll — waits for entrance; rebuilds on hero + viewport size
+  // Scroll — pin the viewport stage only (intro is out of flow so it doesn't inflate the spacer)
   useGSAP(
     () => {
       if (!hero || !entranceDone || winW == null || winH == null) return
@@ -97,19 +105,16 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
 
           if (!isWide || hero.filmStrip || reduceMotion) return
 
-          const SCROLL = 1000 // Text + Image Clip Length
-          const INTRO_OVERLAP = SCROLL / 5
-          const INTRO_BOTTOM = 0.2 // percentage from screen bottom
+          const stage = stageRef.current
           const container = ref.current?.querySelector('.gs-segments')
           const segments = gsap.utils.toArray<HTMLElement>('.gs-segment')
           const imageWrapper = ref.current?.querySelector<HTMLElement>('.gs-image-wrapper')
           const clipRef = ref.current?.querySelector<HTMLElement>('.gs-clip-ref')
           const intro = ref.current?.querySelector<HTMLElement>('.gs-intro-text')
+          if (!stage) return
           if (!segments.length && !(imageWrapper && clipRef) && !intro) return
 
           // Timeline units === scroll px so intro travel is 1:1 with scroll.
-          // Pin distance must be >= SCROLL (hero tween length) or scrub compresses
-          // the timeline into a shorter range and everything runs too fast.
           const getIntroY = () => {
             if (!intro) return 0
             const currentY = Number(gsap.getProperty(intro, 'y'))
@@ -126,12 +131,13 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
           const scrollTl = gsap.timeline({
             defaults: {ease: 'none'},
             scrollTrigger: {
-              trigger: ref.current,
+              trigger: stage,
               start: 'top top',
               end: () => `+=${getPinDistance()}`,
               pin: true,
               scrub: true,
               invalidateOnRefresh: true,
+              refreshPriority: -1,
               onRefresh: () => {
                 introTween?.duration(getIntroTravel())
               },
@@ -192,69 +198,93 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
             const children = scrollTl.getChildren(false, true, false)
             introTween = children[children.length - 1] as gsap.core.Tween
           }
+
+          // Rebuild Revealers after pin spacer exists so their starts are correct
+          requestAnimationFrame(() => {
+            ScrollTrigger.refresh()
+            bumpHeroPinEpoch()
+          })
         },
       )
 
       return () => mm.revert()
     },
-    {scope: ref, revertOnUpdate: true, dependencies: [hero, entranceDone, winW, winH]},
+    {
+      scope: ref,
+      revertOnUpdate: true,
+      dependencies: [hero, entranceDone, winW, winH, bumpHeroPinEpoch],
+    },
   )
 
   if (!enableHero) return null
 
   return (
     <div ref={ref} className="invisible">
-      <div className="relative">
-        {image && (
-          <div className="gs-image-wrapper">
-            <PageHeroPicture image={image} />
-          </div>
-        )}
-        {hasHeading && (
-          <div className="absolute inset-0 z-5 flex items-end">
-            <SiteWidth className={cn(headingColor, 'ts-h1 ')}>
-              <div className="gs-segments flex flex-col pb-header">
-                {headingSegments.map((segment) => {
-                  const {_key, text, alignment, indent} = segment
-                  return (
-                    <div
-                      className={cn(
-                        'gs-segment',
-                        alignment === 'right' ? 'self-end' : 'self-start',
-                        indent && alignment === 'right' && 'mr-sm-col lg:mr-col-2',
-                        indent && alignment === 'left' && 'ml-sm-col lg:ml-col-2',
-                        'inline-flex w-content whitespace-nowrap',
-                      )}
-                      key={_key}
-                    >
-                      {text}
-                    </div>
-                  )
-                })}
-              </div>
+      <div
+        ref={stageRef}
+        className={cn('relative', useScrollHero && 'lg:h-screen lg:overflow-hidden')}
+      >
+        {/* Image + heading only — keeps absolute segments tied to the image, not the intro */}
+        <div className="relative">
+          {image && (
+            <div className="gs-image-wrapper">
+              <PageHeroPicture image={image} />
+            </div>
+          )}
+          {hasHeading && (
+            <div className="absolute inset-0 z-5 flex items-end">
+              <SiteWidth className={cn(headingColor, 'ts-h1 ')}>
+                <div className="gs-segments flex flex-col pb-header">
+                  {headingSegments.map((segment) => {
+                    const {_key, text, alignment, indent} = segment
+                    return (
+                      <div
+                        className={cn(
+                          'gs-segment',
+                          alignment === 'right' ? 'self-end' : 'self-start',
+                          indent && alignment === 'right' && 'mr-sm-col lg:mr-col-2',
+                          indent && alignment === 'left' && 'ml-sm-col lg:ml-col-2',
+                          'inline-flex w-content whitespace-nowrap',
+                        )}
+                        key={_key}
+                      >
+                        {text}
+                      </div>
+                    )
+                  })}
+                </div>
+              </SiteWidth>
+            </div>
+          )}
+        </div>
+        {hasIntroText && (
+          <div
+            className={cn(
+              'gs-intro-text pointer-events-none z-10',
+              // Wide scroll hero: out of flow so pin spacer stays ~100vh + scrub (no intro gap).
+              // Starts just below the stage and tweens up into view.
+              useScrollHero ? 'lg:absolute lg:inset-x-0 lg:top-full' : 'max-lg:mt-header-2',
+              'lg:motion-reduce:static lg:motion-reduce:mt-header-2',
+            )}
+          >
+            <SiteWidth className="w-full">
+              <SiteGrid>
+                <div
+                  className={cn(
+                    'max-lg:mt-header-2 lg:motion-reduce:mt-header-2 col-span-12 md:col-span-7 lg:col-span-4 pointer-events-auto',
+                    filmStrip ? 'lg:col-start-8' : 'lg:col-start-9',
+                  )}
+                >
+                  <RichTextWrap>
+                    <CustomPortableText value={introText} />
+                  </RichTextWrap>
+                </div>
+                <div className="gs-clip-ref lg:col-span-7"></div>
+              </SiteGrid>
             </SiteWidth>
           </div>
         )}
       </div>
-      {hasIntroText && (
-        <div className="gs-intro-text pointer-events-none">
-          <SiteWidth>
-            <SiteGrid>
-              <div
-                className={cn(
-                  'max-lg:mt-header-2 lg:motion-reduce:mt-header-2 col-span-12 md:col-span-7 lg:col-span-4 pointer-events-auto',
-                  filmStrip ? 'lg:col-start-8' : 'lg:col-start-9',
-                )}
-              >
-                <RichTextWrap>
-                  <CustomPortableText value={introText} />
-                </RichTextWrap>
-              </div>
-              <div className="gs-clip-ref lg:col-span-7"></div>
-            </SiteGrid>
-          </SiteWidth>
-        </div>
-      )}
     </div>
   )
 }

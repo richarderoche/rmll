@@ -1,6 +1,7 @@
 'use client'
 
 import {usePrefersReducedMotion} from '@/lib/hooks'
+import {useStore} from '@/lib/store'
 import {useGSAP} from '@gsap/react'
 import gsap from 'gsap'
 import {ScrollTrigger} from 'gsap/all'
@@ -20,6 +21,8 @@ const DELAY = 0.2
 export default function Revealer({children, direction = 'fade-up', ...props}: RevealerProps) {
   const ref = useRef<HTMLDivElement>(null)
   const reducedMotion = usePrefersReducedMotion()
+  // Rebuild after PageHero pin so start positions include pin spacing
+  const heroPinEpoch = useStore((state) => state.heroPinEpoch)
 
   useGSAP(
     () => {
@@ -33,6 +36,13 @@ export default function Revealer({children, direction = 'fade-up', ...props}: Re
       const fromMove = direction === 'fade-right' ? {x: -distance} : {y: distance}
       const toMove = direction === 'fade-right' ? {x: 0} : {y: 0}
 
+      const scrollTrigger = {
+        trigger: el,
+        start: TRIGGER_START,
+        invalidateOnRefresh: true,
+        markers: false,
+      }
+
       if (direction === 'stagger') {
         gsap.fromTo(
           '.column-blocks > *',
@@ -45,13 +55,13 @@ export default function Revealer({children, direction = 'fade-up', ...props}: Re
             ease: 'expo.out',
             stagger: 0.15,
             delay: DELAY,
-            scrollTrigger: {trigger: el, start: TRIGGER_START, markers: false},
+            scrollTrigger,
           },
         )
       } else {
         gsap.fromTo(
           el,
-          {filter: 'blur(10px)', opacity: 0, ...fromMove},
+          {filter: 'blur(5px)', opacity: 0, ...fromMove},
           {
             filter: 'blur(0px)',
             opacity: 1,
@@ -59,16 +69,16 @@ export default function Revealer({children, direction = 'fade-up', ...props}: Re
             duration: DURATION,
             ease: EASE,
             delay: DELAY,
-            scrollTrigger: {
-              trigger: el,
-              start: TRIGGER_START,
-              markers: false,
-            },
+            scrollTrigger,
           },
         )
       }
     },
-    {scope: ref, dependencies: [direction, reducedMotion]},
+    {
+      scope: ref,
+      dependencies: [direction, reducedMotion, heroPinEpoch],
+      revertOnUpdate: true,
+    },
   )
 
   return (

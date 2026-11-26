@@ -7,6 +7,9 @@ type Store = {
   setIsMobileNavOpen: (value: boolean) => void
   pauseLenis: boolean
   setPauseLenis: (value: boolean) => void
+  /** Bumped when PageHero pin is created/updated so Revealers rebuild with pin spacing */
+  heroPinEpoch: number
+  bumpHeroPinEpoch: () => void
 }
 
 export const useStore = create<Store>((set) => ({
@@ -17,4 +20,6 @@ export const useStore = create<Store>((set) => ({
   setIsMobileNavOpen: (value: boolean) => set({ isMobileNavOpen: value }),
   pauseLenis: false,
   setPauseLenis: (value: boolean) => set({ pauseLenis: value }),
+  heroPinEpoch: 0,
+  bumpHeroPinEpoch: () => set((state) => ({heroPinEpoch: state.heroPinEpoch + 1})),
 }))
