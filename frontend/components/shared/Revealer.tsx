@@ -46,10 +46,9 @@ export default function Revealer({children, direction = 'fade-up', ...props}: Re
       if (direction === 'stagger') {
         gsap.fromTo(
           '.column-blocks > *',
-          {y: distance, filter: 'blur(10px)', opacity: 0},
+          {y: distance, opacity: 0},
           {
             y: 0,
-            filter: 'blur(0px)',
             opacity: 1,
             duration: DURATION,
             ease: 'expo.out',
@@ -61,9 +60,8 @@ export default function Revealer({children, direction = 'fade-up', ...props}: Re
       } else {
         gsap.fromTo(
           el,
-          {filter: 'blur(5px)', opacity: 0, ...fromMove},
+          {opacity: 0, ...fromMove},
           {
-            filter: 'blur(0px)',
             opacity: 1,
             ...toMove,
             duration: DURATION,
