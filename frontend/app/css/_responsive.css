@@ -69,4 +69,4 @@ If these change, make sure to update the respective values in the type styles.
 }
 
 /* Custom Media Queries */
-@custom-variant widescreen (@media (min-aspect-ratio: 16/10));
+@custom-variant widescreen (@media (min-aspect-ratio: 4/3));

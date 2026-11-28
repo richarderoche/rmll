@@ -8,11 +8,14 @@ import {ScrollTrigger} from 'gsap/all'
 import {useWindowSize} from 'hamo'
 import Image from 'next/image'
 import {useRef, useState} from 'react'
+import type {Image as SanityImageType} from 'sanity'
 import {CustomPortableText} from './CustomPortableText'
+import ImageBasic from './ImageBasic'
 import PageHeroPicture from './PageHeroPicture'
 import RichTextWrap from './RichTextWrap'
 import SiteGrid from './SiteGrid'
 import SiteWidth from './SiteWidth'
+import ToneOverlays from './ToneOverlays'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -21,7 +24,7 @@ const INTRO_OVERLAP = SCROLL / 5
 const INTRO_BOTTOM = 0.2 // intro bottom rests this fraction of the viewport up from the screen bottom
 
 export default function PageHero({enableHero, hero}: {enableHero: boolean; hero: PageHeroType}) {
-  const {headingColor, headingSegments, image, introText, filmStrip} = hero || {}
+  const {headingColor, headingSegments, image, introText, filmStrip, stripPhotos} = hero || {}
   const hasHeading = headingSegments && headingSegments.length > 0
   const hasIntroText = introText && introText.length > 0
   // Empty Sanity image objects are truthy but have no asset — treat as missing
@@ -34,7 +37,8 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
   const bumpHeroPinEpoch = useStore((state) => state.bumpHeroPinEpoch)
   const [entranceDone, setEntranceDone] = useState(false)
 
-  const useScrollHero = Boolean(winW && winW >= 1024 && !filmStrip)
+  // Wide desktop pin layout (both slide-left and film-strip)
+  const useWidePin = Boolean(winW && winW >= 1024)
 
   // Entrance
   useGSAP(
@@ -50,9 +54,9 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
         (context) => {
           const {reduceMotion} = context.conditions as {reduceMotion: boolean}
 
-          gsap.set(ref.current, {visibility: 'visible'})
+          gsap.set('.gs-tone-overlay', {autoAlpha: 0})
 
-          //if (!hero) return
+          gsap.set(ref.current, {visibility: 'visible'})
 
           const tl = gsap.timeline({
             defaults: {ease: 'expo.out'},
@@ -90,7 +94,150 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
     {scope: ref},
   )
 
-  // Scroll
+  // Scroll — Film Strip: pin and morph image into the empty slot (cover via overflow + object-fit)
+  useGSAP(
+    () => {
+      if (!entranceDone || winW == null || winH == null) return
+
+      const mm = gsap.matchMedia()
+      mm.add(
+        {
+          isWide: '(min-width: 1024px)',
+          reduceMotion: '(prefers-reduced-motion: reduce)',
+        },
+        (context) => {
+          const {isWide, reduceMotion} = context.conditions as {
+            isWide: boolean
+            reduceMotion: boolean
+          }
+
+          if (!isWide || !filmStrip || reduceMotion) return
+
+          const stage = stageRef.current
+          const imageWrapper = ref.current?.querySelector<HTMLElement>('.gs-image-wrapper')
+          const slot = ref.current?.querySelector<HTMLElement>('.gs-film-strip-slot')
+          const intro = ref.current?.querySelector<HTMLElement>('.gs-intro-text')
+          const segments = ref.current?.querySelector<HTMLElement>('.gs-segments')
+          if (!stage || !imageWrapper || !slot || !intro) return
+
+          // Timeline units === scroll px so intro travel is 1:1 with scroll.
+          const getIntroY = () => {
+            if (!intro) return 0
+            const currentY = Number(gsap.getProperty(intro, 'y'))
+            const layoutBottom = intro.getBoundingClientRect().bottom - currentY
+            return window.innerHeight * (1 - INTRO_BOTTOM) - layoutBottom
+          }
+          const getIntroTravel = () => Math.abs(getIntroY())
+          const introStart = SCROLL - SCROLL / 3
+          const getPinDistance = () =>
+            intro ? Math.max(SCROLL, introStart + getIntroTravel()) : SCROLL
+
+          // Declared before the timeline so onRefresh can update durations after invalidate
+          const introTravelTweens: gsap.core.Tween[] = []
+
+          // Top-left origin + overflow clip; img object-cover crops the mismatched axis evenly
+          gsap.set(imageWrapper, {transformOrigin: '0 0', overflow: 'hidden'})
+
+          const scrollTl = gsap.timeline({
+            defaults: {ease: 'none'},
+            scrollTrigger: {
+              trigger: stage,
+              start: 'top top',
+              end: () => `+=${getPinDistance()}`,
+              pin: true,
+              scrub: true,
+              invalidateOnRefresh: true,
+              refreshPriority: -1,
+              onRefresh: () => {
+                const travel = getIntroTravel()
+                introTravelTweens.forEach((tween) => tween.duration(travel))
+              },
+            },
+          })
+
+          scrollTl.fromTo(
+            imageWrapper,
+            {
+              width: () => stage.getBoundingClientRect().width,
+              height: () => stage.getBoundingClientRect().height,
+              x: 0,
+              y: 0,
+            },
+            {
+              width: () => slot.getBoundingClientRect().width,
+              height: () => slot.getBoundingClientRect().height,
+              x: () => {
+                const x = Number(gsap.getProperty(imageWrapper, 'x')) || 0
+                const left = imageWrapper.getBoundingClientRect().left - x
+                return slot.getBoundingClientRect().left - left
+              },
+              y: () => {
+                const y = Number(gsap.getProperty(imageWrapper, 'y')) || 0
+                const top = imageWrapper.getBoundingClientRect().top - y
+                return slot.getBoundingClientRect().top - top
+              },
+              duration: SCROLL,
+            },
+            0,
+          )
+
+          scrollTl.fromTo('.gs-tone-overlay', {autoAlpha: 0}, {autoAlpha: 1, duration: SCROLL}, 0)
+
+          scrollTl.fromTo(
+            intro,
+            {autoAlpha: 0, y: 0},
+            {
+              autoAlpha: 1,
+              y: getIntroY,
+              duration: getIntroTravel(),
+            },
+            introStart,
+          )
+          introTravelTweens.push(scrollTl.getChildren(false, true, false).at(-1) as gsap.core.Tween)
+
+          // Same y/timing as intro so spacing above it is preserved; pin still ends on intro stop
+          if (segments) {
+            // GSAP interpolates color through CSS vars (resolves to computed oklch/rgb)
+            scrollTl.to(
+              segments,
+              {
+                color: 'var(--color-body)',
+                duration: SCROLL,
+              },
+              0,
+            )
+
+            scrollTl.fromTo(
+              segments,
+              {y: 0},
+              {
+                y: getIntroY,
+                duration: getIntroTravel(),
+              },
+              introStart,
+            )
+            introTravelTweens.push(
+              scrollTl.getChildren(false, true, false).at(-1) as gsap.core.Tween,
+            )
+          }
+
+          requestAnimationFrame(() => {
+            ScrollTrigger.refresh()
+            bumpHeroPinEpoch()
+          })
+        },
+      )
+
+      return () => mm.revert()
+    },
+    {
+      scope: ref,
+      revertOnUpdate: true,
+      dependencies: [hero, entranceDone, winW, winH, bumpHeroPinEpoch],
+    },
+  )
+
+  // Scroll - Slide Left
   useGSAP(
     () => {
       if (!entranceDone || winW == null || winH == null) return
@@ -225,10 +372,36 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
     <div ref={ref} className="invisible">
       <div
         ref={stageRef}
-        className={cn('relative', useScrollHero && 'lg:h-screen lg:overflow-hidden')}
+        className={cn('relative', useWidePin && 'lg:h-screen lg:overflow-hidden')}
       >
-        <div className="relative">
-          <div className="gs-image-wrapper">
+        <div className={cn('relative', useWidePin && 'lg:h-full')}>
+          {filmStrip && (
+            <div
+              className={cn(
+                'gs-film-strip max-lg:hidden absolute inset-0 widescreen:top-[-10vh] z-5 pointer-events-none',
+                !entranceDone && 'invisible',
+              )}
+            >
+              <SiteWidth className="h-full">
+                <SiteGrid className="h-full">
+                  <div className="col-span-6 grid h-full grid-cols-1 grid-rows-5 gap-4">
+                    <FilmStripPhoto photo={stripPhotos?.photo1} />
+                    <FilmStripPhoto photo={stripPhotos?.photo2} />
+                    <div className="gs-film-strip-slot min-h-0 h-full w-auto aspect-3/2 justify-self-end"></div>
+                    <FilmStripPhoto photo={stripPhotos?.photo3} />
+                    <FilmStripPhoto photo={stripPhotos?.photo4} />
+                  </div>
+                </SiteGrid>
+              </SiteWidth>
+            </div>
+          )}
+          {/* Absolute on wide pin so morphing width/height doesn't collapse the film-strip parent */}
+          <div
+            className={cn(
+              'gs-image-wrapper relative z-10 w-full h-screen overflow-hidden',
+              useWidePin && 'lg:absolute lg:inset-0 lg:h-full',
+            )}
+          >
             {hasImage ? (
               <PageHeroPicture image={image} />
             ) : (
@@ -238,12 +411,13 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
                 width={1920}
                 height={1080}
                 priority
-                className="hero-image object-cover w-full h-screen"
+                className="hero-image object-cover w-full h-full"
               />
             )}
+            <ToneOverlays colorTone="green" className="gs-tone-overlay" />
           </div>
           {hasHeading && (
-            <div className="absolute inset-0 z-5 flex items-end">
+            <div className="absolute inset-0 z-20 flex items-end">
               <SiteWidth className={cn(headingColor, 'ts-h1 ')}>
                 <div className="gs-segments flex flex-col pb-header">
                   {headingSegments.map((segment) => {
@@ -271,7 +445,7 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
         <div
           className={cn(
             'gs-intro-text pointer-events-none z-10',
-            useScrollHero ? 'lg:absolute lg:inset-x-0 lg:top-full' : 'max-lg:mt-header-2',
+            useWidePin ? 'lg:absolute lg:inset-x-0 lg:top-full' : 'max-lg:mt-header-2',
             'lg:motion-reduce:static lg:motion-reduce:mt-header-2',
           )}
         >
@@ -279,8 +453,9 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
             <SiteGrid>
               <div
                 className={cn(
-                  'max-lg:mt-header-2 lg:motion-reduce:mt-header-2 col-span-12 md:col-span-7 lg:col-span-4 pointer-events-auto',
-                  filmStrip ? 'lg:col-start-8' : 'lg:col-start-9',
+                  'col-span-12 md:col-span-7 lg:col-span-4 pointer-events-auto',
+                  filmStrip ? 'lg:col-start-8 pt-gut-300' : 'lg:col-start-9',
+                  'max-lg:mt-header-2 lg:motion-reduce:mt-header-2',
                 )}
               >
                 {hasIntroText ? (
@@ -298,6 +473,28 @@ export default function PageHero({enableHero, hero}: {enableHero: boolean; hero:
           </SiteWidth>
         </div>
       </div>
+    </div>
+  )
+}
+
+function FilmStripPhoto({photo}: {photo?: SanityImageType}) {
+  return (
+    <div
+      className={cn('min-h-0 h-full w-auto aspect-3/2 justify-self-end', !photo && 'bg-sage-200')}
+    >
+      {photo && (
+        <div className="relative group">
+          <ImageBasic
+            image={photo as SanityImageType}
+            alt="film strip negative"
+            sizes="auto"
+            ratio={1.5}
+            maxDimension={400}
+            className="brightness-110 contrast-110"
+          />
+          <ToneOverlays colorTone="green" />
+        </div>
+      )}
     </div>
   )
 }

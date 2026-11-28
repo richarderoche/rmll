@@ -9,7 +9,7 @@ export default function PageHeroPicture({image}: {image: PageHeroImage}) {
   // Midpoints between studio hotspot previews 1:2 (0.5), 1:1 (1), 2:1 (2)
   const HERO_SOURCES = [
     {media: '(max-aspect-ratio: 3/4)', width: 900, height: 1800},
-    {media: '(max-aspect-ratio: 3/2)', width: 1400, height: 1400},
+    {media: '(max-aspect-ratio: 4/3)', width: 1400, height: 1400},
   ] as const
   // Wide (2:1) as fallback
   const HERO_FALLBACK = {width: 1800, height: 900} as const
@@ -22,9 +22,7 @@ export default function PageHeroPicture({image}: {image: PageHeroImage}) {
     ...(image.crop && {crop: image.crop}),
   }
   const objectPosition =
-    image.hotspot != null
-      ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
-      : undefined
+    image.hotspot != null ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : undefined
 
   return (
     <picture>
@@ -38,7 +36,7 @@ export default function PageHeroPicture({image}: {image: PageHeroImage}) {
           width={width}
           height={height}
           mode="cover"
-          sizes="100vw"
+          sizes="133vw"
           {...cropProps}
         />
       ))}
@@ -48,10 +46,10 @@ export default function PageHeroPicture({image}: {image: PageHeroImage}) {
         width={HERO_FALLBACK.width}
         height={HERO_FALLBACK.height}
         mode="cover"
-        sizes="100vw"
+        sizes="133vw"
         loading="eager"
         fetchPriority="high"
-        className={cn('hero-image object-cover w-full h-screen')}
+        className={cn('hero-image object-cover absolute inset-0 w-full h-full')}
         style={objectPosition ? {objectPosition} : undefined}
         {...cropProps}
       />

@@ -105,6 +105,54 @@ export default defineType({
       type: 'boolean',
       initialValue: false,
     }),
+    defineField({
+      title: 'Strip Photos',
+      name: 'stripPhotos',
+      type: 'object',
+      hidden: ({parent}) => !parent.filmStrip,
+      fields: [
+        defineField({
+          title: 'Photo 1',
+          name: 'photo1',
+          type: 'image',
+          options: {
+            hotspot: {
+              previews: [{title: '3:2', aspectRatio: 1.5}],
+            },
+          },
+        }),
+        defineField({
+          title: 'Photo 2',
+          name: 'photo2',
+          type: 'image',
+          options: {
+            hotspot: {
+              previews: [{title: '3:2', aspectRatio: 1.5}],
+            },
+          },
+        }),
+        defineField({
+          title: 'Photo 3',
+          name: 'photo3',
+          type: 'image',
+          options: {
+            hotspot: {
+              previews: [{title: '3:2', aspectRatio: 1.5}],
+            },
+          },
+        }),
+        defineField({
+          title: 'Photo 4',
+          name: 'photo4',
+          type: 'image',
+          options: {
+            hotspot: {
+              previews: [{title: '3:2', aspectRatio: 1.5}],
+            },
+          },
+        }),
+      ],
+    }),
   ],
   options: {
     collapsible: true,
